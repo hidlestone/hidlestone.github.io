@@ -3303,7 +3303,7 @@ YAML 是一个可读性高，用来表达数据序列的格式。&lt;/p>
 （2）常用字段&lt;br>
 必须存在的属性：&lt;/p>
 &lt;ul>
-&lt;li>&lt;code>version&lt;/code> String，K8S API 的版本，目前基本是v1，可以用 kubectl api-version 命令查询&lt;/li>
+&lt;li>&lt;code>version&lt;/code> String，K8S API 的版本，目前基本是 v1，可以用 kubectl api-versions 命令查询&lt;/li>
 &lt;li>&lt;code>kind&lt;/code> String，这里指的是 yaml 文件定义的资源类型和角色, 比如: Pod&lt;/li>
 &lt;li>&lt;code>metadata&lt;/code> Object，元数据对象，固定值写 metadata&lt;/li>
 &lt;li>&lt;code>metadata.name&lt;/code> String，元数据对象的名字，这里由我们编写，比如命名Pod的名字&lt;/li>
@@ -3697,7 +3697,7 @@ kube-flannel-ds-amd64-2pc95 1/1 Running 0 72s
 向集群添加新节点，执行在 kubeadm init 输出的 kubeadm join 命令：&lt;/p>
 &lt;pre tabindex="0">&lt;code>kubeadm join 192.168.10.146:6443 --token ksy8do.s11iif12bjbi9lnh \
 --discovery-token-ca-cert-hash sha256:73d8160a22ab856806d7774bd4f8cd55f43ae65ba426137af6118ddd61d08cf4
-&lt;/code>&lt;/pre>&lt;p>在 node 节点上正确配置 kubectl 的配置文件
+&lt;/code>&lt;/pre>&lt;p>在 node 节点上正确配置 kubectl 的配置文件。&lt;br>
 1、首先在 master 节点上获取 kubeconfig 文件内容：&lt;/p>
 &lt;pre tabindex="0">&lt;code># 在 master 节点上执行
 cat /etc/kubernetes/admin.conf
@@ -3723,7 +3723,7 @@ kubectl get nodes
 $ kubectl expose deployment nginx --port=80 --type=NodePort
 $ kubectl get pod,svc
 &lt;/code>&lt;/pre>&lt;p>访问地址：&lt;code>http://NodeIP:Port&lt;/code>&lt;/p>
-&lt;h2 id="三集群关闭启动">三、集群关闭/启动&lt;/h2>&lt;h3 id="31关闭集群">3.1、关闭集群&lt;/h3>&lt;p>按照以下顺序关闭集群：
+&lt;h2 id="三集群关闭启动">三、集群关闭/启动&lt;/h2>&lt;h3 id="31关闭集群">3.1、关闭集群&lt;/h3>&lt;p>按照以下顺序关闭集群：&lt;br>
 1、首先驱逐工作节点上的 Pod：&lt;/p>
 &lt;pre tabindex="0">&lt;code>kubectl drain &amp;lt;node-name&amp;gt; --ignore-daemonsets
 &lt;/code>&lt;/pre>&lt;p>2、在每个节点上停止 kubelet 服务：&lt;/p>
@@ -3732,7 +3732,7 @@ $ kubectl get pod,svc
 &lt;pre tabindex="0">&lt;code>sudo systemctl stop docker # 如果使用 Docker
 # 或
 sudo systemctl stop containerd # 如果使用 containerd
-&lt;/code>&lt;/pre>&lt;h3 id="32启动集群">3.2、启动集群&lt;/h3>&lt;p>按照以下顺序重新启动集群：
+&lt;/code>&lt;/pre>&lt;h3 id="32启动集群">3.2、启动集群&lt;/h3>&lt;p>按照以下顺序重新启动集群：&lt;br>
 1、在每个节点上启动容器运行时：&lt;/p>
 &lt;pre tabindex="0">&lt;code>sudo systemctl start docker # 如果使用 Docker
 # 或
