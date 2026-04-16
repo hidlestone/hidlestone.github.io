@@ -1,0 +1,240 @@
+<!doctype html><html lang=zh><head><meta name=viewport content="width=device-width,initial-scale=1"><title>Kafka 安全(SASL+ACL)</title>
+<meta charset=utf-8><meta name=description content="Ladder@Kafka 安全(SASL+ACL) 一、Security 在 Kafka 的官方文档中介绍了如下几种安全方式，以满足用户不同场景对安全的需求。 SASL/GSSAPI (Kerberos) - starting at version 0.9.0"><meta name=author content="Peifeng Zhuang"><link rel=canonical href=https://hidlestone.github.io/blog/bigdata/kafka/09-kafka-%E5%AE%89%E5%85%A8sasl+acl/><meta name=google-site-verification content="RL6kP6-6yjRPyYGLeqBQ2JIX6QQAz7A6gHZb7bHlZnU"><link rel=alternate type=application/rss+xml href=https://hidlestone.github.io//index.xml title=PeifengZhuang><script async src="https://www.googletagmanager.com/gtag/js?id=G-7E4JNTL3ES"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-7E4JNTL3ES")}</script><script async defer data-website-id=1f090f05-d573-402f-825b-755f648cf1b2 src=https://umami-blog-kappa.vercel.app/umami.js></script><meta property="og:url" content="https://hidlestone.github.io/blog/bigdata/kafka/09-kafka-%E5%AE%89%E5%85%A8sasl+acl/"><meta property="og:site_name" content="PeifengZhuang"><meta property="og:title" content="Kafka 安全(SASL+ACL)"><meta property="og:description" content="Kafka 安全(SASL+ACL) 一、Security 在 Kafka 的官方文档中介绍了如下几种安全方式，以满足用户不同场景对安全的需求。 SASL/GSSAPI (Kerberos) - starting at version 0.9.0"><meta property="og:locale" content="zh"><meta property="og:type" content="article"><meta property="article:section" content="blog"><meta property="article:published_time" content="2022-03-06T19:09:00+00:00"><meta property="article:modified_time" content="2022-03-06T19:09:00+00:00"><meta property="article:tag" content="Kafka"><meta name=twitter:card content="summary"><meta name=twitter:title content="Kafka 安全(SASL+ACL)"><meta name=twitter:description content="Kafka 安全(SASL+ACL) 一、Security 在 Kafka 的官方文档中介绍了如下几种安全方式，以满足用户不同场景对安全的需求。 SASL/GSSAPI (Kerberos) - starting at version 0.9.0"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Blog","item":"https://hidlestone.github.io/blog/"},{"@type":"ListItem","position":2,"name":"Kafka 安全(SASL+ACL)","item":"https://hidlestone.github.io/blog/bigdata/kafka/09-kafka-%E5%AE%89%E5%85%A8sasl+acl/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Kafka 安全(SASL+ACL)","name":"Kafka 安全(SASL\u002bACL)","description":"Kafka 安全(SASL+ACL) 一、Security 在 Kafka 的官方文档中介绍了如下几种安全方式，以满足用户不同场景对安全的需求。 SASL/GSSAPI (Kerberos) - starting at version 0.9.0","keywords":["Kafka"],"articleBody":"Kafka 安全(SASL+ACL) 一、Security 在 Kafka 的官方文档中介绍了如下几种安全方式，以满足用户不同场景对安全的需求。\nSASL/GSSAPI (Kerberos) - starting at version 0.9.0.0。主要是为 Kerberos 使用，如果当前已有 Kerberos 认证，只需要为集群中每个 Broker 和访问用户申请 Principle ，然后在 Kafka 配置文件中开启 Kerberos 的支持即可。官方文档详见 Authentication using SASL/Kerberos。 SASL/PLAIN - starting at version 0.10.0.0。一个简单的用户名和密码身份认证机制，通常与 TLS/SSL 一起用于加密，以实现身份验证。是一种比较容易使用的方式，但是也有一个很明显的缺点，这种方式会把用户账户文件配置到静态文件中，每次想要添加新的账户都需要重启 Kafka 去加载静态文件，才能生效，十分不方便。官方文档详见 Authentication using SASL/PLAIN。 SASL/SCRAM-SHA-256 和 SASL/SCRAM-SHA-512 - starting at version 0.10.2.0。通过将认证信息保存在 ZooKeeper 里面，从而动态的获取用户信息，相当于把 ZK 用作一个认证中心使用。这种认证可以在使用过程中，使用 Kafka 提供的命令动态地创建和删除用户，无需重启整个集群，十分方便。官方文档详见 Authentication using SASL/SCRAM 。 SASL/OAUTHBEARER - starting at version 2.0。Kafka 引入的新认证机制，主要是为了实现与 OAuth2 框架的集成，Kafka 不提倡单纯使用 OAUTHBEARER，因为它生成的不安全 Json Web Token，必须配以 SSL 加密才能在生产环境中使用。官方文档详见 Authentication using SASL/OAUTHBEARER 。 二、SASL+ACL 实现用户及权限认证 2.1、下载 wget https://repo.huaweicloud.com/apache/kafka/3.3.1/kafka_2.12-3.3.1.tgz -P /data cd /data tar -zxf kafka_2.12-3.3.1.tgz ln -s kafka_2.12-3.3.1 kafka cd /data/kafka 2.2、Kafka 服务配置 Kafka server 的 jaas 文件如下：\n/data/kafka/config/jaas/kafka_server_jaas.conf 这里创建五个用户，密码分别如下，后会会对其进行分别授权。\n用户\t密码 admin\tadmin123 kwriter\tkwriter123 kreader\tkreader123 sharga\tsharga123 shargb\tshargb123 创建文件：\nmkdir /data/kafka/config/jaas/ vim /data/kafka/config/jaas/kafka_server_jaas.conf 配置如下：\nKafkaServer { org.apache.kafka.common.security.plain.PlainLoginModule required username=\"admin\" password=\"admin123\" user_admin=\"admin123\" user_kwriter=\"kwriter123\" user_kreader=\"kreader123\" user_sharga=\"sharga123\" user_shargb=\"shargb123\"; }; 2.3、修改 Kafka 服务启动脚本 1、复制一份作为带安全的启动脚本：\ncp /data/kafka/bin/kafka-server-start.sh/data/kafka/bin/sasl_kafka-server-start.sh 2、修改大概 44 行为如下，引入上面的 jaas.conf 文件，修改为如下\nexport LOG_DIR=/var/log/kafka-logs export KAFKA_OPTS=\"-Djava.security.auth.login.config=/data/kafka/config/jaas/kafka_server_jaas.conf\" exec $base_dir/kafka-run-class.sh $EXTRA_ARGS kafka.Kafka \"$@\" 2.4、配置 server.properties 拷贝一份 ：\ncp /data/kafka/config/server.properties/data/kafka/config/jaas/server.properties 配置如下：\nbroker.id=0 listeners=SASL_PLAINTEXT://192.168.179.3:9092 advertised.listeners=SASL_PLAINTEXT://192.168.179.3:9092 security.inter.broker.protocol=SASL_PLAINTEXT sasl.mechanism.inter.broker.protocol=PLAIN sasl.enabled.mechanisms=PLAIN # ACL 入口类 authorizer.class.name=kafka.security.authorizer.AclAuthorizer # 设置 admin 用户为超级管理员 super.users=User:admin auto.create.topics.enable=true log.dirs=/data/kafka/data/kafka-logs zookeeper.connect=192.168.179.3:2181/kafka 创建需要的目录：\nmkdir -p /data/kafka/data/{kafka-logs,zookeeper} 2.5、启动 Zookeeper ZK 服务地址可以使用 Kafka 自带的，也可以使用已部署在的 ZK。如果已有 ZK 可以跳过这一步。这里以 Kafka 自带的为例。 配置 zookeeper.properties：\ndataDir=/data/kafka/data/zookeeper clientPort=2181 maxClientCnxns=0 admin.enableServer=false 启动 ZK：\n/data/kafka/bin/zookeeper-server-start.sh -daemon /data/kafka/config/zookeeper.properties 查看日志：\ntail -f /var/log/zookeeper/server.log 可以通过如下命令进一步查看 znode 信息：\n/data/kafka/bin/zookeeper-shell.sh 192.168.179.3:2181 2.6、启动 Kafka 集群 # 1 启动 Kafka /data/kafka/bin/sasl_kafka-server-start.sh -daemon /data/kafka/config/jaas/server.properties # 2 查看启动日志 tail -f /var/log/kafka-logs/server.log 关闭的命令如下：\n/data/kafka/bin/kafka-server-stop.sh /data/kafka/bin/zookeeper-server-stop.sh 如果需要调整 Kafka JVM 参数，可以如下进行修改，调整期堆大小，或者其它参数：\nvim /data/kafka/bin/sasl_kafka-server-start.sh +28 2.7、ACL 接下来对用户进行授权，大概按照如下进行设置。\n用户\t密码\t权限\t说明 admin\tadmin123\tAll\t超级管理员用户 kwriter\tkwriter123\tproducer\t生产者类权限，Writer、Create、Describe kreader\tkreader123\tconsumer\t消费者类权限，Read、Describe sharga\tsharga123\tAll\t仅对 sharga-* 类 Topic 有所有权 shargb\tshargb123\tAll\t仅对 shargb-* 类 Topic 有所有权 命令：\n# 1 授予 kwriter 用户为生产者权限 /data/kafka/bin/kafka-acls.sh --authorizer-properties zookeeper.connect=192.168.179.3:2181/kafka \\ --add --allow-principal User:kwriter --producer --topic \"*\" # 2 授予 kreader 用户为消费者权限 /data/kafka/bin/kafka-acls.sh --authorizer-properties zookeeper.connect=192.168.179.3:2181/kafka \\ --add --allow-principal User:kreader --consumer --topic \"*\" --group \"*\" # 3 对 sharga 用户进行授权，前缀模式 /data/kafka/bin/kafka-acls.sh --authorizer-properties zookeeper.connect=192.168.179.3:2181/kafka \\ --add --allow-principal User:sharga --group \"*\" --topic \"sharga\" --resource-pattern-type prefixed # 4 对 shargb 用户进行授权，前缀模式 /data/kafka/bin/kafka-acls.sh --authorizer-properties zookeeper.connect=192.168.179.3:2181/kafka \\ --add --allow-principal User:shargb --group \"*\" --topic \"shargb\" --resource-pattern-type prefixed # 5 查看 ACL 权限列表 /data/kafka/bin/kafka-acls.sh --authorizer-properties zookeeper.connect=192.168.179.3:2181/kafka --list 小的测试验证（在没有使用正确用户时，执行如下会失败）：\n# 1 创建 Topic（客户端没有使用认证是，创建 topic 会失败） /data/kafka/bin/kafka-topics.sh --create --bootstrap-server node01:9092 \\ --partitions 1 --replication-factor 1 --topic test_sasl # 2 查看 topic（客户端没有使用认证是，获取 topic 会失败） /data/kafka/bin/kafka-topics.sh --list --bootstrap-server node01:9092 | grep test # 3 查看 topic 详情（客户端没有使用认证是，获取 topic 详情会失败） /data/kafka/bin/kafka-topics.sh --bootstrap-server 192.168.179.3:9092 \\ --describe --topic test_sasl # 4 生产者（此时会因为权限问题，而报错，下面来解决这个问题） /data/kafka/bin/kafka-console-producer.sh --bootstrap-server 192.168.179.3:9092 \\ --topic test_sasl # 5 消费者（此时会因为权限问题，而报错，下面来解决这个问题） /data/kafka/bin/kafka-console-consumer.sh --bootstrap-server node01:9092 \\ --from-beginning --topic test_sasl 2.7.1、admin 新增 admin 配置属性文件：\nvim /data/kafka/config/jaas/admin.properties 内容如下：\nsasl.jaas.config=org.apache.kafka.common.security.plain.PlainLoginModule required username=\"admin\" password=\"admin123\"; security.protocol=SASL_PLAINTEXT sasl.mechanism=PLAIN 以 admin 身份执行如下命令：\n# 1 再次创建 topic，此时可以成功创建 /data/kafka/bin/kafka-topics.sh --create --bootstrap-server node01:9092 \\ --command-config /data/kafka/config/jaas/admin.properties \\ --partitions 1 --replication-factor 1 --topic test_sasl # 2 list /data/kafka/bin/kafka-topics.sh --list --bootstrap-server node01:9092 \\ --command-config /data/kafka/config/jaas/admin.properties # 3 topic 详新信息 /data/kafka/bin/kafka-topics.sh --bootstrap-server node01:9092 \\ --command-config /data/kafka/config/jaas/admin.properties \\ --describe --topic test_sasl 如果需要删除 Topic，可使用如下命令\n/data/kafka/bin/kafka-topics.sh --bootstrap-server node01:9092 \\ --command-config /data/kafka/config/jaas/admin.properties \\ --delete --topic test_sasl 其它（可以执行完下面生产者或消费者命令后再执行查看）\n# 1 查看当前的消费者组 /data/kafka/bin/kafka-consumer-groups.sh --bootstrap-server node01:9092 --command-config \\ /data/kafka/config/jaas/admin.properties --list # 2 查看消费者消费进度 /data/kafka/bin/kafka-consumer-groups.sh --bootstrap-server node01:9092 --command-config \\ /data/kafka/config/jaas/admin.properties --describe --group test-consumer-group # 3 查看 Kafka Topic 的 offset 信息 /data/kafka/bin/kafka-run-class.sh kafka.tools.GetOffsetShell --bootstrap-server node01:9092 \\ --command-config /data/kafka/config/jaas/admin.properties --time -1 --topic test_sasl 2.7.2、生产者 新增生产者 kwrite 用户的配置属性文件：\nvim /data/kafka/config/jaas/kwriter.properties 内容如下：\nsasl.jaas.config=org.apache.kafka.common.security.plain.PlainLoginModule required username=\"kwriter\" password=\"kwriter123\"; security.protocol=SASL_PLAINTEXT sasl.mechanism=PLAIN 使用客户端命令行测试：\n/data/kafka/bin/kafka-console-producer.sh --bootstrap-server node01:9092 \\ --producer.config/data/kafka/config/jaas/kwriter.properties --topic test_sasl 发送如下的数据：\n{\"id\":100,\"name\":\"one\",\"age\":1} {\"id\":101,\"name\":\"two\",\"age\":2} {\"id\":102,\"name\":\"three\",\"age\":3} 2.7.3、消费者 新增生产者 kreader 用户的配置属性文件：\nvim /data/kafka/config/jaas/kreader.properties 内容如下：\ngroup.id=test-consumer-group sasl.jaas.config=org.apache.kafka.common.security.plain.PlainLoginModule required username=\"kreader\" password=\"kreader123\"; security.protocol=SASL_PLAINTEXT sasl.mechanism=PLAIN 消费者测试：\n/data/kafka/bin/kafka-console-consumer.sh --bootstrap-server node01:9092 \\ --consumer.config/data/kafka/config/jaas/kreader.properties --from-beginning --topic test_sasl 2.7.4、sharga 用户 新增生产者 sharga 用户的配置属性文件：\nvim /data/kafka/config/jaas/sharga.properties 内容如下：\ngroup.id=test-sharga-group sasl.jaas.config=org.apache.kafka.common.security.plain.PlainLoginModule required username=\"sharga\" password=\"sharga123\"; security.protocol=SASL_PLAINTEXT sasl.mechanism=PLAIN 执行如下命令：\n# 1 创建自己的 topic ## sharga-t01 /data/kafka/bin/kafka-topics.sh --create --bootstrap-server node01:9092 --command-config \\ /data/kafka/config/jaas/sharga.properties --partitions 1 --replication-factor 1 --topic sharga-t01 # 2 生产者 /data/kafka/bin/kafka-console-producer.sh --bootstrap-server node01:9092 --producer.config \\ /data/kafka/config/jaas/sharga.properties --topic sharga-t01 向 sharga-t01 的 Topic 发送如下消息：\n{\"id\":100,\"name\":\"one\",\"age\":1} {\"id\":101,\"name\":\"two\",\"age\":2} {\"id\":102,\"name\":\"three\",\"age\":3} #3 同样创建 sharga-t02 Topic /data/kafka/bin/kafka-topics.sh --create --bootstrap-server node01:9092 --command-config \\ /data/kafka/config/jaas/sharga.properties --partitions 1 --replication-factor 1 --topic sharga-t02 # 4 生产者 /data/kafka/bin/kafka-console-producer.sh --bootstrap-server node01:9092 --producer.config \\ /data/kafka/config/jaas/sharga.properties --topic sharga-t02 向 sharga-t02 的 Topic 发送如下消息：\n{\"id\":100,\"sex\":\"man\"} {\"id\":101,\"sex\":\"man\"} {\"id\":102,\"sex\":\"woman\"} # 5 查看当前的 topic 列表 /data/kafka/bin/kafka-topics.sh --list --bootstrap-server node01:9092 --command-config \\ /data/kafka/config/jaas/sharga.properties sharga 用户仅能查看到自己的 Topic。\n2.7.6、说明 这种方式是将用户和密码相关的信息保存在了服务器本地文件中了，经过前面的配置，基本涉及到安全认证的配置都放置到了 /data/kafka/config/jaas 目录下，因此如果需要在真实服务上使用时，这个目录需要经读写权限详细的分配给系统的每个用户，对于不允许使用此用户配置信息的其他用户，这个文件的读写权限可以不授予给这个用户。\n2.8、生产者客户端代码设置 Properties props = new Properties (); //... props.put (\"security.protocol\", \"SASL_PLAINTEXT\"); props.put (\"sasl.mechanism\", \"PLAIN\"); props.put (\"sasl.jaas.config\", \"org.apache.kafka.common.security.plain.PlainLoginModule required username='kwriter' password='kwriter123';\"); 2.9、消费者客户端代码设置 Properties props = new Properties (); //... props.put (\"security.protocol\", \"SASL_PLAINTEXT\"); props.put (\"sasl.mechanism\", \"PLAIN\"); props.put (\"sasl.jaas.config\", \"org.apache.kafka.common.security.plain.PlainLoginModule required username='kreader' password='kreader123';\"); 2.10、Spring-kafka 需配置如下 spring: #…… kafka: bootstrap-servers: node01:9092 #指定 kafka server 的地址，集群配多个，中间，逗号隔开 producer: key-serializer: org.apache.kafka.common.serialization.StringSerializer value-serializer: org.apache.kafka.common.serialization.StringSerializer properties: # sasl 安全认证 security.protocol: SASL_PLAINTEXT sasl.mechanism: PLAIN sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username='kwriter' password='kwriter123'; consumer: group-id: app_consumer_group #群组 ID enable-auto-commit: true auto-commit-interval: 1000s key-deserializer: org.apache.kafka.common.serialization.StringDeserializer value-deserializer: org.apache.kafka.common.serialization.StringDeserializer properties: security.protocol: SASL_PLAINTEXT sasl.mechanism: PLAIN sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username='kreader' password='kreader123'; 2.11、Flink SQL create table kafka_sharga_t01 ( id int, name string, age int ) with ( 'format' = 'json', 'properties.bootstrap.servers' = '192.168.179.3:9092', 'connector' = 'kafka', 'topic' = 'sharga-t01', 'properties.group.id' = 'group1', 'scan.startup.mode' = 'earliest-offset', 'properties.sasl.jaas.config' = 'org.apache.kafka.common.security.plain.PlainLoginModule required username=\"sharga\" password=\"sharga123\";', 'properties.security.protocol' = 'SASL_PLAINTEXT', 'properties.sasl.mechanism' = 'PLAIN' ); ","wordCount":"2317","inLanguage":"zh","datePublished":"2022-03-06T19:09:00Z","dateModified":"2022-03-06T19:09:00Z","author":{"@type":"Person","name":"Peifeng Zhuang"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://hidlestone.github.io/blog/bigdata/kafka/09-kafka-%E5%AE%89%E5%85%A8sasl+acl/"},"publisher":{"@type":"Organization","name":"PeifengZhuang","logo":{"@type":"ImageObject","url":"https://hidlestone.github.io/favicon.ico"}}}</script><link rel=icon href=/images/favicon.ico sizes=16x16><link rel=apple-touch-icon href=/images/favicon.ico><link rel=manifest href=/images/favicon.ico><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css><link rel=stylesheet href=/css/main.min.12e97d9e76a8e6029829f5074c2dfe71d39927a73e87cf2fc7c42a62e71083e0.css integrity="sha256-Eul9nnao5gKYKfUHTC3+cdOZJ6c+h88vx8QqYucQg+A=" crossorigin=anonymous media=screen><link rel=stylesheet href=/scss/highlight/github-dark.min.min.66034289ee9a113219a2c4aae0a8bd2095ab255c832a42efcf5863f10814e7a1.css><script src=/js/highlight.min.min.c607d6febd16934a82eb61d3a896ed9d869f54373cc63ce95864ed5488fe3128.js></script><script>hljs.highlightAll()</script><script>(()=>{var t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,e=localStorage.getItem("theme");t&&e===null&&(localStorage.setItem("theme","dark"),document.documentElement.setAttribute("data-dark-mode","")),t&&e==="dark"&&document.documentElement.setAttribute("data-dark-mode",""),e==="dark"&&document.documentElement.setAttribute("data-dark-mode","")})()</script></head><body><main class=wrapper><nav class=navigation><section class=container><a class=navigation-brand href=/>主页
+</a><input type=checkbox id=menu-toggle>
+<label class="menu-button float-right" for=menu-toggle><span></span><span></span><span></span></label><ul class=navigation-list id=navigation-list><li class="navigation-item navigation-menu"><a class=navigation-link href=/blog>文章</a></li><li class="navigation-item navigation-menu"><a class=navigation-link href=/art>即兴</a></li><li class="navigation-item navigation-menu"><a class=navigation-link href=/archives>归档</a></li><li class="navigation-item navigation-menu"><a class=navigation-link href=/tags>标签</a></li><li class="navigation-item navigation-menu"><a class=navigation-link href=/guestbook>留言板</a></li><li class="navigation-item navigation-menu"><a class=navigation-link href=https://umami-blog-kappa.vercel.app/share/hMtreiaJYzwGhJ45>统计</a></li><li class="navigation-item menu-separator"><span>|</span></li><li class="navigation-item navigation-social"><a class=navigation-link href=https://github.com/hidlestone><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37.0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44.0 0020 4.77 5.07 5.07.0 0019.91 1S18.73.65 16 2.48a13.38 13.38.0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07.0 005 4.77 5.44 5.44.0 003.5 8.55c0 5.42 3.3 6.61 6.44 7A3.37 3.37.0 009 18.13V22"/></svg></a></li><li class="navigation-item navigation-social"><a class=navigation-link href=https://twitter.com/unbridger><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter"><path d="M23 3a10.9 10.9.0 01-3.14 1.53 4.48 4.48.0 00-7.86 3v1A10.66 10.66.0 013 4s-4 9 5 13a11.64 11.64.0 01-7 2c9 5 20 0 20-11.5a4.5 4.5.0 00-.08-.83A7.72 7.72.0 0023 3z"/></svg></a></li><li class="navigation-item navigation-social"><a class=navigation-link href=https://www.innoreader.com/><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 019 9"/><path d="M4 4a16 16 0 0116 16"/><circle cx="5" cy="19" r="1"/></svg></a></li><li class="navigation-item navigation-dark"><button id=mode type=button aria-label="toggle user light or dark theme">
+<span class=toggle-dark><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+<span class=toggle-light><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span></button></li></ul></section></nav><div id=content><article class=blog-single><header class=blog-title><h1>Kafka 安全(SASL+ACL)</h1></header><p><small>2022年3月6日&nbsp;· 2317 字&nbsp;· 5 分钟</small>
+<small>·
+<a href=https://hidlestone.github.io/tags/kafka/>Kafka</a></small><p><div class=blog-toc><nav id=TableOfContents><ul><li><a href=#一security>一、Security</a></li><li><a href=#二saslacl-实现用户及权限认证>二、SASL+ACL 实现用户及权限认证</a><ul><li><a href=#21下载>2.1、下载</a></li><li><a href=#22kafka-服务配置>2.2、Kafka 服务配置</a></li><li><a href=#23修改-kafka-服务启动脚本>2.3、修改 Kafka 服务启动脚本</a></li><li><a href=#24配置-serverproperties>2.4、配置 server.properties</a></li><li><a href=#25启动-zookeeper>2.5、启动 Zookeeper</a></li><li><a href=#26启动-kafka-集群>2.6、启动 Kafka 集群</a></li><li><a href=#27acl>2.7、ACL</a></li><li><a href=#28生产者客户端代码设置>2.8、生产者客户端代码设置</a></li><li><a href=#29消费者客户端代码设置>2.9、消费者客户端代码设置</a></li><li><a href=#210spring-kafka-需配置如下>2.10、Spring-kafka 需配置如下</a></li><li><a href=#211flink-sql>2.11、Flink SQL</a></li></ul></li></ul></nav></div><section class=blog-content><h1 id=kafka-安全saslacl>Kafka 安全(SASL+ACL)</h1><h2 id=一security>一、Security</h2><p>在 Kafka 的官方文档中介绍了如下几种安全方式，以满足用户不同场景对安全的需求。</p><ul><li><code>SASL/GSSAPI (Kerberos) - starting at version 0.9.0.0</code>。主要是为 Kerberos 使用，如果当前已有 Kerberos 认证，只需要为集群中每个 Broker 和访问用户申请 Principle ，然后在 Kafka 配置文件中开启 Kerberos 的支持即可。官方文档详见 <a href=https://kafka.apache.org/33/documentation.html#security_sasl_kerberos>Authentication using SASL/Kerberos</a>。</li><li><code>SASL/PLAIN - starting at version 0.10.0.0</code>。一个简单的用户名和密码身份认证机制，通常与 TLS/SSL 一起用于加密，以实现身份验证。是一种比较容易使用的方式，但是也有一个很明显的缺点，这种方式会把用户账户文件配置到静态文件中，每次想要添加新的账户都需要重启 Kafka 去加载静态文件，才能生效，十分不方便。官方文档详见 <a href=https://kafka.apache.org/33/documentation.html#security_sasl_plain>Authentication using SASL/PLAIN</a>。</li><li><code>SASL/SCRAM-SHA-256 和 SASL/SCRAM-SHA-512 - starting at version 0.10.2.0</code>。通过将认证信息保存在 ZooKeeper 里面，从而动态的获取用户信息，相当于把 ZK 用作一个认证中心使用。这种认证可以在使用过程中，使用 Kafka 提供的命令动态地创建和删除用户，无需重启整个集群，十分方便。官方文档详见 <a href=https://kafka.apache.org/33/documentation.html#security_sasl_scram>Authentication using SASL/SCRAM</a> 。</li><li><code>SASL/OAUTHBEARER - starting at version 2.0</code>。Kafka 引入的新认证机制，主要是为了实现与 OAuth2 框架的集成，Kafka 不提倡单纯使用 OAUTHBEARER，因为它生成的不安全 Json Web Token，必须配以 SSL 加密才能在生产环境中使用。官方文档详见 <a href=https://kafka.apache.org/33/documentation.html#security_sasl_oauthbearer>Authentication using SASL/OAUTHBEARER</a> 。</li></ul><h2 id=二saslacl-实现用户及权限认证>二、SASL+ACL 实现用户及权限认证</h2><h3 id=21下载>2.1、下载</h3><pre tabindex=0><code>wget https://repo.huaweicloud.com/apache/kafka/3.3.1/kafka_2.12-3.3.1.tgz -P /data
+cd /data
+tar -zxf kafka_2.12-3.3.1.tgz 
+ln -s kafka_2.12-3.3.1 kafka
+cd /data/kafka
+</code></pre><h3 id=22kafka-服务配置>2.2、Kafka 服务配置</h3><p>Kafka server 的 jaas 文件如下：</p><pre tabindex=0><code>/data/kafka/config/jaas/kafka_server_jaas.conf
+</code></pre><p>这里创建五个用户，密码分别如下，后会会对其进行分别授权。</p><pre tabindex=0><code>用户	密码
+admin	admin123
+kwriter	kwriter123
+kreader	kreader123
+sharga	sharga123
+shargb	shargb123
+</code></pre><p>创建文件：</p><pre tabindex=0><code>mkdir /data/kafka/config/jaas/
+vim /data/kafka/config/jaas/kafka_server_jaas.conf
+</code></pre><p>配置如下：</p><pre tabindex=0><code>KafkaServer {
+	org.apache.kafka.common.security.plain.PlainLoginModule required
+	username=&#34;admin&#34;
+	password=&#34;admin123&#34;
+	user_admin=&#34;admin123&#34;
+	user_kwriter=&#34;kwriter123&#34;
+	user_kreader=&#34;kreader123&#34;
+	user_sharga=&#34;sharga123&#34;
+	user_shargb=&#34;shargb123&#34;;
+};
+</code></pre><h3 id=23修改-kafka-服务启动脚本>2.3、修改 Kafka 服务启动脚本</h3><p>1、复制一份作为带安全的启动脚本：</p><pre tabindex=0><code>cp /data/kafka/bin/kafka-server-start.sh/data/kafka/bin/sasl_kafka-server-start.sh
+</code></pre><p>2、修改大概 44 行为如下，引入上面的 <code>jaas.conf</code> 文件，修改为如下</p><pre tabindex=0><code>export LOG_DIR=/var/log/kafka-logs
+export KAFKA_OPTS=&#34;-Djava.security.auth.login.config=/data/kafka/config/jaas/kafka_server_jaas.conf&#34;
+exec $base_dir/kafka-run-class.sh $EXTRA_ARGS kafka.Kafka &#34;$@&#34;
+</code></pre><h3 id=24配置-serverproperties>2.4、配置 server.properties</h3><p>拷贝一份 ：</p><pre tabindex=0><code>cp /data/kafka/config/server.properties/data/kafka/config/jaas/server.properties
+</code></pre><p>配置如下：</p><pre tabindex=0><code>broker.id=0
+listeners=SASL_PLAINTEXT://192.168.179.3:9092
+advertised.listeners=SASL_PLAINTEXT://192.168.179.3:9092
+security.inter.broker.protocol=SASL_PLAINTEXT
+sasl.mechanism.inter.broker.protocol=PLAIN
+sasl.enabled.mechanisms=PLAIN
+# ACL 入口类
+authorizer.class.name=kafka.security.authorizer.AclAuthorizer
+# 设置 admin 用户为超级管理员
+super.users=User:admin
+
+auto.create.topics.enable=true
+log.dirs=/data/kafka/data/kafka-logs
+zookeeper.connect=192.168.179.3:2181/kafka
+</code></pre><p>创建需要的目录：</p><pre tabindex=0><code>mkdir -p /data/kafka/data/{kafka-logs,zookeeper}
+</code></pre><h3 id=25启动-zookeeper>2.5、启动 Zookeeper</h3><p>ZK 服务地址可以使用 Kafka 自带的，也可以使用已部署在的 ZK。如果已有 ZK 可以跳过这一步。这里以 Kafka 自带的为例。
+配置 <code>zookeeper.properties</code>：</p><pre tabindex=0><code>dataDir=/data/kafka/data/zookeeper
+clientPort=2181
+maxClientCnxns=0
+admin.enableServer=false
+</code></pre><p>启动 ZK：</p><pre tabindex=0><code>/data/kafka/bin/zookeeper-server-start.sh -daemon /data/kafka/config/zookeeper.properties
+</code></pre><p>查看日志：</p><pre tabindex=0><code>tail -f /var/log/zookeeper/server.log 
+</code></pre><p>可以通过如下命令进一步查看 znode 信息：</p><pre tabindex=0><code>/data/kafka/bin/zookeeper-shell.sh 192.168.179.3:2181
+</code></pre><h3 id=26启动-kafka-集群>2.6、启动 Kafka 集群</h3><pre tabindex=0><code># 1 启动 Kafka
+/data/kafka/bin/sasl_kafka-server-start.sh -daemon /data/kafka/config/jaas/server.properties
+
+# 2 查看启动日志
+tail -f /var/log/kafka-logs/server.log 
+</code></pre><p>关闭的命令如下：</p><pre tabindex=0><code>/data/kafka/bin/kafka-server-stop.sh 
+/data/kafka/bin/zookeeper-server-stop.sh
+</code></pre><p>如果需要调整 Kafka JVM 参数，可以如下进行修改，调整期堆大小，或者其它参数：</p><pre tabindex=0><code>vim /data/kafka/bin/sasl_kafka-server-start.sh +28
+</code></pre><h3 id=27acl>2.7、ACL</h3><p>接下来对用户进行授权，大概按照如下进行设置。</p><pre tabindex=0><code>用户	密码	        权限	说明
+admin	admin123	All	超级管理员用户
+kwriter	kwriter123	producer	生产者类权限，Writer、Create、Describe
+kreader	kreader123	consumer	消费者类权限，Read、Describe
+sharga	sharga123	All	仅对 sharga-* 类 Topic 有所有权
+shargb	shargb123	All	仅对 shargb-* 类 Topic 有所有权
+</code></pre><p>命令：</p><pre tabindex=0><code># 1 授予 kwriter 用户为生产者权限
+/data/kafka/bin/kafka-acls.sh --authorizer-properties zookeeper.connect=192.168.179.3:2181/kafka \
+--add --allow-principal User:kwriter --producer --topic &#34;*&#34;
+
+# 2 授予 kreader 用户为消费者权限
+/data/kafka/bin/kafka-acls.sh --authorizer-properties zookeeper.connect=192.168.179.3:2181/kafka \
+--add --allow-principal User:kreader --consumer --topic &#34;*&#34; --group &#34;*&#34;
+
+# 3 对 sharga 用户进行授权，前缀模式
+/data/kafka/bin/kafka-acls.sh --authorizer-properties zookeeper.connect=192.168.179.3:2181/kafka \
+--add --allow-principal User:sharga --group &#34;*&#34; --topic &#34;sharga&#34; --resource-pattern-type prefixed
+
+# 4 对 shargb 用户进行授权，前缀模式
+/data/kafka/bin/kafka-acls.sh --authorizer-properties zookeeper.connect=192.168.179.3:2181/kafka \
+--add --allow-principal User:shargb --group &#34;*&#34; --topic &#34;shargb&#34; --resource-pattern-type prefixed
+
+# 5 查看 ACL 权限列表
+/data/kafka/bin/kafka-acls.sh --authorizer-properties zookeeper.connect=192.168.179.3:2181/kafka --list
+</code></pre><p>小的测试验证（在没有使用正确用户时，执行如下会失败）：</p><pre tabindex=0><code># 1 创建 Topic（客户端没有使用认证是，创建 topic 会失败）
+/data/kafka/bin/kafka-topics.sh --create --bootstrap-server node01:9092 \
+--partitions 1 --replication-factor 1 --topic test_sasl
+
+# 2 查看 topic（客户端没有使用认证是，获取 topic 会失败）
+/data/kafka/bin/kafka-topics.sh --list --bootstrap-server node01:9092 | grep test
+
+# 3 查看 topic 详情（客户端没有使用认证是，获取 topic 详情会失败）
+/data/kafka/bin/kafka-topics.sh --bootstrap-server 192.168.179.3:9092 \
+--describe --topic test_sasl
+
+# 4 生产者（此时会因为权限问题，而报错，下面来解决这个问题）
+/data/kafka/bin/kafka-console-producer.sh --bootstrap-server 192.168.179.3:9092 \
+--topic test_sasl
+
+# 5 消费者（此时会因为权限问题，而报错，下面来解决这个问题）
+/data/kafka/bin/kafka-console-consumer.sh --bootstrap-server node01:9092 \
+--from-beginning --topic test_sasl
+</code></pre><h4 id=271admin>2.7.1、admin</h4><p>新增 admin 配置属性文件：</p><pre tabindex=0><code>vim /data/kafka/config/jaas/admin.properties
+</code></pre><p>内容如下：</p><pre tabindex=0><code>sasl.jaas.config=org.apache.kafka.common.security.plain.PlainLoginModule required username=&#34;admin&#34; password=&#34;admin123&#34;;
+security.protocol=SASL_PLAINTEXT
+sasl.mechanism=PLAIN
+</code></pre><p>以 admin 身份执行如下命令：</p><pre tabindex=0><code># 1 再次创建 topic，此时可以成功创建
+/data/kafka/bin/kafka-topics.sh --create --bootstrap-server node01:9092 \
+--command-config /data/kafka/config/jaas/admin.properties \
+--partitions 1 --replication-factor 1 --topic test_sasl
+
+# 2 list
+/data/kafka/bin/kafka-topics.sh --list --bootstrap-server node01:9092 \
+--command-config /data/kafka/config/jaas/admin.properties
+
+# 3 topic 详新信息
+/data/kafka/bin/kafka-topics.sh --bootstrap-server node01:9092 \
+--command-config /data/kafka/config/jaas/admin.properties \
+--describe --topic test_sasl
+</code></pre><p>如果需要删除 Topic，可使用如下命令</p><pre tabindex=0><code>/data/kafka/bin/kafka-topics.sh --bootstrap-server node01:9092 \
+--command-config /data/kafka/config/jaas/admin.properties \
+--delete --topic test_sasl
+</code></pre><p>其它（可以执行完下面生产者或消费者命令后再执行查看）</p><pre tabindex=0><code># 1 查看当前的消费者组
+/data/kafka/bin/kafka-consumer-groups.sh --bootstrap-server node01:9092 --command-config \
+/data/kafka/config/jaas/admin.properties --list
+
+# 2 查看消费者消费进度
+/data/kafka/bin/kafka-consumer-groups.sh --bootstrap-server node01:9092 --command-config \
+/data/kafka/config/jaas/admin.properties --describe --group test-consumer-group
+
+# 3 查看 Kafka Topic 的 offset 信息
+/data/kafka/bin/kafka-run-class.sh kafka.tools.GetOffsetShell --bootstrap-server node01:9092 \
+--command-config /data/kafka/config/jaas/admin.properties --time -1 --topic test_sasl
+</code></pre><h4 id=272生产者>2.7.2、生产者</h4><p>新增生产者 kwrite 用户的配置属性文件：</p><pre tabindex=0><code>vim /data/kafka/config/jaas/kwriter.properties
+</code></pre><p>内容如下：</p><pre tabindex=0><code>sasl.jaas.config=org.apache.kafka.common.security.plain.PlainLoginModule required username=&#34;kwriter&#34; password=&#34;kwriter123&#34;;
+security.protocol=SASL_PLAINTEXT
+sasl.mechanism=PLAIN
+</code></pre><p>使用客户端命令行测试：</p><pre tabindex=0><code>/data/kafka/bin/kafka-console-producer.sh --bootstrap-server node01:9092 \
+--producer.config/data/kafka/config/jaas/kwriter.properties --topic test_sasl
+</code></pre><p>发送如下的数据：</p><pre tabindex=0><code>{&#34;id&#34;:100,&#34;name&#34;:&#34;one&#34;,&#34;age&#34;:1}
+{&#34;id&#34;:101,&#34;name&#34;:&#34;two&#34;,&#34;age&#34;:2}
+{&#34;id&#34;:102,&#34;name&#34;:&#34;three&#34;,&#34;age&#34;:3}
+</code></pre><h4 id=273消费者>2.7.3、消费者</h4><p>新增生产者 kreader 用户的配置属性文件：</p><pre tabindex=0><code>vim /data/kafka/config/jaas/kreader.properties
+</code></pre><p>内容如下：</p><pre tabindex=0><code>group.id=test-consumer-group
+sasl.jaas.config=org.apache.kafka.common.security.plain.PlainLoginModule required username=&#34;kreader&#34; password=&#34;kreader123&#34;;
+security.protocol=SASL_PLAINTEXT
+sasl.mechanism=PLAIN
+</code></pre><p>消费者测试：</p><pre tabindex=0><code>/data/kafka/bin/kafka-console-consumer.sh --bootstrap-server node01:9092 \
+--consumer.config/data/kafka/config/jaas/kreader.properties --from-beginning --topic test_sasl
+</code></pre><h4 id=274sharga-用户>2.7.4、sharga 用户</h4><p>新增生产者 sharga 用户的配置属性文件：</p><pre tabindex=0><code>vim /data/kafka/config/jaas/sharga.properties
+</code></pre><p>内容如下：</p><pre tabindex=0><code>group.id=test-sharga-group
+sasl.jaas.config=org.apache.kafka.common.security.plain.PlainLoginModule required username=&#34;sharga&#34; password=&#34;sharga123&#34;;
+security.protocol=SASL_PLAINTEXT
+sasl.mechanism=PLAIN
+</code></pre><p>执行如下命令：</p><pre tabindex=0><code># 1 创建自己的 topic
+## sharga-t01
+/data/kafka/bin/kafka-topics.sh --create --bootstrap-server node01:9092 --command-config \
+/data/kafka/config/jaas/sharga.properties --partitions 1 --replication-factor 1 --topic sharga-t01
+
+# 2 生产者
+/data/kafka/bin/kafka-console-producer.sh --bootstrap-server node01:9092 --producer.config \
+/data/kafka/config/jaas/sharga.properties --topic sharga-t01
+</code></pre><p>向 sharga-t01 的 Topic 发送如下消息：</p><pre tabindex=0><code>{&#34;id&#34;:100,&#34;name&#34;:&#34;one&#34;,&#34;age&#34;:1}
+{&#34;id&#34;:101,&#34;name&#34;:&#34;two&#34;,&#34;age&#34;:2}
+{&#34;id&#34;:102,&#34;name&#34;:&#34;three&#34;,&#34;age&#34;:3}
+</code></pre><pre tabindex=0><code>#3 同样创建 sharga-t02 Topic
+/data/kafka/bin/kafka-topics.sh --create --bootstrap-server node01:9092 --command-config \
+/data/kafka/config/jaas/sharga.properties --partitions 1 --replication-factor 1 --topic sharga-t02
+
+# 4 生产者
+/data/kafka/bin/kafka-console-producer.sh --bootstrap-server node01:9092 --producer.config \
+/data/kafka/config/jaas/sharga.properties --topic sharga-t02
+</code></pre><p>向 sharga-t02 的 Topic 发送如下消息：</p><pre tabindex=0><code>{&#34;id&#34;:100,&#34;sex&#34;:&#34;man&#34;}
+{&#34;id&#34;:101,&#34;sex&#34;:&#34;man&#34;}
+{&#34;id&#34;:102,&#34;sex&#34;:&#34;woman&#34;}
+</code></pre><pre tabindex=0><code># 5 查看当前的 topic 列表
+/data/kafka/bin/kafka-topics.sh --list --bootstrap-server node01:9092 --command-config \
+/data/kafka/config/jaas/sharga.properties
+</code></pre><p>sharga 用户仅能查看到自己的 Topic。</p><h4 id=276说明>2.7.6、说明</h4><p>这种方式是将用户和密码相关的信息保存在了服务器本地文件中了，经过前面的配置，基本涉及到安全认证的配置都放置到了 <code>/data/kafka/config/jaas</code> 目录下，因此如果需要在真实服务上使用时，这个目录需要经读写权限详细的分配给系统的每个用户，对于不允许使用此用户配置信息的其他用户，这个文件的读写权限可以不授予给这个用户。</p><h3 id=28生产者客户端代码设置>2.8、生产者客户端代码设置</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>Properties props <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Properties ();
+</span></span><span style=display:flex><span><span style=color:#75715e>//...</span>
+</span></span><span style=display:flex><span>props.<span style=color:#a6e22e>put</span> (<span style=color:#e6db74>&#34;security.protocol&#34;</span>, <span style=color:#e6db74>&#34;SASL_PLAINTEXT&#34;</span>);
+</span></span><span style=display:flex><span>props.<span style=color:#a6e22e>put</span> (<span style=color:#e6db74>&#34;sasl.mechanism&#34;</span>, <span style=color:#e6db74>&#34;PLAIN&#34;</span>);
+</span></span><span style=display:flex><span>props.<span style=color:#a6e22e>put</span> (<span style=color:#e6db74>&#34;sasl.jaas.config&#34;</span>, <span style=color:#e6db74>&#34;org.apache.kafka.common.security.plain.PlainLoginModule required username=&#39;kwriter&#39; password=&#39;kwriter123&#39;;&#34;</span>);
+</span></span></code></pre></div><h3 id=29消费者客户端代码设置>2.9、消费者客户端代码设置</h3><pre tabindex=0><code>Properties props = new Properties ();
+//...
+props.put (&#34;security.protocol&#34;, &#34;SASL_PLAINTEXT&#34;);
+props.put (&#34;sasl.mechanism&#34;, &#34;PLAIN&#34;);
+props.put (&#34;sasl.jaas.config&#34;, &#34;org.apache.kafka.common.security.plain.PlainLoginModule required username=&#39;kreader&#39; password=&#39;kreader123&#39;;&#34;);
+</code></pre><h3 id=210spring-kafka-需配置如下>2.10、Spring-kafka 需配置如下</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>spring</span>:
+</span></span><span style=display:flex><span>  <span style=color:#75715e>#……</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>kafka</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>bootstrap-servers</span>: <span style=color:#ae81ff>node01:9092</span> <span style=color:#75715e>#指定 kafka server 的地址，集群配多个，中间，逗号隔开</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>producer</span>:
+</span></span><span style=display:flex><span>        <span style=color:#f92672>key-serializer</span>: <span style=color:#ae81ff>org.apache.kafka.common.serialization.StringSerializer</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>value-serializer</span>: <span style=color:#ae81ff>org.apache.kafka.common.serialization.StringSerializer</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>properties</span>:
+</span></span><span style=display:flex><span>          <span style=color:#75715e># sasl 安全认证</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>security.protocol</span>: <span style=color:#ae81ff>SASL_PLAINTEXT</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>sasl.mechanism</span>: <span style=color:#ae81ff>PLAIN</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>sasl.jaas.config</span>: <span style=color:#ae81ff>org.apache.kafka.common.security.plain.PlainLoginModule required username=&#39;kwriter&#39; password=&#39;kwriter123&#39;;</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>consumer</span>:
+</span></span><span style=display:flex><span>        <span style=color:#f92672>group-id</span>: <span style=color:#ae81ff>app_consumer_group</span> <span style=color:#75715e>#群组 ID</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>enable-auto-commit</span>: <span style=color:#66d9ef>true</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>auto-commit-interval</span>: <span style=color:#ae81ff>1000s</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>key-deserializer</span>: <span style=color:#ae81ff>org.apache.kafka.common.serialization.StringDeserializer</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>value-deserializer</span>: <span style=color:#ae81ff>org.apache.kafka.common.serialization.StringDeserializer</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>properties</span>:
+</span></span><span style=display:flex><span>          <span style=color:#f92672>security.protocol</span>: <span style=color:#ae81ff>SASL_PLAINTEXT</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>sasl.mechanism</span>: <span style=color:#ae81ff>PLAIN</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>sasl.jaas.config</span>: <span style=color:#ae81ff>org.apache.kafka.common.security.plain.PlainLoginModule required username=&#39;kreader&#39; password=&#39;kreader123&#39;;</span>
+</span></span></code></pre></div><h3 id=211flink-sql>2.11、Flink SQL</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>create</span> <span style=color:#66d9ef>table</span> kafka_sharga_t01 (
+</span></span><span style=display:flex><span>  id int,
+</span></span><span style=display:flex><span>  name string,
+</span></span><span style=display:flex><span>  age int
+</span></span><span style=display:flex><span>) <span style=color:#66d9ef>with</span> (
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#39;format&#39;</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;json&#39;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#39;properties.bootstrap.servers&#39;</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;192.168.179.3:9092&#39;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#39;connector&#39;</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;kafka&#39;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#39;topic&#39;</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;sharga-t01&#39;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#39;properties.group.id&#39;</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;group1&#39;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#39;scan.startup.mode&#39;</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;earliest-offset&#39;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#39;properties.sasl.jaas.config&#39;</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;org.apache.kafka.common.security.plain.PlainLoginModule required username=&#34;sharga&#34; password=&#34;sharga123&#34;;&#39;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#39;properties.security.protocol&#39;</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;SASL_PLAINTEXT&#39;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#39;properties.sasl.mechanism&#39;</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;PLAIN&#39;</span>
+</span></span><span style=display:flex><span>);
+</span></span></code></pre></div></section><div class=paginator><a class=prev href=https://hidlestone.github.io/blog/bigdata/kafka/10-kafka-%E8%84%9A%E6%9C%AC%E8%A1%A5%E5%85%A8/><svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3.77086 21.1546C11.0491 22.698 21.4339 21.7773 21.4339 16.3608V4.63375c0-.69413-.075800000000001-1.3284-.2422-1.86588M3.77086 21.1546C1.9934 20.7777.973585 18.7264 1.08749 16.688c.17931-3.209.06972-7.25665-.08236-10.47293C.87809 3.52811 3.12891 1.16316 5.51029 1.25008c4.25565.15534 9.86671-.04779 13.28091-.24466 1.2952-.074686 2.0494.62843 2.4005 1.76245M3.77086 21.1546C4.56586 21.4723 5.49168 21.7879 6.5 22.0658M21.1917 2.76787c1.918 1.4143 1.9383 9.65123 1.7087 13.59293-2.0526 7.6586-10.5943 7.3054-16.4004 5.705M21.1917 2.76787C21.7612 4.51192 22.7203 9.67216 22 16.3608 21.2797 23.0494 11.3665 22.9511 6.5 22.0658M9.94496 9C9.28897 9.61644 7.63215 10.997 6.04814 11.7966 5.98257 11.8297 5.98456 11.9753 6.05061 12.0063c1.00435.4716 2.8788 1.9201 3.89435 2.9937M6.44444 11.9667C8.86549 12.0608 14 12 16 11" stroke="currentcolor" stroke-linecap="round"/></svg>
+<span>Kafka 脚本补全</span></a>
+<a class=next href=https://hidlestone.github.io/blog/bigdata/kafka/08-kafka-tool/><span>Kafka Tool</span><svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3.77086 21.1546C11.0491 22.698 21.4339 21.7773 21.4339 16.3608V4.63375c0-.69413-.075800000000001-1.3284-.2422-1.86588M3.77086 21.1546C1.9934 20.7777.973585 18.7264 1.08749 16.688c.17931-3.209.06972-7.25665-.08236-10.47293C.87809 3.52811 3.12891 1.16316 5.51029 1.25008c4.25565.15534 9.86671-.04779 13.28091-.24466 1.2952-.074686 2.0494.62843 2.4005 1.76245M3.77086 21.1546C4.56586 21.4723 5.49168 21.7879 6.5 22.0658M21.1917 2.76787c1.918 1.4143 1.9383 9.65123 1.7087 13.59293-2.0526 7.6586-10.5943 7.3054-16.4004 5.705M21.1917 2.76787C21.7612 4.51192 22.7203 9.67216 22 16.3608 21.2797 23.0494 11.3665 22.9511 6.5 22.0658M12.055 9C12.711 9.61644 14.3679 10.997 15.9519 11.7966 16.0174 11.8297 16.0154 11.9753 15.9494 12.0063 14.945 12.4779 13.0706 13.9264 12.055 15m3.5006-3.0333C13.1345 12.0608 8 12 6 11" stroke="currentcolor" stroke-linecap="round"/></svg></a></div><div class=comments><script>const getTheme=window.localStorage&&window.localStorage.getItem("theme");let theme=getTheme==="dark"?"dark":"light",s=document.createElement("script");s.src="https://giscus.app/client.js",s.setAttribute("data-repo","hidlestone/blog-comments"),s.setAttribute("data-repo-id","R_kgDOSCEExQ"),s.setAttribute("data-category","Announcements"),s.setAttribute("data-category-id","DIC_kwDOSCEExc4C6zZX"),s.setAttribute("data-mapping","pathname"),s.setAttribute("data-strict","0"),s.setAttribute("data-reactions-enabled","1"),s.setAttribute("data-emit-metadata","0"),s.setAttribute("data-input-position","top"),s.setAttribute("data-theme",theme),s.setAttribute("data-lang","zh-CN"),s.setAttribute("data-loading","lazy"),s.setAttribute("crossorigin","anonymous"),s.setAttribute("async",""),document.querySelector("div.comments").innerHTML="",document.querySelector("div.comments").appendChild(s)</script></div></article></div><footer class=footer><p>&copy; 2026 <a href=https://hidlestone.github.io/>PeifengZhuang</a>
+Powered by
+<a href=https://gohugo.io/ rel=noopener target=_blank>Hugo️️</a>
+<a href=https://github.com/guangzhengli/hugo-theme-ladder rel=noopener target=_blank>Ladder</a>
+️</p></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M10.5376 22.7916C11.0152 22.7207 22.5795 21.1781 22.0978 10.4211 22.0536 9.43274 21.9303 8.53367 21.7387 7.71865M10.5376 22.7916C16.876 22.3728 20.0969 19.8899 21.5383 16.9142M10.5376 22.7916C9.7707 22.9055 8.97982 22.8964 8.19743 22.7725M21.7387 7.71865C21.4988 6.69828 21.1518 5.80967 20.7188 5.04257m1.0199 2.67608C22.6022 10.1105 23.0542 13.7848 21.5383 16.9142M20.7188 5.04257c-3.5504-6.28886-12.88753-4.410077-16.44303.0C2.88063 6.77451-.0433281 11.1668 1.38159 16.6571c.89322 3.4417 3.7911 5.6365 6.81584 6.1154M20.7188 5.04257c1.3509 1.89783 3.3111 6.34223 1.6353 10.37273M21.5383 16.9142C21.8737 16.4251 22.1428 15.9235 22.3541 15.4153M8.19743 22.7725C12.1971 23.4683 20.6281 22.971 22.3541 15.4153M14 10.945C13.3836 10.289 12.003 8.63215 11.2034 7.04814 11.1703 6.98257 11.0247 6.98456 10.9937 7.05061 10.5221 8.05496 9.07362 9.92941 8 10.945m3.0333-3.50056C10.9392 9.86549 11 15 12 17" stroke="currentcolor" stroke-linecap="round"/></svg>
+</a><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.querySelectorAll("pre > code").forEach(e=>{const s=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="Copy";function n(){t.innerHTML="Copied",setTimeout(()=>{t.innerHTML="Copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),n();return}const s=document.createRange();s.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(s);try{document.execCommand("copy"),n()}catch{}o.removeRange(s)}),e.parentNode.appendChild(t)})</script></main></body><script src=https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin=anonymous referrerpolicy=no-referrer></script><script>const images=Array.from(document.querySelectorAll(".blog-content img"));images.forEach(e=>{mediumZoom(e,{margin:10,scrollOffset:40,container:null,template:null,background:"rgba(0, 0, 0, 0.5)"})})</script><script src=/main.min.6bb26b69159420159c74dc9e097b06a578ed2b68c701466a91a44a9632d851bd0af167a1b30012387b4c512b48ad9ad4d3394e04d77ae38d57e1920fe4ed34fe.js integrity="sha512-a7JraRWUIBWcdNyeCXsGpXjtK2jHAUZqkaRKljLYUb0K8WehswASOHtMUStIrZrU0zlOBNd6441X4ZIP5O00/g==" crossorigin=anonymous defer></script></html>

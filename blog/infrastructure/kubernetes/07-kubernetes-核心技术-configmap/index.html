@@ -1,0 +1,187 @@
+<!doctype html><html lang=zh><head><meta name=viewport content="width=device-width,initial-scale=1"><title>kubernetes 核心技术-configMap</title>
+<meta charset=utf-8><meta name=description content="Ladder@kubernetes 核心技术-configMap 一、ConfigMap 概述 在生产环境中经常会遇到需要修改配置文件的情况，传统的修改方式不仅会影响到服务的正常运"><meta name=author content="Peifeng Zhuang"><link rel=canonical href=https://hidlestone.github.io/blog/infrastructure/kubernetes/07-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-configmap/><meta name=google-site-verification content="RL6kP6-6yjRPyYGLeqBQ2JIX6QQAz7A6gHZb7bHlZnU"><link rel=alternate type=application/rss+xml href=https://hidlestone.github.io//index.xml title=PeifengZhuang><script async src="https://www.googletagmanager.com/gtag/js?id=G-7E4JNTL3ES"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-7E4JNTL3ES")}</script><script async defer data-website-id=1f090f05-d573-402f-825b-755f648cf1b2 src=https://umami-blog-kappa.vercel.app/umami.js></script><meta property="og:url" content="https://hidlestone.github.io/blog/infrastructure/kubernetes/07-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-configmap/"><meta property="og:site_name" content="PeifengZhuang"><meta property="og:title" content="kubernetes 核心技术-configMap"><meta property="og:description" content="kubernetes 核心技术-configMap 一、ConfigMap 概述 在生产环境中经常会遇到需要修改配置文件的情况，传统的修改方式不仅会影响到服务的正常运"><meta property="og:locale" content="zh"><meta property="og:type" content="article"><meta property="article:section" content="blog"><meta property="article:published_time" content="2022-03-17T22:07:00+00:00"><meta property="article:modified_time" content="2022-03-17T22:07:00+00:00"><meta property="article:tag" content="Kubernetes"><meta name=twitter:card content="summary"><meta name=twitter:title content="kubernetes 核心技术-configMap"><meta name=twitter:description content="kubernetes 核心技术-configMap 一、ConfigMap 概述 在生产环境中经常会遇到需要修改配置文件的情况，传统的修改方式不仅会影响到服务的正常运"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Blog","item":"https://hidlestone.github.io/blog/"},{"@type":"ListItem","position":2,"name":"kubernetes 核心技术-configMap","item":"https://hidlestone.github.io/blog/infrastructure/kubernetes/07-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-configmap/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"kubernetes 核心技术-configMap","name":"kubernetes 核心技术-configMap","description":"kubernetes 核心技术-configMap 一、ConfigMap 概述 在生产环境中经常会遇到需要修改配置文件的情况，传统的修改方式不仅会影响到服务的正常运","keywords":["kubernetes"],"articleBody":"kubernetes 核心技术-configMap 一、ConfigMap 概述 在生产环境中经常会遇到需要修改配置文件的情况，传统的修改方式不仅会影响到服务的正常运行，而且操作步骤也很繁琐。为了解决这个问题，kubernetes 项目从1.2版本引入了 ConfigMap 功能，用于将应用的配置信息与程序的分离。这种方式不仅可以实现应用程序被的复用，而且还可以通过不同的配置实现更灵活的功能。在创建容器时，用户可以将应用程序打包为容器镜像后，通过环境变量或者外接挂载文件的方式进行配置注入。 ConfigMap \u0026\u0026 Secret 是 K8S 中的针对应用的配置中心，它有效的解决了应用挂载的问题，并且支持加密以及热更新等功能，可以说是一个 k8s 提供的一件非常好用的功能。 ConfigMap 功能在 Kubernetes1.2 版本中引入，许多应用程序会从配置文件、命令行参数或环境变量中读取配置信息。ConfigMap API 给我们提供了向容器中注入配置信息的机制，ConfigMap 可以被用来保存单个属性，也可以用来保存整个配置文件或者 JSON 二进制大对象\n二、ConfigMap 的创建 （1）使用目录创建\n$ ls docs/user-guide/configmap/kubectl/ game.properties ui.properties $ cat docs/user-guide/configmap/kubectl/game.properties enemies=aliens lives=3 enemies.cheat=true enemies.cheat.level=noGoodRotten secret.code.passphrase=UUDDLRLRBABAS secret.code.allowed=true secret.code.lives=30 $ cat docs/user-guide/configmap/kubectl/ui.properties color.good=purple color.bad=yellow allow.textmode=true how.nice.to.look=fairlyNice $ kubectl create configmap game-config --from-file=docs/user-guide/configmap/kubectl --from-file 指定在目录下的所有文件都会被用在 ConfigMap 里面创建一个键值对，键的名字就是文件名，值就是文件的内容。\n（2）使用文件创建\n只要指定为一个文件就可以从单个文件中创建 ConfigMap\n$ kubectl create configmap game-config-2 --from-file=docs/user-guide/configmap/kubectl/game.properties $ kubectl get configmaps game-config-2 -o yaml --from-file 这个参数可以使用多次，你可以使用两次分別指定上个实例中的那两个配置文件，效果就跟指定整个目录是一样的。\n（3）使用字面值创建\n使用文字值创建，利用 --from-literal 参数传递配置信息，该参数可以使用多次，格式如下：\n$ kubectl create configmap special-config --from-literal=special.how=very -from-literal=special.type=charm $ kubectl get configmaps special-config -o yaml 三、Pod 中使用 ConfigMap 3.1、使用 ConfigMap 来替代环境变量。 configmap-literal.yaml\napiVersion: v1 kind: ConfigMap metadata: name: literal-config namespace: default data: name: dave password: pass #基于yaml文件运行configmap kubectl apply -f configmap-literal.yaml configmap-env.yaml\napiVersion: v1 kind: ConfigMap metadata: name: env-config namespace: default data: log_level: INFO #基于yaml文件运行configmap kubectl apply -f configmap-env.yaml configmap-pod.yaml\napiVersion: v1 kind: Pod metadata: name: cm-env-test-pod spec: containers: - name: test-container image: centos:7.9.2009 command: [ \"/bin/sh\", \"-c\", \"env\" ] env: - name: USERNAME #创建一个环境变量的名字 valueFrom: #来源 configMapKeyRef: #来源于configMapKeyRef name: literal-config #来自于上面创建的literal-config key: name #来自于name字段 - name: PASSWORD valueFrom: configMapKeyRef: name: literal-config key: password envFrom: #使用envFrom字段可以将env-config中的所有键值对作为环境变量导入到Pod中 - configMapRef: name: env-config restartPolicy: Never 根据yaml文件创建pod\nkubectl create -f configmap-pod.yaml kubectl get pod 查看pod的日志\nkubectl logs cm-env-test-pod 3.2、使用 ConfigMap 设置命令行参数 cm-command-dapi-test-pod.yaml\napiVersion: v1 kind: Pod metadata: name: cm-command-dapi-test-pod spec: containers: - name: test-container image: centos:7.9.2009 command: [ \"/bin/sh\", \"-c\", \"echo $(USERNAME) $(PASSWORD)\" ] env: - name: USERNAME valueFrom: configMapKeyRef: name: literal-config key: name - name: PASSWORD valueFrom: configMapKeyRef: name: literal-config key: password restartPolicy: Never 查看日志\nkubectl logs cm-command-dapi-test-pod 3.3、通过数据卷插件使用 ConfigMap cm-volume-test-pod.yaml\napiVersion: v1 kind: Pod metadata: name: cm-volume-test-pod spec: containers: - name: test-container image: centos:7.9.2009 command: [ \"/bin/sh\", \"-c\", \"tail -f /var/log/yum.log\" ] # 持久化运行，使容器保持运行，不会退出。 volumeMounts: # 挂载 volume 卷 - name: config-volume mountPath: /etc/config volumes: - name: config-volume # 卷的名字叫 config-volume configMap: # 基于 configMap 提供的 name: literal-config # 基于名字为 literal-config 的 configMap 提供的 restartPolicy: Never 进入容器：\nkubectl exec -it cm-volume-test-pod -- /bin/bash 进入容器后，执行下列命令，查看挂载的volume卷的信息。 为什么这里这么设计，因为这里支持热更新。 什么叫热更新呢，就是我现在把configmap的对象改变的话，这里的内容也会变化。 注意：这里不是共享，这是注入。 如果共享过多的话，会造成过多的资源损耗。 注入的话就不会有这个问题，先注入10个 pod，这10个 pod 注入以后，再注入下10 pod。 什么叫注入，cat 这个文件，重定向到你的目录下，这叫注入。\n四、ConfigMap 的热更新 hot-update.yaml\napiVersion: v1 kind: ConfigMap metadata: name: log-config namespace: default data: log_level: INFO --- apiVersion: extensions/v1beta1 kind: Deployment metadata: name: hot-update spec: replicas: 2 selector: matchLabels: run: nginx template: metadata: labels: run: nginx spec: containers: - name: nginx image: nginx:latest imagePullPolicy: IfNotPresent ports: - containerPort: 80 volumeMounts: - name: config-volume mountPath: /etc/config volumes: - name: config-volume configMap: name: log-config kubectl create -f hot-update.yaml 开第二个终端：\n#观察信息 while 2\u003e1;do kubectl exec hot-update-5f9f99b44f-sm7kf -- cat /etc/config/log_level;sleep 1s;date;done 终端1：\n#修改data里的键值INFO为log_level:ERROR #annotations:里面的INFO为ERROR kubectl edit cm log-config 终端2查看变化。 #查看yaml文件 kubectl get deployment hot-update -o yaml #更新版本 kubectl patch deployment hot-update --patch '{\"spec\": {\"template\": {\"metadata\": {\"annotations\": {\"version/config\": \"20190411\" }}}}}' #再次查看yaml文件 kubectl get deployment hot-update -o yaml 五、ConfigMap 更新后滚动更新 Pod 更新 ConfigMap 目前并不会触发相关 Pod 的滚动更新，可以通过修改 pod annotations 的 方式强制触发滚动更新。\nkubectl patch deployment my-nginx --patch '{\"spec\": {\"template\": {\"metadata\": {\"annotations\": {\"version/config\": \"20190411\" }}}}}' 这个例子里我们在 spec.template.metadata.annotations 中添加 version/config ,每次通过修改 version/config 来触发滚动更新\n更新 ConfigMap 后：\n使用该 ConfigMap 挂载的 Env 不会同步更新。\n使用该 ConfigMap 挂载的 Volume 中的数据需要一段时间（实测大概 10 秒）才能同步更新。\n","wordCount":"1695","inLanguage":"zh","datePublished":"2022-03-17T22:07:00Z","dateModified":"2022-03-17T22:07:00Z","author":{"@type":"Person","name":"Peifeng Zhuang"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://hidlestone.github.io/blog/infrastructure/kubernetes/07-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-configmap/"},"publisher":{"@type":"Organization","name":"PeifengZhuang","logo":{"@type":"ImageObject","url":"https://hidlestone.github.io/favicon.ico"}}}</script><link rel=icon href=/images/favicon.ico sizes=16x16><link rel=apple-touch-icon href=/images/favicon.ico><link rel=manifest href=/images/favicon.ico><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css><link rel=stylesheet href=/css/main.min.12e97d9e76a8e6029829f5074c2dfe71d39927a73e87cf2fc7c42a62e71083e0.css integrity="sha256-Eul9nnao5gKYKfUHTC3+cdOZJ6c+h88vx8QqYucQg+A=" crossorigin=anonymous media=screen><link rel=stylesheet href=/scss/highlight/github-dark.min.min.66034289ee9a113219a2c4aae0a8bd2095ab255c832a42efcf5863f10814e7a1.css><script src=/js/highlight.min.min.c607d6febd16934a82eb61d3a896ed9d869f54373cc63ce95864ed5488fe3128.js></script><script>hljs.highlightAll()</script><script>(()=>{var t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,e=localStorage.getItem("theme");t&&e===null&&(localStorage.setItem("theme","dark"),document.documentElement.setAttribute("data-dark-mode","")),t&&e==="dark"&&document.documentElement.setAttribute("data-dark-mode",""),e==="dark"&&document.documentElement.setAttribute("data-dark-mode","")})()</script></head><body><main class=wrapper><nav class=navigation><section class=container><a class=navigation-brand href=/>主页
+</a><input type=checkbox id=menu-toggle>
+<label class="menu-button float-right" for=menu-toggle><span></span><span></span><span></span></label><ul class=navigation-list id=navigation-list><li class="navigation-item navigation-menu"><a class=navigation-link href=/blog>文章</a></li><li class="navigation-item navigation-menu"><a class=navigation-link href=/art>即兴</a></li><li class="navigation-item navigation-menu"><a class=navigation-link href=/archives>归档</a></li><li class="navigation-item navigation-menu"><a class=navigation-link href=/tags>标签</a></li><li class="navigation-item navigation-menu"><a class=navigation-link href=/guestbook>留言板</a></li><li class="navigation-item navigation-menu"><a class=navigation-link href=https://umami-blog-kappa.vercel.app/share/hMtreiaJYzwGhJ45>统计</a></li><li class="navigation-item menu-separator"><span>|</span></li><li class="navigation-item navigation-social"><a class=navigation-link href=https://github.com/hidlestone><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37.0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44.0 0020 4.77 5.07 5.07.0 0019.91 1S18.73.65 16 2.48a13.38 13.38.0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07.0 005 4.77 5.44 5.44.0 003.5 8.55c0 5.42 3.3 6.61 6.44 7A3.37 3.37.0 009 18.13V22"/></svg></a></li><li class="navigation-item navigation-social"><a class=navigation-link href=https://twitter.com/unbridger><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter"><path d="M23 3a10.9 10.9.0 01-3.14 1.53 4.48 4.48.0 00-7.86 3v1A10.66 10.66.0 013 4s-4 9 5 13a11.64 11.64.0 01-7 2c9 5 20 0 20-11.5a4.5 4.5.0 00-.08-.83A7.72 7.72.0 0023 3z"/></svg></a></li><li class="navigation-item navigation-social"><a class=navigation-link href=https://www.innoreader.com/><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 019 9"/><path d="M4 4a16 16 0 0116 16"/><circle cx="5" cy="19" r="1"/></svg></a></li><li class="navigation-item navigation-dark"><button id=mode type=button aria-label="toggle user light or dark theme">
+<span class=toggle-dark><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+<span class=toggle-light><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span></button></li></ul></section></nav><div id=content><article class=blog-single><header class=blog-title><h1>kubernetes 核心技术-configMap</h1></header><p><small>2022年3月17日&nbsp;· 1695 字&nbsp;· 4 分钟</small>
+<small>·
+<a href=https://hidlestone.github.io/tags/kubernetes/>Kubernetes</a></small><p><div class=blog-toc><nav id=TableOfContents><ul><li><a href=#一configmap-概述>一、ConfigMap 概述</a></li><li><a href=#二configmap-的创建>二、ConfigMap 的创建</a></li><li><a href=#三pod-中使用-configmap>三、Pod 中使用 ConfigMap</a><ul><li><a href=#31使用-configmap-来替代环境变量>3.1、使用 ConfigMap 来替代环境变量。</a></li><li><a href=#32使用-configmap-设置命令行参数>3.2、使用 ConfigMap 设置命令行参数</a></li><li><a href=#33通过数据卷插件使用-configmap>3.3、通过数据卷插件使用 ConfigMap</a></li></ul></li><li><a href=#四configmap-的热更新>四、ConfigMap 的热更新</a></li><li><a href=#五configmap-更新后滚动更新-pod>五、ConfigMap 更新后滚动更新 Pod</a></li></ul></nav></div><section class=blog-content><h1 id=kubernetes-核心技术-configmap>kubernetes 核心技术-configMap</h1><h2 id=一configmap-概述>一、ConfigMap 概述</h2><p>在生产环境中经常会遇到需要修改配置文件的情况，传统的修改方式不仅会影响到服务的正常运行，而且操作步骤也很繁琐。为了解决这个问题，kubernetes 项目从1.2版本引入了 ConfigMap 功能，<code>用于将应用的配置信息与程序的分离</code>。这种方式不仅可以实现应用程序被的复用，而且还可以通过不同的配置实现更灵活的功能。在创建容器时，用户可以将应用程序打包为容器镜像后，通过环境变量或者外接挂载文件的方式进行配置注入。
+ConfigMap && Secret 是 K8S 中的针对应用的配置中心，它有效的解决了应用挂载的问题，并且支持加密以及热更新等功能，可以说是一个 k8s 提供的一件非常好用的功能。
+ConfigMap 功能在 Kubernetes1.2 版本中引入，许多应用程序会从配置文件、命令行参数或环境变量中读取配置信息。ConfigMap API 给我们提供了向容器中注入配置信息的机制，ConfigMap 可以被用来保存单个属性，也可以用来保存整个配置文件或者 JSON 二进制大对象</p><h2 id=二configmap-的创建>二、ConfigMap 的创建</h2><p>（1）使用目录创建</p><pre tabindex=0><code>$ ls docs/user-guide/configmap/kubectl/
+game.properties
+ui.properties
+
+$ cat docs/user-guide/configmap/kubectl/game.properties
+enemies=aliens
+lives=3
+enemies.cheat=true
+enemies.cheat.level=noGoodRotten
+secret.code.passphrase=UUDDLRLRBABAS
+secret.code.allowed=true
+secret.code.lives=30
+
+$ cat docs/user-guide/configmap/kubectl/ui.properties
+color.good=purple
+color.bad=yellow
+allow.textmode=true
+how.nice.to.look=fairlyNice
+
+$ kubectl create configmap game-config --from-file=docs/user-guide/configmap/kubectl
+</code></pre><p><code>--from-file</code> 指定在目录下的所有文件都会被用在 ConfigMap 里面创建一个键值对，键的名字就是文件名，值就是文件的内容。</p><p>（2）使用文件创建<br>只要指定为一个文件就可以从单个文件中创建 ConfigMap</p><pre tabindex=0><code>$ kubectl create configmap game-config-2 --from-file=docs/user-guide/configmap/kubectl/game.properties
+$ kubectl get configmaps game-config-2 -o yaml
+</code></pre><p><code>--from-file</code> 这个参数可以使用多次，你可以使用两次分別指定上个实例中的那两个配置文件，效果就跟指定整个目录是一样的。</p><p>（3）使用字面值创建<br>使用文字值创建，利用 <code>--from-literal</code> 参数传递配置信息，该参数可以使用多次，格式如下：</p><pre tabindex=0><code>$ kubectl create configmap special-config --from-literal=special.how=very -from-literal=special.type=charm
+$ kubectl get configmaps special-config -o yaml
+</code></pre><h2 id=三pod-中使用-configmap>三、Pod 中使用 ConfigMap</h2><h3 id=31使用-configmap-来替代环境变量>3.1、使用 ConfigMap 来替代环境变量。</h3><p><code>configmap-literal.yaml</code></p><pre tabindex=0><code>apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: literal-config
+  namespace: default
+data:
+  name: dave
+  password: pass
+
+#基于yaml文件运行configmap
+kubectl apply -f configmap-literal.yaml
+</code></pre><p><code>configmap-env.yaml</code></p><pre tabindex=0><code>apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-config
+  namespace: default
+data:
+  log_level: INFO
+ 
+#基于yaml文件运行configmap
+kubectl apply -f configmap-env.yaml
+</code></pre><p><code>configmap-pod.yaml</code></p><pre tabindex=0><code>apiVersion: v1
+kind: Pod
+metadata:
+  name: cm-env-test-pod
+spec:
+  containers:
+    - name: test-container
+      image: centos:7.9.2009
+      command: [ &#34;/bin/sh&#34;, &#34;-c&#34;, &#34;env&#34; ]
+      env:
+        - name: USERNAME                #创建一个环境变量的名字
+          valueFrom:                    #来源
+            configMapKeyRef:            #来源于configMapKeyRef
+              name: literal-config      #来自于上面创建的literal-config
+              key: name                 #来自于name字段
+        - name: PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: literal-config
+              key: password
+      envFrom:                          #使用envFrom字段可以将env-config中的所有键值对作为环境变量导入到Pod中
+        - configMapRef:
+            name: env-config
+  restartPolicy: Never
+</code></pre><p>根据yaml文件创建pod</p><pre tabindex=0><code>kubectl create -f configmap-pod.yaml
+kubectl get pod
+</code></pre><p>查看pod的日志</p><pre tabindex=0><code>kubectl logs cm-env-test-pod
+</code></pre><p><img src=/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-configMap/3459912224.png></p><h3 id=32使用-configmap-设置命令行参数>3.2、使用 ConfigMap 设置命令行参数</h3><p><code>cm-command-dapi-test-pod.yaml</code></p><pre tabindex=0><code>apiVersion: v1
+kind: Pod
+metadata:
+ name: cm-command-dapi-test-pod
+spec:
+ containers:
+   - name: test-container
+     image: centos:7.9.2009
+     command: [ &#34;/bin/sh&#34;, &#34;-c&#34;, &#34;echo $(USERNAME) $(PASSWORD)&#34; ]
+     env:
+       - name: USERNAME
+         valueFrom:
+           configMapKeyRef:
+             name: literal-config
+             key: name
+       - name: PASSWORD
+         valueFrom:
+           configMapKeyRef:
+             name: literal-config
+             key: password
+ restartPolicy: Never
+</code></pre><p>查看日志</p><pre tabindex=0><code>kubectl logs cm-command-dapi-test-pod
+</code></pre><h3 id=33通过数据卷插件使用-configmap>3.3、通过数据卷插件使用 ConfigMap</h3><p><code>cm-volume-test-pod.yaml</code></p><pre tabindex=0><code>apiVersion: v1
+kind: Pod
+metadata:
+  name: cm-volume-test-pod
+spec:
+  containers:
+    - name: test-container
+      image: centos:7.9.2009
+      command: [ &#34;/bin/sh&#34;, &#34;-c&#34;, &#34;tail -f /var/log/yum.log&#34; ]  # 持久化运行，使容器保持运行，不会退出。
+      volumeMounts:  # 挂载 volume 卷
+        - name: config-volume
+          mountPath: /etc/config
+  volumes:
+    - name: config-volume  # 卷的名字叫 config-volume
+      configMap:  # 基于 configMap 提供的
+        name: literal-config  # 基于名字为 literal-config 的 configMap 提供的
+  restartPolicy: Never
+</code></pre><p>进入容器：</p><pre tabindex=0><code>kubectl exec -it cm-volume-test-pod -- /bin/bash
+</code></pre><p>进入容器后，执行下列命令，查看挂载的volume卷的信息。
+<img src=/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-configMap/1205822559.png>
+为什么这里这么设计，因为这里支持热更新。
+什么叫热更新呢，就是我现在把configmap的对象改变的话，这里的内容也会变化。
+注意：这里不是共享，这是注入。
+如果共享过多的话，会造成过多的资源损耗。
+注入的话就不会有这个问题，先注入10个 pod，这10个 pod 注入以后，再注入下10 pod。
+什么叫注入，cat 这个文件，重定向到你的目录下，这叫注入。</p><h2 id=四configmap-的热更新>四、ConfigMap 的热更新</h2><p><code>hot-update.yaml</code></p><pre tabindex=0><code>apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: log-config
+  namespace: default
+data:
+  log_level: INFO
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: hot-update
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      run: nginx
+  template:
+    metadata:
+      labels:
+        run: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/config
+      volumes:
+        - name: config-volume
+          configMap:
+            name: log-config
+</code></pre><p><code>kubectl create -f hot-update.yaml</code>
+开第二个终端：</p><pre tabindex=0><code>#观察信息
+while 2&gt;1;do kubectl exec hot-update-5f9f99b44f-sm7kf -- cat /etc/config/log_level;sleep 1s;date;done
+</code></pre><p>终端1：</p><pre tabindex=0><code>#修改data里的键值INFO为log_level:ERROR
+#annotations:里面的INFO为ERROR
+kubectl edit cm log-config
+</code></pre><p>终端2查看变化。
+<img src=/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-configMap/1008363247.png></p><pre tabindex=0><code>#查看yaml文件
+kubectl get deployment hot-update -o yaml
+
+#更新版本
+kubectl patch deployment hot-update --patch &#39;{&#34;spec&#34;: {&#34;template&#34;: {&#34;metadata&#34;: {&#34;annotations&#34;: {&#34;version/config&#34;: &#34;20190411&#34; }}}}}&#39;
+
+#再次查看yaml文件
+kubectl get deployment hot-update -o yaml
+</code></pre><p><img src=/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-configMap/6072720.png></p><h2 id=五configmap-更新后滚动更新-pod>五、ConfigMap 更新后滚动更新 Pod</h2><p>更新 ConfigMap 目前并不会触发相关 Pod 的滚动更新，可以通过修改 pod annotations 的 方式强制触发滚动更新。</p><pre tabindex=0><code>kubectl patch deployment my-nginx --patch &#39;{&#34;spec&#34;: {&#34;template&#34;: {&#34;metadata&#34;: {&#34;annotations&#34;: {&#34;version/config&#34;: &#34;20190411&#34; }}}}}&#39;
+</code></pre><p>这个例子里我们在 <code>spec.template.metadata.annotations</code> 中添加 <code>version/config</code> ,每次通过修改 <code>version/config</code> 来触发滚动更新<br>更新 ConfigMap 后：<br>使用该 ConfigMap 挂载的 Env 不会同步更新。<br>使用该 ConfigMap 挂载的 Volume 中的数据需要一段时间（实测大概 10 秒）才能同步更新。</p></section><div class=paginator><a class=prev href=https://hidlestone.github.io/blog/infrastructure/kubernetes/08-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-namespace/><svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3.77086 21.1546C11.0491 22.698 21.4339 21.7773 21.4339 16.3608V4.63375c0-.69413-.075800000000001-1.3284-.2422-1.86588M3.77086 21.1546C1.9934 20.7777.973585 18.7264 1.08749 16.688c.17931-3.209.06972-7.25665-.08236-10.47293C.87809 3.52811 3.12891 1.16316 5.51029 1.25008c4.25565.15534 9.86671-.04779 13.28091-.24466 1.2952-.074686 2.0494.62843 2.4005 1.76245M3.77086 21.1546C4.56586 21.4723 5.49168 21.7879 6.5 22.0658M21.1917 2.76787c1.918 1.4143 1.9383 9.65123 1.7087 13.59293-2.0526 7.6586-10.5943 7.3054-16.4004 5.705M21.1917 2.76787C21.7612 4.51192 22.7203 9.67216 22 16.3608 21.2797 23.0494 11.3665 22.9511 6.5 22.0658M9.94496 9C9.28897 9.61644 7.63215 10.997 6.04814 11.7966 5.98257 11.8297 5.98456 11.9753 6.05061 12.0063c1.00435.4716 2.8788 1.9201 3.89435 2.9937M6.44444 11.9667C8.86549 12.0608 14 12 16 11" stroke="currentcolor" stroke-linecap="round"/></svg>
+<span>kubernetes 核心技术-Namespace</span></a>
+<a class=next href=https://hidlestone.github.io/blog/infrastructure/kubernetes/06-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-secret/><span>kubernetes 核心技术-Secret</span><svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3.77086 21.1546C11.0491 22.698 21.4339 21.7773 21.4339 16.3608V4.63375c0-.69413-.075800000000001-1.3284-.2422-1.86588M3.77086 21.1546C1.9934 20.7777.973585 18.7264 1.08749 16.688c.17931-3.209.06972-7.25665-.08236-10.47293C.87809 3.52811 3.12891 1.16316 5.51029 1.25008c4.25565.15534 9.86671-.04779 13.28091-.24466 1.2952-.074686 2.0494.62843 2.4005 1.76245M3.77086 21.1546C4.56586 21.4723 5.49168 21.7879 6.5 22.0658M21.1917 2.76787c1.918 1.4143 1.9383 9.65123 1.7087 13.59293-2.0526 7.6586-10.5943 7.3054-16.4004 5.705M21.1917 2.76787C21.7612 4.51192 22.7203 9.67216 22 16.3608 21.2797 23.0494 11.3665 22.9511 6.5 22.0658M12.055 9C12.711 9.61644 14.3679 10.997 15.9519 11.7966 16.0174 11.8297 16.0154 11.9753 15.9494 12.0063 14.945 12.4779 13.0706 13.9264 12.055 15m3.5006-3.0333C13.1345 12.0608 8 12 6 11" stroke="currentcolor" stroke-linecap="round"/></svg></a></div><div class=comments><script>const getTheme=window.localStorage&&window.localStorage.getItem("theme");let theme=getTheme==="dark"?"dark":"light",s=document.createElement("script");s.src="https://giscus.app/client.js",s.setAttribute("data-repo","hidlestone/blog-comments"),s.setAttribute("data-repo-id","R_kgDOSCEExQ"),s.setAttribute("data-category","Announcements"),s.setAttribute("data-category-id","DIC_kwDOSCEExc4C6zZX"),s.setAttribute("data-mapping","pathname"),s.setAttribute("data-strict","0"),s.setAttribute("data-reactions-enabled","1"),s.setAttribute("data-emit-metadata","0"),s.setAttribute("data-input-position","top"),s.setAttribute("data-theme",theme),s.setAttribute("data-lang","zh-CN"),s.setAttribute("data-loading","lazy"),s.setAttribute("crossorigin","anonymous"),s.setAttribute("async",""),document.querySelector("div.comments").innerHTML="",document.querySelector("div.comments").appendChild(s)</script></div></article></div><footer class=footer><p>&copy; 2026 <a href=https://hidlestone.github.io/>PeifengZhuang</a>
+Powered by
+<a href=https://gohugo.io/ rel=noopener target=_blank>Hugo️️</a>
+<a href=https://github.com/guangzhengli/hugo-theme-ladder rel=noopener target=_blank>Ladder</a>
+️</p></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M10.5376 22.7916C11.0152 22.7207 22.5795 21.1781 22.0978 10.4211 22.0536 9.43274 21.9303 8.53367 21.7387 7.71865M10.5376 22.7916C16.876 22.3728 20.0969 19.8899 21.5383 16.9142M10.5376 22.7916C9.7707 22.9055 8.97982 22.8964 8.19743 22.7725M21.7387 7.71865C21.4988 6.69828 21.1518 5.80967 20.7188 5.04257m1.0199 2.67608C22.6022 10.1105 23.0542 13.7848 21.5383 16.9142M20.7188 5.04257c-3.5504-6.28886-12.88753-4.410077-16.44303.0C2.88063 6.77451-.0433281 11.1668 1.38159 16.6571c.89322 3.4417 3.7911 5.6365 6.81584 6.1154M20.7188 5.04257c1.3509 1.89783 3.3111 6.34223 1.6353 10.37273M21.5383 16.9142C21.8737 16.4251 22.1428 15.9235 22.3541 15.4153M8.19743 22.7725C12.1971 23.4683 20.6281 22.971 22.3541 15.4153M14 10.945C13.3836 10.289 12.003 8.63215 11.2034 7.04814 11.1703 6.98257 11.0247 6.98456 10.9937 7.05061 10.5221 8.05496 9.07362 9.92941 8 10.945m3.0333-3.50056C10.9392 9.86549 11 15 12 17" stroke="currentcolor" stroke-linecap="round"/></svg>
+</a><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.querySelectorAll("pre > code").forEach(e=>{const s=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="Copy";function n(){t.innerHTML="Copied",setTimeout(()=>{t.innerHTML="Copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),n();return}const s=document.createRange();s.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(s);try{document.execCommand("copy"),n()}catch{}o.removeRange(s)}),e.parentNode.appendChild(t)})</script></main></body><script src=https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin=anonymous referrerpolicy=no-referrer></script><script>const images=Array.from(document.querySelectorAll(".blog-content img"));images.forEach(e=>{mediumZoom(e,{margin:10,scrollOffset:40,container:null,template:null,background:"rgba(0, 0, 0, 0.5)"})})</script><script src=/main.min.6bb26b69159420159c74dc9e097b06a578ed2b68c701466a91a44a9632d851bd0af167a1b30012387b4c512b48ad9ad4d3394e04d77ae38d57e1920fe4ed34fe.js integrity="sha512-a7JraRWUIBWcdNyeCXsGpXjtK2jHAUZqkaRKljLYUb0K8WehswASOHtMUStIrZrU0zlOBNd6441X4ZIP5O00/g==" crossorigin=anonymous defer></script></html>
