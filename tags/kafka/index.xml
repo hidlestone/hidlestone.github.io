@@ -424,8 +424,8 @@ Successfully started reassignment of partitions.
 }]
 }
 &lt;/code>&lt;/pre>&lt;p>注意 &lt;code>log_dirs&lt;/code> 里面的数量要和 &lt;code>replicas&lt;/code> 数量匹配；或者直接把 &lt;code>log_dirs&lt;/code> 选项删除掉；这个 &lt;code>log_dirs&lt;/code> 是副本跨路径迁移时候的绝对路径。&lt;/p>
-&lt;h4 id="212执行execute">2.1.2、执行&amp;lt;code&amp;gt;–execute&amp;lt;/code&amp;gt;&lt;/h4>&lt;p>如果想在重新平衡期间修改限制，增加吞吐量，以便完成的更快。可以重新运行 execute 命令，用相同的 &lt;code>reassignment-json-file&lt;/code>。&lt;/p>
-&lt;h4 id="213验证verify">2.1.3、验证&amp;lt;code&amp;gt;–verify&amp;lt;/code&amp;gt;&lt;/h4>&lt;p>副本数量增加了。&lt;/p>
+&lt;h4 id="212执行execute">2.1.2、执行&lt;code>–execute&lt;/code>&lt;/h4>&lt;p>如果想在重新平衡期间修改限制，增加吞吐量，以便完成的更快。可以重新运行 execute 命令，用相同的 &lt;code>reassignment-json-file&lt;/code>。&lt;/p>
+&lt;h4 id="213验证verify">2.1.3、验证&lt;code>–verify&lt;/code>&lt;/h4>&lt;p>副本数量增加了。&lt;/p>
 &lt;h3 id="22副本缩容">2.2、副本缩容&lt;/h3>&lt;p>副本缩容跟扩容是一个意思；当副本分配少于之前的数量时候，多出来的副本会被删除。
 比如刚刚新增了一个副本，想重新恢复到一个副本。&lt;/p>
 &lt;pre tabindex="0">&lt;code>{
@@ -1080,7 +1080,7 @@ zookeeper-security-migration.sh todo
 zookeeper-server-start.sh 启动 zk 服务
 zookeeper-server-stop.sh 停止 zk 服务
 zookeeper-shell.sh zk 客户端
-&lt;/code>&lt;/pre>&lt;h3 id="2connect-distributedshconnect-standalonesh">2、connect-distributed.sh&amp;amp;amp;connect-standalone.sh&lt;/h3>&lt;p>Kafka Connect 是在 0.9 以后加入的功能，主要是用来将其他系统的数据导入到 Kafka, 然后再将 Kafka 中的数据导出到另外的系统。可以用来做实时数据同步的 ETL，数据实时分析处理等。
+&lt;/code>&lt;/pre>&lt;h3 id="2connect-distributedshconnect-standalonesh">2、connect-distributed.sh&amp;amp;connect-standalone.sh&lt;/h3>&lt;p>Kafka Connect 是在 0.9 以后加入的功能，主要是用来将其他系统的数据导入到 Kafka, 然后再将 Kafka 中的数据导出到另外的系统。可以用来做实时数据同步的 ETL，数据实时分析处理等。
 主要有 2 种模式：Standalone（单机模式）和 Distribute（分布式模式）。
 单机主要用来开发，测试，分布式的用于生产环境。&lt;/p>
 &lt;h3 id="3kafka-broker-api-versionssh">3、kafka-broker-api-versions.sh&lt;/h3>&lt;pre tabindex="0">&lt;code>bin/kafka-broker-api-versions.sh --bootstrap-server 10.0.55.229:9092,10.0.55.229:9093,10.0.55.229:9094
@@ -1289,7 +1289,7 @@ numChildren = 0
 &lt;li>&lt;code>SASL/SCRAM-SHA-256 和 SASL/SCRAM-SHA-512 - starting at version 0.10.2.0&lt;/code>。通过将认证信息保存在 ZooKeeper 里面，从而动态的获取用户信息，相当于把 ZK 用作一个认证中心使用。这种认证可以在使用过程中，使用 Kafka 提供的命令动态地创建和删除用户，无需重启整个集群，十分方便。官方文档详见 &lt;a href="https://kafka.apache.org/33/documentation.html#security_sasl_scram">Authentication using SASL/SCRAM&lt;/a> 。&lt;/li>
 &lt;li>&lt;code>SASL/OAUTHBEARER - starting at version 2.0&lt;/code>。Kafka 引入的新认证机制，主要是为了实现与 OAuth2 框架的集成，Kafka 不提倡单纯使用 OAUTHBEARER，因为它生成的不安全 Json Web Token，必须配以 SSL 加密才能在生产环境中使用。官方文档详见 &lt;a href="https://kafka.apache.org/33/documentation.html#security_sasl_oauthbearer">Authentication using SASL/OAUTHBEARER&lt;/a> 。&lt;/li>
 &lt;/ul>
-&lt;h2 id="二saslacl-实现用户及权限认证">二、SASL&amp;#43;ACL 实现用户及权限认证&lt;/h2>&lt;h3 id="21下载">2.1、下载&lt;/h3>&lt;pre tabindex="0">&lt;code>wget https://repo.huaweicloud.com/apache/kafka/3.3.1/kafka_2.12-3.3.1.tgz -P /data
+&lt;h2 id="二saslacl-实现用户及权限认证">二、SASL+ACL 实现用户及权限认证&lt;/h2>&lt;h3 id="21下载">2.1、下载&lt;/h3>&lt;pre tabindex="0">&lt;code>wget https://repo.huaweicloud.com/apache/kafka/3.3.1/kafka_2.12-3.3.1.tgz -P /data
 cd /data
 tar -zxf kafka_2.12-3.3.1.tgz
 ln -s kafka_2.12-3.3.1 kafka
@@ -3518,7 +3518,7 @@ properties.put (ProducerConfig.PARTITIONER_CLASS_CONFIG,&amp;#34;com.atguigu.kaf
 &lt;/code>&lt;/pre>&lt;p>2、在 IDEA 控制台观察回调信息。&lt;/p>
 &lt;pre tabindex="0">&lt;code>主题：first-&amp;gt; 分区：0
 主题：first-&amp;gt; 分区：0
-&lt;/code>&lt;/pre>&lt;h2 id="五生产经验----生产者如何提高吞吐量">五、生产经验 &amp;amp;ndash; 生产者如何提高吞吐量&lt;/h2>&lt;ul>
+&lt;/code>&lt;/pre>&lt;h2 id="五生产经验----生产者如何提高吞吐量">五、生产经验 &amp;ndash; 生产者如何提高吞吐量&lt;/h2>&lt;ul>
 &lt;li>&lt;code>batch.size&lt;/code>：批次大小，默认 16k。&lt;/li>
 &lt;li>&lt;code>linger.ms&lt;/code>：等待时间，修改为 5-100ms。&lt;/li>
 &lt;li>&lt;code>compression.type&lt;/code>：压缩 snappy。&lt;/li>
@@ -3569,7 +3569,7 @@ properties.put (ProducerConfig.PARTITIONER_CLASS_CONFIG,&amp;#34;com.atguigu.kaf
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop103 kafka]$ bin/kafka-console-consumer.sh -bootstrap-server hadoop102:9092 --topic first
 &lt;/code>&lt;/pre>&lt;p>2、在 IDEA 中执行代码，观察 hadoop102 控制台中是否接收到消息。&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ bin/kafka-console-consumer.sh -bootstrap-server hadoop102:9092 --topic first
-&lt;/code>&lt;/pre>&lt;h2 id="六生产经验----数据可靠性">六、生产经验 &amp;amp;ndash; 数据可靠性&lt;/h2>&lt;h3 id="61回顾发送流程">6.1、回顾发送流程&lt;/h3>&lt;ul>
+&lt;/code>&lt;/pre>&lt;h2 id="六生产经验----数据可靠性">六、生产经验 &amp;ndash; 数据可靠性&lt;/h2>&lt;h3 id="61回顾发送流程">6.1、回顾发送流程&lt;/h3>&lt;ul>
 &lt;li>&lt;code>batch.size&lt;/code>：只有数据积累到 batch.size 之后，sender 才会发送数据。默认 16k&lt;/li>
 &lt;li>&lt;code>linger.ms&lt;/code>：如果数据迟迟未达到 batch.size，sender 等待 linger.time 之后就会发送数据。单位 ms，默认值是 0ms，表示没有延迟。&lt;/li>
 &lt;li>&lt;code>acks&lt;/code>
@@ -3638,7 +3638,7 @@ acks: -1（all）：生产者发送过来的数据，Leader 和 ISR 队列里面
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> kafkaProducer.&lt;span style="color:#a6e22e">close&lt;/span> ();
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="七生产经验----数据去重">七、生产经验 &amp;amp;ndash; 数据去重&lt;/h2>&lt;h3 id="71数据传递语义">7.1、数据传递语义&lt;/h3>&lt;p>至少一次（AtLeast Once）= ACK 级别设置为 - 1 + 分区副本大于等于 2 + ISR 里应答的最小副本数量大于等于 2。&lt;br>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="七生产经验----数据去重">七、生产经验 &amp;ndash; 数据去重&lt;/h2>&lt;h3 id="71数据传递语义">7.1、数据传递语义&lt;/h3>&lt;p>至少一次（AtLeast Once）= ACK 级别设置为 - 1 + 分区副本大于等于 2 + ISR 里应答的最小副本数量大于等于 2。&lt;br>
 最多一次（AtMostOnce）= ACK 级别设置为 0。&lt;/p>
 &lt;p>总结： &lt;br>
 &lt;code>At Least Once&lt;/code> 可以保证数据不丢失，但是不能保证数据不重复；&lt;br>
@@ -3677,8 +3677,8 @@ kafkaProducer.beginTransaction ();
 kafkaProducer.commitTransaction ();
 // 终止事务
 kafkaProducer.abortTransaction ();
-&lt;/code>&lt;/pre>&lt;h2 id="八生产经验----数据有序">八、生产经验 &amp;amp;ndash; 数据有序&lt;/h2>&lt;p>&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E7%94%9F%E4%BA%A7%E8%80%85/626550217.png">&lt;/p>
-&lt;h2 id="九生产经验----数据乱序">九、生产经验 &amp;amp;ndash; 数据乱序&lt;/h2>&lt;p>&lt;code>max.in.flight.requests.per.connection&lt;/code> 表示每个连接上最大的未完成请求数。具体来说，它限制了一个生产者在与代理节点（broker）建立的连接上能够有多少个未完成的请求。&lt;br>
+&lt;/code>&lt;/pre>&lt;h2 id="八生产经验----数据有序">八、生产经验 &amp;ndash; 数据有序&lt;/h2>&lt;p>&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E7%94%9F%E4%BA%A7%E8%80%85/626550217.png">&lt;/p>
+&lt;h2 id="九生产经验----数据乱序">九、生产经验 &amp;ndash; 数据乱序&lt;/h2>&lt;p>&lt;code>max.in.flight.requests.per.connection&lt;/code> 表示每个连接上最大的未完成请求数。具体来说，它限制了一个生产者在与代理节点（broker）建立的连接上能够有多少个未完成的请求。&lt;br>
 将其设置为 1 意味着生产者在向代理节点发送请求时，必须等待之前的请求完成（即收到响应）后才能发送下一个请求。这可以确保请求按顺序进行处理，并且避免了一次性发送过多的请求，从而提高了系统的稳定性和可靠性。&lt;/p>
 &lt;p>1）kafka 在 1.x 版本之前保证数据单分区有序，条件如下：&lt;br>
 &lt;code>max.in.flight.requests.per.connection=1&lt;/code>（不需要考虑是否开启幂等性）。&lt;br>

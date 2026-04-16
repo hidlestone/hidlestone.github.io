@@ -95,7 +95,7 @@ User &amp;#34;dashboard-admin&amp;#34; set.
 Context &amp;#34;dashboard-admin@kubernetes&amp;#34; created.
 &lt;/code>&lt;/pre>&lt;h3 id="87将上下文的配置信息也写入文件中同一个文件">8.7、将上下文的配置信息也写入文件中（同一个文件）&lt;/h3>&lt;pre tabindex="0">&lt;code>[root@k8s-master-001 ~]# kubectl config use-context dashboard-admin@kubernetes --kubeconfig=/root/.dashboard-admin.conf
 Switched to context &amp;#34;dashboard-admin@kubernetes&amp;#34;.
-&lt;/code>&lt;/pre>&lt;h3 id="88最后将配置信息dashboard-adminconf下载到本地">8.8、最后将配置信息&amp;lt;code&amp;gt;.dashboard-admin.conf&amp;lt;/code&amp;gt;下载到本地&lt;/h3>&lt;pre tabindex="0">&lt;code>[root@k8s-master-001 ~]# sz /root/.dashboard-admin.conf
+&lt;/code>&lt;/pre>&lt;h3 id="88最后将配置信息dashboard-adminconf下载到本地">8.8、最后将配置信息&lt;code>.dashboard-admin.conf&lt;/code>下载到本地&lt;/h3>&lt;pre tabindex="0">&lt;code>[root@k8s-master-001 ~]# sz /root/.dashboard-admin.conf
 &lt;/code>&lt;/pre>&lt;p>浏览器选择 Kubeconfig 方式登录。&lt;/p>
 &lt;p>参考：
 &lt;a href="https://blog.csdn.net/mushuangpanny/article/details/126944780">https://blog.csdn.net/mushuangpanny/article/details/126944780&lt;/a>
@@ -1000,7 +1000,7 @@ rules: # 规则
 resources: [&amp;#34;secrets&amp;#34;]
 # 操作当前集群角色的对象为 secrets，他的组和版本为核心组 v1 版，所以上方可以不写。
 verbs: [&amp;#34;get&amp;#34;, &amp;#34;watch&amp;#34;, &amp;#34;list&amp;#34;] # 允许的操作类型
-&lt;/code>&lt;/pre>&lt;h4 id="313角色绑定rolebinding--集群角色绑定clusterrolebinding">3.1.3、角色绑定(RoleBinding) &amp;amp;amp; 集群角色绑定(ClusterRoleBinding)&lt;/h4>&lt;p>角色绑定或集群角色绑定用来把一个角色绑定到一个目标上，绑定目标可以是 User、 Group 或者 Service Account。使用 &lt;code>RoleBinding 为某个命名空间授权， ClusterRoleBinding 为集群范围内授权&lt;/code>。&lt;br>
+&lt;/code>&lt;/pre>&lt;h4 id="313角色绑定rolebinding--集群角色绑定clusterrolebinding">3.1.3、角色绑定(RoleBinding) &amp;amp; 集群角色绑定(ClusterRoleBinding)&lt;/h4>&lt;p>角色绑定或集群角色绑定用来把一个角色绑定到一个目标上，绑定目标可以是 User、 Group 或者 Service Account。使用 &lt;code>RoleBinding 为某个命名空间授权， ClusterRoleBinding 为集群范围内授权&lt;/code>。&lt;br>
 RoleBinding 可以引用 Role 进行授权。下例将在 default 命名空间中把 pod-reader 角色授予用户 jane，可以让 jane 用户读取 default 命名空间的 Pod：&lt;br>
 &lt;code>rolebinding.yaml&lt;/code>&lt;/p>
 &lt;pre tabindex="0">&lt;code>kind: RoleBinding # 角色绑定类型
@@ -1751,7 +1751,7 @@ kubectl get pod
 #再次查看，已处于error状态。
 #文件被删除，存活探测失败
 kubectl get pod
-&lt;/code>&lt;/pre>&lt;h3 id="73livenessprobe-tcp--检测端口模板">7.3、livenessProbe-tcp&amp;amp;ndash;检测端口模板&lt;/h3>&lt;pre tabindex="0">&lt;code>apiVersion: v1
+&lt;/code>&lt;/pre>&lt;h3 id="73livenessprobe-tcp--检测端口模板">7.3、livenessProbe-tcp&amp;ndash;检测端口模板&lt;/h3>&lt;pre tabindex="0">&lt;code>apiVersion: v1
 kind: Pod
 metadata:
 name: probe-tcp
@@ -3573,7 +3573,7 @@ sysctl --system # 生效
 &lt;/code>&lt;/pre>&lt;p>7、时间同步：&lt;/p>
 &lt;pre tabindex="0">&lt;code>yum install ntpdate -y
 ntpdate time.windows.com
-&lt;/code>&lt;/pre>&lt;h3 id="27所有节点安装-dockerkubeadmkubelet">2.7、所有节点安装 &amp;lt;code&amp;gt;Docker/kubeadm/kubelet&amp;lt;/code&amp;gt;&lt;/h3>&lt;p>Kubernetes 默认 CRI（容器运行时）为 Docker，因此先安装 Docker。 &lt;br>
+&lt;/code>&lt;/pre>&lt;h3 id="27所有节点安装-dockerkubeadmkubelet">2.7、所有节点安装 &lt;code>Docker/kubeadm/kubelet&lt;/code>&lt;/h3>&lt;p>Kubernetes 默认 CRI（容器运行时）为 Docker，因此先安装 Docker。 &lt;br>
 （1）安装 Docker&lt;/p>
 &lt;pre tabindex="0">&lt;code>yum install wget
 wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo -O /etc/yum.repos.d/docker-ce.repo
@@ -3741,7 +3741,7 @@ sudo systemctl start containerd # 如果使用 containerd
 &lt;pre tabindex="0">&lt;code>sudo systemctl start kubelet
 &lt;/code>&lt;/pre>&lt;p>3、取消节点的驱逐状态：&lt;/p>
 &lt;pre tabindex="0">&lt;code>kubectl uncordon &amp;lt;node-name&amp;gt;
-&lt;/code>&lt;/pre>&lt;h2 id="四问题卸载">四、问题&amp;amp;amp;卸载&lt;/h2>&lt;p>之前有使用 kubeadm 安装过，需要提前把之前的 kube 文件删除掉。&lt;/p>
+&lt;/code>&lt;/pre>&lt;h2 id="四问题卸载">四、问题&amp;amp;卸载&lt;/h2>&lt;p>之前有使用 kubeadm 安装过，需要提前把之前的 kube 文件删除掉。&lt;/p>
 &lt;pre tabindex="0">&lt;code>rm -rf $HOME/.kube
 &lt;/code>&lt;/pre>&lt;p>查看 token 信息以及生成永久 token。&lt;br>
 查看存在的 token：&lt;/p>
