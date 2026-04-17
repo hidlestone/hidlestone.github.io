@@ -3292,65 +3292,69 @@ YAML 是一个可读性高，用来表达数据序列的格式。&lt;/p>
 &lt;h4 id="122yaml-基本语法">1.2.2、YAML 基本语法&lt;/h4>&lt;p>使用空格做为缩进。&lt;br>
 缩进的空格数目不重要，只要相同层级的元素左侧对齐即可。&lt;br>
 低版本缩进时不允许使用 Tab 键，只允许使用空格。&lt;br>
-使用#标识注释，从这个字符一直到行尾，都会被解释器忽略。&lt;/p>
-&lt;h4 id="123yaml-支持的数据结构">1.2.3、YAML 支持的数据结构&lt;/h4>&lt;p>对象：&lt;br>
-键值对的集合，又称为映射（mapping） / 哈希（hashes） / 字典（dictionary）。&lt;br>
-数组：&lt;br>
-一组按次序排列的值，又称为序列（sequence） / 列表 （list）。&lt;br>
-纯量（scalars）： &lt;br>
-单个的、不可再分的值。&lt;/p>
+使用 #标识注释，从这个字符一直到行尾，都会被解释器忽略。&lt;/p>
+&lt;h4 id="123yaml-支持的数据结构">1.2.3、YAML 支持的数据结构&lt;/h4>&lt;ul>
+&lt;li>对象：&lt;br>
+键值对的集合，又称为映射（mapping） / 哈希（hashes） / 字典（dictionary）。&lt;/li>
+&lt;li>数组：&lt;br>
+一组按次序排列的值，又称为序列（sequence） / 列表 （list）。&lt;/li>
+&lt;li>纯量（scalars）： &lt;br>
+单个的、不可再分的值。&lt;/li>
+&lt;/ul>
 &lt;h3 id="13资源清单描述方法">1.3、资源清单描述方法&lt;/h3>&lt;p>（1）在 k8s 中，一般使用 YAML 格式的文件来创建符合我们预期期望的 pod，这样的 YAML 文件称为资源清单。&lt;br>
 （2）常用字段&lt;br>
 必须存在的属性：&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>version&lt;/code> String，K8S API 的版本，目前基本是 v1，可以用 kubectl api-versions 命令查询&lt;/li>
-&lt;li>&lt;code>kind&lt;/code> String，这里指的是 yaml 文件定义的资源类型和角色, 比如: Pod&lt;/li>
+&lt;li>&lt;code>kind&lt;/code> String，这里指的是 yaml 文件定义的资源类型和角色，比如: Pod&lt;/li>
 &lt;li>&lt;code>metadata&lt;/code> Object，元数据对象，固定值写 metadata&lt;/li>
-&lt;li>&lt;code>metadata.name&lt;/code> String，元数据对象的名字，这里由我们编写，比如命名Pod的名字&lt;/li>
+&lt;li>&lt;code>metadata.name&lt;/code> String，元数据对象的名字，这里由我们编写，比如命名 Pod 的名字&lt;/li>
 &lt;li>&lt;code>metadata.namespace&lt;/code> String，元数据对象的命名空间，由我们自身定义&lt;/li>
-&lt;li>&lt;code>Spec&lt;/code> Object，详细定义对象，固定值写Spec&lt;/li>
-&lt;li>&lt;code>spec.container[]&lt;/code> list，这里是Spec对象的容器列表定义，是个列表&lt;/li>
-&lt;li>&lt;code>spec.container[].name&lt;/code> String，这里定义容器的名字&lt;/li>
-&lt;li>&lt;code>spec.container[].image&lt;/code> String，这里定义要用到的镜像名称&lt;/li>
-&lt;li>&lt;code>spec.containers[].imagePullPolicy&lt;/code> String，定义镜像拉取策略，有 Always，Never，IfNotPresent 三个值可选。
-（1）Always：意思是每次尝试重新拉取镜像
-（2）Never：表示仅使用本地镜像
-（3）IfNotPresent：如果本地有镜像就是用本地镜像，没有就拉取在线镜像。
-上面三个值都没设置的话，默认是 Always.&lt;/li>
-&lt;li>&lt;code>spec.containers[].command[]&lt;/code> List，指定容器启动命令，因为是数组可以指定多个，不指定则使用镜像打包时使用的启动命令。&lt;/li>
-&lt;li>&lt;code>spec.containers[].args[]&lt;/code> List，指定容器启动命令参数，因为是数组可以指定多个。&lt;/li>
-&lt;li>&lt;code>spec.containers[].workingDir&lt;/code> String，指定容器的工作目录&lt;/li>
-&lt;li>&lt;code>spec.containers[].volumeMounts[]&lt;/code> List，指定容器内部的存储卷配置&lt;/li>
-&lt;li>&lt;code>spec.containers[].volumeMounts[].name&lt;/code> String，指定可以被容器挂载的存储卷的名称&lt;/li>
-&lt;li>&lt;code>spec.containers[].volumeMounts[].mountPath&lt;/code> String，指定可以被容器挂载的容器卷的路径&lt;/li>
-&lt;li>&lt;code>spec.containers[].volumeMounts[].readOnly&lt;/code> String，设置存储卷路径的读写模式，true 或者 false，默认为读写模式&lt;/li>
-&lt;li>&lt;code>spec.containers[].ports[]&lt;/code> List，指定容器需要用到的端口列表&lt;/li>
-&lt;li>&lt;code>spec.containers[].ports[].name&lt;/code> String，指定端口名称&lt;/li>
-&lt;li>&lt;code>spec.containers[].ports[].containerPort&lt;/code> String，指定容器需要监听的端口号&lt;/li>
-&lt;li>&lt;code>spec.containers[].ports.hostPort&lt;/code> String，指定容器所在主机需要监听的端口号，默认跟上面 containerPort 相同，注意设置了 hostPort 同一台主机无法启动该容器的相同副本（因为主机的端口号不能相同，这样会冲突）&lt;/li>
-&lt;li>&lt;code>spec.containers[].ports[].protocol&lt;/code> String，指定端口协议，支持TCP和UDP，默认值为TCP&lt;/li>
-&lt;li>&lt;code>spec.containers[].env[]&lt;/code> List，指定容器运行千需设置的环境变量列表&lt;/li>
-&lt;li>&lt;code>spec.containers[].env[].name&lt;/code> String，指定环境变量名称&lt;/li>
-&lt;li>&lt;code>spec.containers[].env[].value&lt;/code> String，指定环境变量值&lt;/li>
-&lt;li>&lt;code>spec.containers[].resources&lt;/code> Object，指定资源限制和资源请求的值（这里开始就是设置容器的资源上限）&lt;/li>
-&lt;li>&lt;code>spec.containers[].resources.limits&lt;/code> Object，指定设置容器运行时资源的运行上限&lt;/li>
-&lt;li>&lt;code>spec.containers[].resources.limits.cpu&lt;/code> String，指定CPU的限制，单位为 core 数，将用于 docker run &amp;ndash;cpu-shares 参数&lt;/li>
-&lt;li>&lt;code>spec.containers[].resources.limits.memory&lt;/code> String，指定 MEM 内存的限制，单位为 MIB，GIB&lt;/li>
-&lt;li>&lt;code>spec.containers[].resources.requests&lt;/code> Object，指定容器启动和调度室的限制设置&lt;/li>
-&lt;li>&lt;code>spec.containers[].resources.requests.cpu&lt;/code> String，CPU请求，单位为 core 数，容器启动时初始化可用数量&lt;/li>
-&lt;li>&lt;code>spec.containers[].resources.requests.memory&lt;/code> String，内存请求，单位为 MIB，GIB 容器启动的初始化可用数量&lt;/li>
+&lt;li>&lt;code>Spec&lt;/code> Object，详细定义对象，固定值写 Spec&lt;/li>
+&lt;li>&lt;code>spec.container []&lt;/code> list，这里是 Spec 对象的容器列表定义，是个列表&lt;/li>
+&lt;li>&lt;code>spec.container [].name&lt;/code> String，这里定义容器的名字&lt;/li>
+&lt;li>&lt;code>spec.container [].image&lt;/code> String，这里定义要用到的镜像名称&lt;/li>
+&lt;li>&lt;code>spec.containers [].imagePullPolicy&lt;/code> String，定义镜像拉取策略，有 Always，Never，IfNotPresent 三个值可选。
+&lt;ul>
+&lt;li>Always：意思是每次尝试重新拉取镜像&lt;/li>
+&lt;li>Never：表示仅使用本地镜像&lt;/li>
+&lt;li>IfNotPresent：如果本地有镜像就是用本地镜像，没有就拉取在线镜像。上面三个值都没设置的话，默认是 Always。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;code>spec.containers [].command []&lt;/code> List，指定容器启动命令，因为是数组可以指定多个，不指定则使用镜像打包时使用的启动命令。&lt;/li>
+&lt;li>&lt;code>spec.containers [].args []&lt;/code> List，指定容器启动命令参数，因为是数组可以指定多个。&lt;/li>
+&lt;li>&lt;code>spec.containers [].workingDir&lt;/code> String，指定容器的工作目录&lt;/li>
+&lt;li>&lt;code>spec.containers [].volumeMounts []&lt;/code> List，指定容器内部的存储卷配置&lt;/li>
+&lt;li>&lt;code>spec.containers [].volumeMounts [].name&lt;/code> String，指定可以被容器挂载的存储卷的名称&lt;/li>
+&lt;li>&lt;code>spec.containers [].volumeMounts [].mountPath&lt;/code> String，指定可以被容器挂载的容器卷的路径&lt;/li>
+&lt;li>&lt;code>spec.containers [].volumeMounts [].readOnly&lt;/code> String，设置存储卷路径的读写模式，true 或者 false，默认为读写模式&lt;/li>
+&lt;li>&lt;code>spec.containers [].ports []&lt;/code> List，指定容器需要用到的端口列表&lt;/li>
+&lt;li>&lt;code>spec.containers [].ports [].name&lt;/code> String，指定端口名称&lt;/li>
+&lt;li>&lt;code>spec.containers [].ports [].containerPort&lt;/code> String，指定容器需要监听的端口号&lt;/li>
+&lt;li>&lt;code>spec.containers [].ports.hostPort&lt;/code> String，指定容器所在主机需要监听的端口号，默认跟上面 containerPort 相同，注意设置了 hostPort 同一台主机无法启动该容器的相同副本（因为主机的端口号不能相同，这样会冲突）&lt;/li>
+&lt;li>&lt;code>spec.containers [].ports [].protocol&lt;/code> String，指定端口协议，支持 TCP 和 UDP，默认值为 TCP&lt;/li>
+&lt;li>&lt;code>spec.containers [].env []&lt;/code> List，指定容器运行千需设置的环境变量列表&lt;/li>
+&lt;li>&lt;code>spec.containers [].env [].name&lt;/code> String，指定环境变量名称&lt;/li>
+&lt;li>&lt;code>spec.containers [].env [].value&lt;/code> String，指定环境变量值&lt;/li>
+&lt;li>&lt;code>spec.containers [].resources&lt;/code> Object，指定资源限制和资源请求的值（这里开始就是设置容器的资源上限）&lt;/li>
+&lt;li>&lt;code>spec.containers [].resources.limits&lt;/code> Object，指定设置容器运行时资源的运行上限&lt;/li>
+&lt;li>&lt;code>spec.containers [].resources.limits.cpu&lt;/code> String，指定 CPU 的限制，单位为 core 数，将用于 docker run &amp;ndash;cpu-shares 参数&lt;/li>
+&lt;li>&lt;code>spec.containers [].resources.limits.memory&lt;/code> String，指定 MEM 内存的限制，单位为 MIB，GIB&lt;/li>
+&lt;li>&lt;code>spec.containers [].resources.requests&lt;/code> Object，指定容器启动和调度室的限制设置&lt;/li>
+&lt;li>&lt;code>spec.containers [].resources.requests.cpu&lt;/code> String，CPU 请求，单位为 core 数，容器启动时初始化可用数量&lt;/li>
+&lt;li>&lt;code>spec.containers [].resources.requests.memory&lt;/code> String，内存请求，单位为 MIB，GIB 容器启动的初始化可用数量&lt;/li>
 &lt;/ul>
 &lt;p>额外的参数&lt;/p>
 &lt;ul>
-&lt;li>&lt;code>spec.restartPolicy&lt;/code> String，定义Pod重启策略，可以选择值为 Always、OnFailure，默认值为 Always。
+&lt;li>&lt;code>spec.restartPolicy&lt;/code> String，定义 Pod 重启策略，可以选择值为 Always、OnFailure，默认值为 Always。
 &lt;ul>
-&lt;li>Always：Pod一旦终止运行，则无论容器是如何终止的，kubelet 服务都将重启它。&lt;/li>
-&lt;li>OnFailure：只有 Pod 以非零退出码终止时，kubelet 才会重启该容器。如果容器正常结束（退出码为0），则 kubelet 将不会重启它。&lt;/li>
+&lt;li>Always：Pod 一旦终止运行，则无论容器是如何终止的，kubelet 服务都将重启它。&lt;/li>
+&lt;li>OnFailure：只有 Pod 以非零退出码终止时，kubelet 才会重启该容器。如果容器正常结束（退出码为 0），则 kubelet 将不会重启它。&lt;/li>
 &lt;li>Never：Pod 终止后，kubelet 将退出码报告给 Master，不会重启该 Pod&lt;/li>
 &lt;/ul>
 &lt;/li>
 &lt;li>&lt;code>spec.nodeSelector&lt;/code> Object，定义 Node 的 Label 过滤标签，以 key:value 格式指定&lt;/li>
-&lt;li>&lt;code>spec.imagePullSecrets&lt;/code> Object，定义pull 镜像是使用 secret 名称，以 name:secretkey 格式指定&lt;/li>
+&lt;li>&lt;code>spec.imagePullSecrets&lt;/code> Object，定义 pull 镜像是使用 secret 名称，以 name:secretkey 格式指定&lt;/li>
 &lt;li>&lt;code>spec.hostNetwork&lt;/code> Boolean，定义是否使用主机网络模式，默认值为 false。设置 true 表示使用宿主机网络，不使用 docker 网桥，同时设置了 true 将无法在同一台宿主机上启动第二个副本。&lt;/li>
 &lt;/ul>
 &lt;h2 id="二kubernetes-集群命令行工具-kubectl">二、kubernetes 集群命令行工具 kubectl&lt;/h2>&lt;h3 id="21kubectl-概述">2.1、kubectl 概述&lt;/h3>&lt;p>kubectl 是 Kubernetes 集群的命令行工具，通过 kubectl 能够对集群本身进行管理，并能够在集群上进行容器化应用的安装部署。&lt;/p>
@@ -3359,9 +3363,12 @@ YAML 是一个可读性高，用来表达数据序列的格式。&lt;/p>
 &lt;li>&lt;code>comand&lt;/code>：指定要对资源执行的操作，例如 &lt;code>create、get、describe 和 delete&lt;/code>。&lt;/li>
 &lt;li>&lt;code>TYPE&lt;/code>：指定资源类型，资源类型是大小写敏感的，开发者能够以单数、复数和缩略的形式。&lt;/li>
 &lt;li>&lt;code>NAME&lt;/code>：指定资源的名称，名称也大小写敏感的。如果省略名称，则会显示所有的资源。&lt;/li>
-&lt;li>&lt;code>flags&lt;/code>：指定可选的参数。例如，可用&lt;code>-s&lt;/code>或者&lt;code>–server&lt;/code>参数指定 Kubernetes API server 的地址和端口。&lt;/li>
+&lt;li>&lt;code>flags&lt;/code>：指定可选的参数。例如，可用 &lt;code>-s&lt;/code> 或者 &lt;code>–server&lt;/code> 参数指定 Kubernetes API server 的地址和端口。&lt;/li>
 &lt;/ul>
-&lt;h3 id="23kubectl-help-获取更多信息">2.3、kubectl help 获取更多信息&lt;/h3>&lt;pre tabindex="0">&lt;code>[root@k8smaster ~]# kubectl --help
+&lt;h3 id="23kubectl-help-获取更多信息">2.3、kubectl help 获取更多信息&lt;/h3>&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>kubectl --help&lt;/code>&lt;/summary>
+&lt;pre tabindex="0">&lt;code>[root@k8smaster ~]# kubectl --help
 kubectl controls the Kubernetes cluster manager.
 Find more information at: https://kubernetes.io/docs/reference/kubectl/overview/
 Basic Commands (Beginner):
@@ -3398,9 +3405,9 @@ cp 复制 files 和 directories 到 containers 和从容器中复制 files 和 d
 auth Inspect authorization
 Advanced Commands:
 diff Diff live version against would-be applied version
-apply 通过文件名或标准输入流(stdin)对资源进行配置
-patch 使用 strategic merge patch 更新一个资源的 field(s)
-replace 通过 filename 或者 stdin替换一个资源
+apply 通过文件名或标准输入流 (stdin) 对资源进行配置
+patch 使用 strategic merge patch 更新一个资源的 field (s)
+replace 通过 filename 或者 stdin 替换一个资源
 wait Experimental: Wait for a specific condition on one or many resources.
 convert 在不同的 API versions 转换配置文件
 kustomize Build a kustomization target from a directory or a remote url.
@@ -3419,10 +3426,13 @@ Usage:
 kubectl [flags] [options]
 Use &amp;#34;kubectl &amp;lt;command&amp;gt; --help&amp;#34; for more information about a given command.
 Use &amp;#34;kubectl options&amp;#34; for a list of global command-line options (applies to all commands).
-&lt;/code>&lt;/pre>&lt;h3 id="24kubectl-子命令使用分类">2.4、kubectl 子命令使用分类&lt;/h3>&lt;p>（1）基础命令&lt;/p>
+&lt;/code>&lt;/pre>
+&lt;/details>
+&lt;/p>
+&lt;h3 id="24kubectl-子命令使用分类">2.4、kubectl 子命令使用分类&lt;/h3>&lt;p>（1）基础命令&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>create&lt;/code> 通过文件名或标准办输入创建资源&lt;/li>
-&lt;li>&lt;code>expose&lt;/code> 将一个资源公开为一个新的Service&lt;/li>
+&lt;li>&lt;code>expose&lt;/code> 将一个资源公开为一个新的 Service&lt;/li>
 &lt;li>&lt;code>run&lt;/code> 在集群中运行一个特定的镜像&lt;/li>
 &lt;li>&lt;code>set&lt;/code> 在对象上设置特定的镜像&lt;/li>
 &lt;li>&lt;code>get&lt;/code> 显示一个或多个资源&lt;/li>
@@ -3434,24 +3444,24 @@ Use &amp;#34;kubectl options&amp;#34; for a list of global command-line options 
 &lt;ul>
 &lt;li>&lt;code>rollout&lt;/code> 管理资源的发布&lt;/li>
 &lt;li>&lt;code>rolling-update&lt;/code> 对给定的复制控制器滚动更新&lt;/li>
-&lt;li>&lt;code>scale&lt;/code> 扩容或缩容Pod数时，Deployment、ReplicaSet、RC或Job&lt;/li>
-&lt;li>&lt;code>autoacale&lt;/code> 创建一个自动选择扩容或缩容并设置Pod数量&lt;/li>
+&lt;li>&lt;code>scale&lt;/code> 扩容或缩容 Pod 数时，Deployment、ReplicaSet、RC 或 Job&lt;/li>
+&lt;li>&lt;code>autoacale&lt;/code> 创建一个自动选择扩容或缩容并设置 Pod 数量&lt;/li>
 &lt;li>&lt;code>certificate&lt;/code> 修改证书资源&lt;/li>
 &lt;li>&lt;code>cluster-info&lt;/code> 显示集群信息&lt;/li>
-&lt;li>&lt;code>top&lt;/code> 显示资源(CPU/Memory/Storage)使用。需要Heapster运行&lt;/li>
+&lt;li>&lt;code>top&lt;/code> 显示资源 (CPU/Memory/Storage) 使用。需要 Heapster 运行&lt;/li>
 &lt;li>&lt;code>cordon&lt;/code> 标记节点不可调度&lt;/li>
 &lt;li>&lt;code>uncordon&lt;/code> 标记节点可调度&lt;/li>
 &lt;li>&lt;code>drain&lt;/code> 驱逐节点上的应用，准备下线维护&lt;/li>
-&lt;li>&lt;code>taint&lt;/code> 修改节点taint标记&lt;/li>
+&lt;li>&lt;code>taint&lt;/code> 修改节点 taint 标记&lt;/li>
 &lt;/ul>
 &lt;p>（3）故障和调试命令&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>describe&lt;/code> 显示特定资源或资源组的详细信息&lt;/li>
-&lt;li>&lt;code>logs&lt;/code> 在一个Pod中打印一个容器日志，如果Pod只有一个容器，容器名称是可选的&lt;/li>
+&lt;li>&lt;code>logs&lt;/code> 在一个 Pod 中打印一个容器日志，如果 Pod 只有一个容器，容器名称是可选的&lt;/li>
 &lt;li>&lt;code>attach&lt;/code> 附加到一个运行的容器&lt;/li>
 &lt;li>&lt;code>exec&lt;/code> 执行命令到容器&lt;/li>
-&lt;li>&lt;code>port-forward&lt;/code> 转发一个或多个本地端口到一个pod&lt;/li>
-&lt;li>&lt;code>proxy&lt;/code> 运行一个proxy到Kubernetes API server&lt;/li>
+&lt;li>&lt;code>port-forward&lt;/code> 转发一个或多个本地端口到一个 pod&lt;/li>
+&lt;li>&lt;code>proxy&lt;/code> 运行一个 proxy 到 Kubernetes API server&lt;/li>
 &lt;li>&lt;code>cp&lt;/code> 拷贝文件或目录到容器中&lt;/li>
 &lt;li>&lt;code>auth&lt;/code> 检查授权&lt;/li>
 &lt;/ul>
@@ -3461,18 +3471,18 @@ Use &amp;#34;kubectl options&amp;#34; for a list of global command-line options 
 &lt;li>&lt;code>apply&lt;/code> 通过文件名或标准输入对资源应用配置&lt;/li>
 &lt;li>&lt;code>patch&lt;/code> 使用补丁修改、更新资源的字段&lt;/li>
 &lt;li>&lt;code>replace&lt;/code> 通过文件名或标准输入替换一个资源&lt;/li>
-&lt;li>&lt;code>convert&lt;/code> 不同的API版本之间转换配置文件&lt;/li>
+&lt;li>&lt;code>convert&lt;/code> 不同的 API 版本之间转换配置文件&lt;/li>
 &lt;/ul>
 &lt;p>设置命令：&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>label&lt;/code> 更新资源上的标签&lt;/li>
 &lt;li>&lt;code>annotate&lt;/code> 更新资源上的注解&lt;/li>
-&lt;li>&lt;code>completion&lt;/code> 用于实现kubectl工具自动补全&lt;/li>
+&lt;li>&lt;code>completion&lt;/code> 用于实现 kubectl 工具自动补全&lt;/li>
 &lt;/ul>
 &lt;p>其他命令：&lt;/p>
 &lt;ul>
-&lt;li>&lt;code>api-versions&lt;/code> 打印受支持的API版本&lt;/li>
-&lt;li>&lt;code>config&lt;/code> 修改kubeconfig文件(用于访问API, 比如配置认证信息)&lt;/li>
+&lt;li>&lt;code>api-versions&lt;/code> 打印受支持的 API 版本&lt;/li>
+&lt;li>&lt;code>config&lt;/code> 修改 kubeconfig 文件 (用于访问 API, 比如配置认证信息)&lt;/li>
 &lt;li>&lt;code>help&lt;/code> 所用命令帮助&lt;/li>
 &lt;li>&lt;code>plugin&lt;/code> 运行一个命令行插件&lt;/li>
 &lt;li>&lt;code>version&lt;/code> 打印客户端和服务版本信息&lt;/li>
