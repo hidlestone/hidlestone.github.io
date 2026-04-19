@@ -1844,19 +1844,19 @@ while 2&amp;gt;1;do cat /usr/share/message;done
 #再开一个终端删除pod，然后观察原终端的返回信息
 kubectl delete pod --all
 &lt;/code>&lt;/pre>&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-init%E5%AE%B9%E5%99%A8&amp;%E6%8E%A2%E9%92%88&amp;%E9%92%A9%E5%AD%90/747254920.png">&lt;/p></description></item><item><title>kubernetes | Service</title><link>https://hidlestone.github.io/blog/infrastructure/kubernetes/09-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-service/</link><pubDate>Thu, 17 Mar 2022 22:09:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/kubernetes/09-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-service/</guid><description>&lt;h2 id="一service-概述">一、Service 概述&lt;/h2>&lt;p>Service 是 Kubernetes 最核心概念，通过创建 Service，可以为一组具有相同功能的容器应用提供一个统一的入口地址，并且将请求负载分发到后端的各个容器应用上。
-目前一致的service有两个要求：标签匹配，就绪，如果不满足这两个，则无法匹配。&lt;/p>
-&lt;h2 id="二service-类型">二、service 类型&lt;/h2>&lt;h3 id="21clusterip">2.1、ClusterIp&lt;/h3>&lt;p>默认类型，自动分配一个仅 Cluster 内部可以访问的虚拟 IP。
+目前一致的 service 有两个要求：&lt;code>标签匹配，就绪&lt;/code>，如果不满足这两个，则无法匹配。&lt;/p>
+&lt;h2 id="二service-类型">二、service 类型&lt;/h2>&lt;h3 id="21clusterip">2.1、ClusterIp&lt;/h3>&lt;p>默认类型，自动分配一个仅 Cluster 内部可以访问的虚拟 IP。&lt;br>
 &lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-Service/2042009239.png">&lt;/p>
-&lt;h3 id="22nodeport节点端口">2.2、NodePort（节点端口）&lt;/h3>&lt;p>在 ClusterIP 基础上为 Service 在每台机器上绑定一个端口，这样就可以通过 &lt;code>&amp;lt;NodeIP&amp;gt;: NodePort&lt;/code> 来访问该服务。
+&lt;h3 id="22nodeport节点端口">2.2、NodePort（节点端口）&lt;/h3>&lt;p>在 ClusterIP 基础上为 Service 在每台机器上绑定一个端口，这样就可以通过 &lt;code>&amp;lt;NodeIP&amp;gt;: NodePort&lt;/code> 来访问该服务。&lt;br>
 &lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-Service/593126218.png">&lt;/p>
-&lt;h3 id="23loadbalancer">2.3、LoadBalancer&lt;/h3>&lt;p>在 NodePort 的基础上，借助 cloud provider 创建一个外部负载均衡器，并将请求转发到 &lt;code>&amp;lt;NodeIP&amp;gt;: NodePort&lt;/code>。
+&lt;h3 id="23loadbalancer">2.3、LoadBalancer&lt;/h3>&lt;p>在 NodePort 的基础上，借助 cloud provider 创建一个外部负载均衡器，并将请求转发到 &lt;code>&amp;lt;NodeIP&amp;gt;: NodePort&lt;/code>。&lt;br>
 &lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-Service/3299178964.png">&lt;/p>
-&lt;h3 id="24externalnamedns别名">2.4、ExternalName（DNS别名）&lt;/h3>&lt;p>把集群外部的服务引入到集群内部来，在集群内部直接使用。没有任何类型代理被创 建，这只有 kubernetes 1.7 或更高版本的 kube-dns 才支持。
-DNS别名解析流程：
+&lt;h3 id="24externalnamedns-别名">2.4、ExternalName（DNS 别名）&lt;/h3>&lt;p>把集群外部的服务引入到集群内部来，在集群内部直接使用。没有任何类型代理被创建，这只有 kubernetes 1.7 或更高版本的 kube-dns 才支持。
+DNS 别名解析流程：
 我们要创建一个 ExternalName 的 service（domain），当创建完 domain 以后，我们就会得到一个域名，tomcat 只要去访问到这个域名，这个域名就会经过 coredns 解析，解析到一个结果上，这个结果可能是一个域名，也可能是一个 IP，这个域名或 IP 可能指向这个 db。
 当外部的 db 的 IP 发生变化时，只要修改 domain 的别名地址就好了，例如 db 数据库原来是 bbs.aaa.com，现在是 db.aaa.com，那么只需要将 domain 的别名地址写成 db.aaa.com 即可。
 &lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-Service/798564682.png">&lt;/p>
-&lt;h2 id="三service-的定义">三、Service 的定义&lt;/h2>&lt;p>yaml 格式的 Service 定义文件。&lt;/p>
+&lt;h2 id="三service-的定义">三、Service 的定义&lt;/h2>&lt;h3 id="yaml-格式的-service-定义文件">yaml 格式的 Service 定义文件。&lt;/h3>&lt;p>&lt;strong>用户/其他 Pod&lt;/strong> &amp;ndash;&amp;gt; &lt;code>nodePort&lt;/code> (外部访问)&amp;ndash;&amp;gt; &lt;code>port&lt;/code> (Service 集群内端口) &amp;ndash;&amp;gt; &lt;code>targetPort&lt;/code> (Pod 内部程序端口)&lt;/p>
 &lt;pre tabindex="0">&lt;code>apiVersion: v1
 kind: Service
 metadata:
@@ -1870,97 +1870,322 @@ spec:
 selector: {} # 选择器，用于关联 Pod
 type: string # 可选值：ClusterIP, NodePort, LoadBalancer, ExternalName
 clusterIP: string
-sessionAffinity: string # 可选值：None, ClientIP
+sessionAffinity: string # 可选值：None, ClientIP。如果你希望同一个客户端的请求总是发往同一个 Pod（例如处理登录会话）可配置为 ClientIP。
 ports:
 - name: string
 protocol: string # 可选值：TCP, UDP, SCTP
 port: int # Service 端口
 targetPort: int # Pod 端口
 nodePort: int # 节点端口（当 type: NodePort 时使用）
-status:
+status: # 手动编写 YAML 时，通常不需要写 status 部分。那是 Kubernetes 集群在服务运行起来后，自动填入并反馈给你的运行状态信息（比如云服务商分配的公网 IP）。
 loadBalancer:
 ingress:
 - ip: string
 hostname: string
-&lt;/code>&lt;/pre>&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-Service/2894709053.png">
-&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-Service/2196169788.png">
-&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-Service/2575715227.png">&lt;/p>
-&lt;h2 id="四使用">四、使用&lt;/h2>&lt;h3 id="41clusterip-创建">4.1、ClusterIP 创建&lt;/h3>&lt;p>&lt;code>ClusterIP.yaml&lt;/code>&lt;/p>
+&lt;/code>&lt;/pre>&lt;h3 id="常用类型-spectype-的选择">常用类型 (spec.type) 的选择&lt;/h3>&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:left">类型&lt;/th>
+&lt;th style="text-align:left">场景&lt;/th>
+&lt;th style="text-align:left">说明&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:left">&lt;strong>ClusterIP&lt;/strong>&lt;/td>
+&lt;td style="text-align:left">内部通信&lt;/td>
+&lt;td style="text-align:left">&lt;strong>默认值&lt;/strong>。仅集群内可访问，用于数据库或内部微服务。&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">&lt;strong>NodePort&lt;/strong>&lt;/td>
+&lt;td style="text-align:left">测试/外网访问&lt;/td>
+&lt;td style="text-align:left">在所有节点上开启一个端口（30000-32767），通过 &lt;code>节点IP:nodePort&lt;/code> 访问。&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">&lt;strong>LoadBalancer&lt;/strong>&lt;/td>
+&lt;td style="text-align:left">生产环境&lt;/td>
+&lt;td style="text-align:left">配合云厂商（如阿里云、AWS）使用，自动创建一个公网负载均衡器。&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h3 id="参数说明">参数说明&lt;/h3>&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:left">属性名称&lt;/th>
+&lt;th style="text-align:left">取值类型&lt;/th>
+&lt;th style="text-align:left">是否必选&lt;/th>
+&lt;th style="text-align:left">取值说明&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:left">&lt;strong>version&lt;/strong>&lt;/td>
+&lt;td style="text-align:left">string&lt;/td>
+&lt;td style="text-align:left">Required&lt;/td>
+&lt;td style="text-align:left">v1&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">&lt;strong>kind&lt;/strong>&lt;/td>
+&lt;td style="text-align:left">string&lt;/td>
+&lt;td style="text-align:left">Required&lt;/td>
+&lt;td style="text-align:left">Service&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">&lt;strong>metadata&lt;/strong>&lt;/td>
+&lt;td style="text-align:left">object&lt;/td>
+&lt;td style="text-align:left">Required&lt;/td>
+&lt;td style="text-align:left">元数据&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">&lt;strong>metadata.name&lt;/strong>&lt;/td>
+&lt;td style="text-align:left">string&lt;/td>
+&lt;td style="text-align:left">Required&lt;/td>
+&lt;td style="text-align:left">Service名称&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">&lt;strong>metadata.namespace&lt;/strong>&lt;/td>
+&lt;td style="text-align:left">string&lt;/td>
+&lt;td style="text-align:left">Required&lt;/td>
+&lt;td style="text-align:left">命名空间，默认为default&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">&lt;strong>metadata.labels[]&lt;/strong>&lt;/td>
+&lt;td style="text-align:left">list&lt;/td>
+&lt;td style="text-align:left">&lt;/td>
+&lt;td style="text-align:left">自定义标签属性列表&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">&lt;strong>metadata.annotation[]&lt;/strong>&lt;/td>
+&lt;td style="text-align:left">list&lt;/td>
+&lt;td style="text-align:left">&lt;/td>
+&lt;td style="text-align:left">自定义注解属性列表&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">&lt;strong>spec&lt;/strong>&lt;/td>
+&lt;td style="text-align:left">object&lt;/td>
+&lt;td style="text-align:left">Required&lt;/td>
+&lt;td style="text-align:left">详细描述&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">&lt;strong>spec.selector[]&lt;/strong>&lt;/td>
+&lt;td style="text-align:left">list&lt;/td>
+&lt;td style="text-align:left">Required&lt;/td>
+&lt;td style="text-align:left">Label Selector配置，将选择具有指定Label标签的Pod作为管理范围&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">&lt;strong>spec.type&lt;/strong>&lt;/td>
+&lt;td style="text-align:left">string&lt;/td>
+&lt;td style="text-align:left">Required&lt;/td>
+&lt;td style="text-align:left">Service的类型，指定Service的访问方式，默认值为ClusterIP。取值范围如下：&lt;!-- raw HTML omitted -->1. &lt;strong>ClusterIP&lt;/strong>: 虚拟服务的IP，用于k8s集群内部的pod访问，在Node上kube-proxy通过设置的iptables规则进行转发。&lt;!-- raw HTML omitted -->2. &lt;strong>NodePort&lt;/strong>: 使用宿主机的端口，使得能够访问各Node的外部客户端通过Node的IP地址和端口就能访问服务。&lt;!-- raw HTML omitted -->3. &lt;strong>LoadBalancer&lt;/strong>: 使用外接负载均衡器完成到服务的负载分发，需要在spec.status.loadBalancer字段指定外部负载均衡器的IP地址，并同时定义nodePort和clusterIP，用于公有云环境。&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">&lt;strong>spec.clusterIP&lt;/strong>&lt;/td>
+&lt;td style="text-align:left">string&lt;/td>
+&lt;td style="text-align:left">&lt;/td>
+&lt;td style="text-align:left">虚拟服务的IP地址，当type=ClusterIP时，如果不指定，则系统进行自动分配。也可以手工指定。当type=LoadBalancer时，则需要指定。&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">&lt;strong>spec.sessionAffinity&lt;/strong>&lt;/td>
+&lt;td style="text-align:left">string&lt;/td>
+&lt;td style="text-align:left">&lt;/td>
+&lt;td style="text-align:left">是否支持Session，可选值为ClientIP，表示将同一个源IP地址的客户端访问请求都转发到同一个后端Pod。默认值为。&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">&lt;strong>spec.ports[]&lt;/strong>&lt;/td>
+&lt;td style="text-align:left">list&lt;/td>
+&lt;td style="text-align:left">&lt;/td>
+&lt;td style="text-align:left">Service需要暴露的端口列表&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">&lt;strong>spec.ports[].name&lt;/strong>&lt;/td>
+&lt;td style="text-align:left">string&lt;/td>
+&lt;td style="text-align:left">&lt;/td>
+&lt;td style="text-align:left">端口名称&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">&lt;strong>spec.ports[].protocol&lt;/strong>&lt;/td>
+&lt;td style="text-align:left">string&lt;/td>
+&lt;td style="text-align:left">&lt;/td>
+&lt;td style="text-align:left">端口协议，支持TCP和UDP，默认值为TCP&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">&lt;strong>spec.ports[].port&lt;/strong>&lt;/td>
+&lt;td style="text-align:left">int&lt;/td>
+&lt;td style="text-align:left">&lt;/td>
+&lt;td style="text-align:left">服务监听的端口号&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">&lt;strong>spec.ports[].targetPort&lt;/strong>&lt;/td>
+&lt;td style="text-align:left">int&lt;/td>
+&lt;td style="text-align:left">&lt;/td>
+&lt;td style="text-align:left">需要转发到后端Pod的端口号&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">&lt;strong>spec.ports[].nodePort&lt;/strong>&lt;/td>
+&lt;td style="text-align:left">int&lt;/td>
+&lt;td style="text-align:left">&lt;/td>
+&lt;td style="text-align:left">当spec.type=NodePort时，指定映射到物理机的端口号&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">&lt;strong>status&lt;/strong>&lt;/td>
+&lt;td style="text-align:left">object&lt;/td>
+&lt;td style="text-align:left">&lt;/td>
+&lt;td style="text-align:left">当spec.type=LoadBalancer时，设置外部负载均衡器的地址，用于公有云环境&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">&lt;strong>status.loadBalancer&lt;/strong>&lt;/td>
+&lt;td style="text-align:left">object&lt;/td>
+&lt;td style="text-align:left">&lt;/td>
+&lt;td style="text-align:left">外部负载均衡器&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">&lt;strong>status.loadBalancer.ingress&lt;/strong>&lt;/td>
+&lt;td style="text-align:left">object&lt;/td>
+&lt;td style="text-align:left">&lt;/td>
+&lt;td style="text-align:left">外部负载均衡器&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">&lt;strong>status.loadBalancer.ingress.ip&lt;/strong>&lt;/td>
+&lt;td style="text-align:left">string&lt;/td>
+&lt;td style="text-align:left">&lt;/td>
+&lt;td style="text-align:left">外部负载均衡器的IP地址&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">&lt;strong>status.loadBalancer.ingress.hostname&lt;/strong>&lt;/td>
+&lt;td style="text-align:left">string&lt;/td>
+&lt;td style="text-align:left">&lt;/td>
+&lt;td style="text-align:left">外部负载均衡器的主机名&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h2 id="四使用">四、使用&lt;/h2>&lt;h3 id="41clusterip-创建">4.1、ClusterIP 创建&lt;/h3>&lt;p>IPVS 是基于 NAT 工作模式运行的。&lt;br>
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>ClusterIP.yml&lt;/code>&lt;/summary>
 &lt;pre tabindex="0">&lt;code>apiVersion: v1
-kind: Service #service类型
+kind: Service #service 类型
 metadata:
-name: myapp #当前service的名是myapp
-namespace: default #放到default名称空间下
-spec: #期望
-type: ClusterIP #ClusterIP的类型
-selector: #标签选择器，匹配下面两个标签
+name: myapp # 当前 service 的名是 myapp
+namespace: default # 放到 default 名称空间下
+spec:
+type: ClusterIP # ClusterIP 的类型
+selector: # 标签选择器，匹配下面两个标签
 app: myapp
-release: stabel
-ports: #端口，
-- name: http #端口名称为http
-port: 80 #端口是80，集群访问的VIP的端口。
-targetPort: 80 #后端目标80，真实服务器的端口
-#IPVS是基于NAT工作模式运行的
-&lt;/code>&lt;/pre>&lt;p>创建&lt;/p>
-&lt;pre tabindex="0">&lt;code>#基于yaml文件创建ClusterIP类型的svc
+release: stable
+ports: # 端口，
+- name: http # 端口名称为 http
+port: 80 # 端口是 80，集群访问的 VIP 的端口。
+targetPort: 80 # 后端目标 80，真实服务器的端口
+&lt;/code>&lt;/pre>
+&lt;/details>
+&lt;/p>
+&lt;/p>
+&lt;p>创建&lt;/p>
+&lt;pre tabindex="0">&lt;code># 基于 yaml 文件创建 ClusterIP 类型的 svc
 kubectl apply -f ClusterIP.yaml
-#查看已经创建的svc
+# 查看已经创建的 svc
 kubectl get svc
-&lt;/code>&lt;/pre>&lt;h3 id="42nodeport-创建">4.2、NodePort 创建&lt;/h3>&lt;p>&lt;code>NodePort.yaml&lt;/code>&lt;/p>
+&lt;/code>&lt;/pre>&lt;h4 id="流量转发路径">流量转发路径&lt;/h4>&lt;p>当你在集群内部访问 myapp 这个服务时，流量遵循以下路径：&lt;/p>
+&lt;ul>
+&lt;li>访问入口：myapp-service-ip:80 (ClusterIP VIP)&lt;/li>
+&lt;li>内核拦截：流量到达节点内核，IPVS 规则拦截该 VIP。&lt;/li>
+&lt;li>负载均衡：IPVS 根据算法（默认通常是轮询 rr）在匹配 app: myapp 和 release: stabel 的后端 Pod 中选一个。&lt;/li>
+&lt;li>DNAT 转换：IPVS 执行目标地址转换（DNAT），将 VIP 换成 Pod 的实际 IP。&lt;/li>
+&lt;li>送达：流量最终到达 Pod 的 80 端口。&lt;/li>
+&lt;/ul>
+&lt;h3 id="42nodeport-创建">4.2、NodePort 创建&lt;/h3>&lt;p>相比之前的 ClusterIP，它的最大区别在于：它在集群的每一个节点（Node）上都开启了一个物理端口，从而允许外部流量访问集群内部的服务。
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>NodePort.yml&lt;/code>&lt;/summary>
 &lt;pre tabindex="0">&lt;code>apiVersion: v1
 kind: Service
 metadata:
 name: myapp-nodeport
-namespace: default #放在default名称空间下
-spec: #期望
-type: NodePort #当前的工作模式是NodePort方式
+namespace: default # 放在 default 名称空间下
+spec:
+type: NodePort # 当前的工作模式是 NodePort 方式
 selector:
 app: myapp
 release: stabel
 ports:
-- name: http #定义的别名为http
-port: 80 #集群的端口80
-targetPort: 80 #后端的端口80
-&lt;/code>&lt;/pre>&lt;p>创建&lt;/p>
+- name: http # 定义的别名为 http
+port: 80 # 集群的端口 80
+targetPort: 80 # 后端的端口 80
+nodePort: 31080 # 手动指定物理机映射端口。没写的话，会在 30000-32767 之间随机分配一个空闲端口。
+&lt;/code>&lt;/pre>
+&lt;/details>
+&lt;/p>
+&lt;/p>
+&lt;p>创建&lt;/p>
 &lt;pre tabindex="0">&lt;code>kubectl apply -f 6.nodeport.yaml
-#这里映射的端口，必须大于三万以上。默认就可以，不用修改，防止冲突
-#在外部访问物理机的31225端口即可映射到容器内部的80端口，达到访问容器的内目的
+# 这里映射的端口，必须大于三万以上。默认就可以，不用修改，防止冲突
+# 在外部访问物理机的 31225 端口即可映射到容器内部的 80 端口，达到访问容器的内目的
 kubectl get svc
-&lt;/code>&lt;/pre>&lt;h3 id="43loadbalancer-创建">4.3、LoadBalancer 创建&lt;/h3>&lt;p>与 nodeport 的区别在于，loadbalancer 会自动在外部创建一个调度器将当前的 nodeport 端口进行流量访问，实现高可用，但是必须得借助云平台创建 LB 来向节点导流。
+&lt;/code>&lt;/pre>&lt;h4 id="流量访问链路">流量访问链路&lt;/h4>&lt;p>用户浏览器 &amp;ndash;&amp;gt; 任何一个节点的物理IP : nodePort端口号 &amp;ndash;&amp;gt; Service (80) &amp;ndash;&amp;gt; Pod (80)&lt;/p>
+&lt;h4 id="自动分配的端口">自动分配的端口&lt;/h4>&lt;p>默认行为：Kubernetes 会在 30000-32767 之间随机分配一个空闲端口。&lt;br>
+查看端口：部署后，你需要运行 &lt;code>kubectl get svc myapp-nodeport&lt;/code> 来查看系统到底分了哪个端口。&lt;/p>
+&lt;h3 id="43loadbalancer-创建">4.3、LoadBalancer 创建&lt;/h3>&lt;p>与 nodeport 的区别在于，loadbalancer 会自动在外部创建一个调度器将当前的 nodeport 端口进行流量访问，实现高可用，但是必须得借助云平台创建 LB 来向节点导流。
 loadBalancer 和 nodePort 其实是同一种方式。区别在于 loadBalancer 比 nodePort 多了一步，就是可以调用 cloud provider 去创建 LB 来向节点导流。
 &lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-Service/2524805075.png">
-&lt;code>loadbalancer.yaml&lt;/code>&lt;/p>
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>loadbalancer.yml&lt;/code>&lt;/summary>
 &lt;pre tabindex="0">&lt;code>apiVersion: v1
 kind: Service
 metadata:
-name: myapp-loadbalancer #服务的名称，这里是 myapp-loadbalancer。
+name: myapp-loadbalancer # 服务的名称，这里是 myapp-loadbalancer。
 spec:
 selector:
 app: myapp # 匹配带有相应标签的 Pods。在这个例子中，它匹配所有标签为 app: myapp 的 Pods。
-type: LoadBalancer #为 LoadBalancer，表明我们想要的服务类型是负载均衡器。
-ports: #服务的端口配置；
+type: LoadBalancer # 为 LoadBalancer，表明我们想要的服务类型是负载均衡器。
+ports: # 服务的端口配置；
 - protocol: TCP
-port: 80 #服务内部端口，外部请求会到这个端口；
-targetPort: 8080 #Pods 上的端口，服务会将流量从内部端口转发到此端口；
+port: 80 # 服务内部端口，外部请求会到这个端口；
+targetPort: 8080 # Pods 上的端口，服务会将流量从内部端口转发到此端口；
 # 如果云提供商支持，也可以指定一个负载均衡器的外部端口，例如：
 # nodePort: 30000 #（可选）如果指定，这是节点上用来接收外部流量的端口
-&lt;/code>&lt;/pre>&lt;p>创建&lt;/p>
+&lt;/code>&lt;/pre>
+&lt;/details>
+&lt;/p>
+&lt;/p>
+&lt;p>创建&lt;/p>
 &lt;pre tabindex="0">&lt;code>kubectl apply -f loadbalancer.yaml
 kubectl get svc myapp-loadbalancer
-&lt;/code>&lt;/pre>&lt;h3 id="44externalname-创建">4.4、ExternalName 创建&lt;/h3>&lt;p>这种类型的 Service 通过返回 CNAME 和它的值，可以将服务映射到 externalName 字段的内容( 例如：hub.aaa.com )。ExternalName Service 是 Service 的特例，它没有 selector，也没有定义任何的端口和 Endpoint。相反的，对于运行在集群外部的服务，它通过返回该外部服务的别名这种方式来提供服务。&lt;/p>
+&lt;/code>&lt;/pre>&lt;h4 id="自动化流水线">自动化流水线&lt;/h4>&lt;p>当你将 type 设置为 LoadBalancer 时，Kubernetes 内部会发生一系列连锁反应：&lt;/p>
+&lt;ul>
+&lt;li>自动分配 NodePort：K8s 会先自动生成一个随机的 nodePort（如 31234）。&lt;/li>
+&lt;li>云控制器介入：集群中的 Cloud Controller Manager 会调用底层云服务商（如阿里云、腾讯云、AWS 或银行内部负载均衡系统）的 API。&lt;/li>
+&lt;li>创建外部 LB：云商会自动为你创建一个具备公网或私有 VIP 的负载均衡实例。&lt;/li>
+&lt;li>打通路径：外部负载均衡器会自动将后端指向你所有节点的 nodePort。&lt;/li>
+&lt;/ul>
+&lt;h3 id="44externalname-创建">4.4、ExternalName 创建&lt;/h3>&lt;p>这种类型的 Service 通过返回 CNAME 和它的值，可以将服务映射到 externalName 字段的内容 ( 例如：hub.aaa.com )。ExternalName Service 是 Service 的特例，它没有 selector，也没有定义任何的端口和 Endpoint。相反的，对于运行在集群外部的服务，它通过返回该外部服务的别名这种方式来提供服务。&lt;/p>
 &lt;pre tabindex="0">&lt;code>kind: Service
 apiVersion: v1
-metadata: #元数据
-name: my-service #当前service名为my-service
-namespace: default #放在default名称空间下
+metadata:
+name: my-service # 当前 service 名为 my-service
+namespace: default # 放在 default 名称空间下
 spec:
-type: ExternalName #当前的类型为ExternalName类型
-externalName: hub.aaa.com # ExternalName的值为hub.hongfu.com
-&lt;/code>&lt;/pre>&lt;p>my-service.defalut.svc.cluster.local 这是在集群内可以访问到的域名，如果将他的值找dns解析，解析的应该是hub.aaa.com。
-例如：
-我有一个 pod，我去访问一个 web 服务，web 服务就是 hub.hongfu.com，就可以靠这个 svc 指向这个 hub.aaa.com，如果有一天我想指向 harbor，那只要 dit 将这个值指向 haobor，他就指过来了，对于 pod 来说，不需要做任何改变。
-当查询主机 my-service.defalut.svc.cluster.local ( SVC_NAME.NAMESPACE.svc.cluster.local )时，集群的 DNS 服务将返回一个值 my.database.example.com 的 CNAME 记录。访问这个服务的工作方式和其他的相同，唯一不同的是重定向发生在 DNS 层，而且不会进行代理或转发。&lt;/p>
-&lt;h2 id="五service-示例">五、Service 示例&lt;/h2>&lt;p>一般来说，对外提供服务的应用程序需要通过某种机制来实现，对于容器应用最简便 的方式就是通过 TCP/IP 机制及监听 IP 和端口号来实现。创建一个基本功能的 Service。&lt;/p>
+type: ExternalName # 当前的类型为 ExternalName 类型
+externalName: hub.aaa.com # ExternalName
+&lt;/code>&lt;/pre>&lt;p>my-service.defalut.svc.cluster.local 这是在集群内可以访问到的域名，如果将他的值找 dns 解析，解析的应该是 hub.aaa.com。&lt;/p>
+&lt;p>例如：我有一个 pod，我去访问一个 web 服务，web 服务就是 hub.hongfu.com，就可以靠这个 svc 指向这个 hub.aaa.com，如果有一天我想指向 harbor，那只要 dit 将这个值指向 haobor，他就指过来了，对于 pod 来说，不需要做任何改变。
+当查询主机 my-service.defalut.svc.cluster.local ( SVC_NAME.NAMESPACE.svc.cluster.local ) 时，集群的 DNS 服务将返回一个值 my.database.example.com 的 CNAME 记录。访问这个服务的工作方式和其他的相同，唯一不同的是重定向发生在 DNS 层，而且不会进行代理或转发。&lt;/p>
+&lt;h4 id="dns-级别的手法">DNS 级别的手法&lt;/h4>&lt;p>当你创建一个 ExternalName 类型的 Service 时，Kubernetes 的集群 DNS 服务（CoreDNS）会插入一条记录：&lt;/p>
+&lt;ul>
+&lt;li>内部域名：my-service.default.svc.cluster.local&lt;/li>
+&lt;li>指向目标：hub.aaa.com (这就是你配置的 externalName)&lt;/li>
+&lt;/ul>
+&lt;p>工作原理：&lt;br>
+当集群内的 Pod 访问 my-service 时，DNS 会直接返回 hub.aaa.com 的 CNAME 记录。解析过程完全在 DNS 层完成，流量不会经过 kube-proxy 或 IPVS/iptables 转发。&lt;/p>
+&lt;h4 id="作用">作用&lt;/h4>&lt;p>这个功能通常用于平滑迁移或跨环境访问：&lt;/p>
+&lt;ul>
+&lt;li>解耦外部依赖：假设你的程序需要连接一个外部数据库或镜像仓库（如 hub.aaa.com）。如果你在代码里硬编码这个域名，万一以后地址变了，你就得改代码。&lt;/li>
+&lt;li>统一访问入口：使用 ExternalName 后，代码里只需要访问 http://my-service。如果以后你决定把这个服务迁移到集群内部运行，你只需要把这个 Service 的类型改回 ClusterIP 并加上 selector，代码一行都不用动。&lt;/li>
+&lt;/ul>
+&lt;h2 id="五service-示例">五、Service 示例&lt;/h2>&lt;p>一般来说，对外提供服务的应用程序需要通过某种机制来实现，对于容器应用最简便的方式就是通过 TCP/IP 机制及监听 IP 和端口号来实现。创建一个基本功能的 Service。
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>exmapleService.yml&lt;/code>&lt;/summary>
 &lt;pre tabindex="0">&lt;code>apiVersion: v1
 kind: ReplicationController
 metadata:
@@ -1978,7 +2203,38 @@ containers:
 image: tomcat
 ports:
 - containerPort: 8080
-&lt;/code>&lt;/pre>&lt;p>我们可以通过 &lt;code>kubectl get pods -l app=mywebapp -o yaml | grep podIP&lt;/code> 来获取 Pod 的 IP 地址和端口号来访问 Tomcat 服务，但是直接通过 Pod 的 IP 地址和端口访问应用 服务是不可靠的，因为当 Pod 所在的 Node 发生故障时， Pod 将被 kubernetes 重新调度到另一台 Node，Pod 的地址会发生改变。我们可以通过配置文件来定义 Service，再通过 &lt;code>kubectl create&lt;/code> 来创建，这样可以通过 Service 地址来访问后端的 Pod.&lt;/p>
+&lt;/code>&lt;/pre>
+&lt;/details>
+&lt;/p>
+&lt;/p>
+&lt;p>deployment 版本：
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>exmapleService.yml&lt;/code>&lt;/summary>
+&lt;pre tabindex="0">&lt;code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+name: mywebapp
+spec:
+replicas: 2
+selector:
+matchLabels:
+app: mywebapp # Deployment 必须显式指定 selector
+template:
+metadata:
+labels:
+app: mywebapp
+spec:
+containers:
+- name: mywebapp
+image: tomcat
+ports:
+- containerPort: 8080
+&lt;/code>&lt;/pre>
+&lt;/details>
+&lt;/p>
+&lt;/p>
+&lt;p>我们可以通过 &lt;code>kubectl get pods -l app=mywebapp -o yaml | grep podIP&lt;/code> 来获取 Pod 的 IP 地址和端口号来访问 Tomcat 服务，但是直接通过 Pod 的 IP 地址和端口访问应用服务是不可靠的，因为当 Pod 所在的 Node 发生故障时， Pod 将被 kubernetes 重新调度到另一台 Node，Pod 的地址会发生改变。我们可以通过配置文件来定义 Service，再通过 &lt;code>kubectl create&lt;/code> 来创建，这样可以通过 Service 地址来访问后端的 Pod.&lt;/p>
 &lt;pre tabindex="0">&lt;code>apiVersion: v1
 kind: Service
 metadata:
@@ -2024,8 +2280,12 @@ subsets:
 - ip: 10.254.74.3
 ports:
 - port: 8080
-&lt;/code>&lt;/pre></description></item><item><title>kubernetes | Namespace</title><link>https://hidlestone.github.io/blog/infrastructure/kubernetes/08-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-namespace/</link><pubDate>Thu, 17 Mar 2022 22:08:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/kubernetes/08-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-namespace/</guid><description>&lt;h2 id="一namespace-概述">一、Namespace 概述&lt;/h2>&lt;p>Namespace 在很多情况下用于实现多用户的资源隔离，通过将集群内部的资源对象分配到 不同的 Namespace 中， 形成逻辑上的分组，便于不同的分组在共享使用整个集群的资源同 时还能被分别管理。Kubernetes 集群在启动后，会创建一个名为 &lt;code>default&lt;/code> 的 Namespace，如果不特别指明 Namespace，则用户创建的 &lt;code>Pod&lt;/code>，&lt;code>RC&lt;/code>，&lt;code>Service&lt;/code> 都将被系统创建到这个默认的名为 &lt;code>default&lt;/code> 的 Namespace 中。&lt;/p>
-&lt;h2 id="二namespace-创建">二、Namespace 创建&lt;/h2>&lt;p>1、创建名称空间 development的yaml文件 &lt;code>nsdemo.yaml&lt;/code>。&lt;/p>
+&lt;/code>&lt;/pre>&lt;h3 id="externalname-的另一种选择">ExternalName 的另一种选择&lt;/h3>&lt;p>如果你的目标是一个 域名，用 ExternalName 更方便。&lt;br>
+如果你的目标是一个 IP 地址（如你现在的 10.254.74.3），那么你这种 Service + Endpoints 的组合是唯一的正确方案。&lt;/p></description></item><item><title>kubernetes | Namespace</title><link>https://hidlestone.github.io/blog/infrastructure/kubernetes/08-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-namespace/</link><pubDate>Thu, 17 Mar 2022 22:08:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/kubernetes/08-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-namespace/</guid><description>&lt;h2 id="一namespace-概述">一、Namespace 概述&lt;/h2>&lt;p>Namespace 在很多情况下用于实现多用户的资源隔离，通过将集群内部的资源对象分配到不同的 Namespace 中，形成逻辑上的分组，便于不同的分组在共享使用整个集群的资源同时还能被分别管理。Kubernetes 集群在启动后，会创建一个名为 &lt;code>default&lt;/code> 的 Namespace，如果不特别指明 Namespace，则用户创建的 &lt;code>Pod&lt;/code>，&lt;code>RC&lt;/code>，&lt;code>Service&lt;/code> 都将被系统创建到这个默认的名为 &lt;code>default&lt;/code> 的 Namespace 中。&lt;/p>
+&lt;h2 id="二namespace-创建">二、Namespace 创建&lt;/h2>&lt;p>1、创建名称空间 development的yaml文件 &lt;code>nsdemo.yaml&lt;/code>。
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>nsdemo.yml&lt;/code>&lt;/summary>
 &lt;pre tabindex="0">&lt;code>apiVersion: v1
 kind: Namespace
 metadata:
@@ -2040,7 +2300,10 @@ spec:
 containers:
 - name: mypod
 image: nginx
-&lt;/code>&lt;/pre>&lt;p>2、创建名称空间 development&lt;/p>
+&lt;/code>&lt;/pre>
+&lt;/details>
+&lt;/p>
+2、创建名称空间 development&lt;/p>
 &lt;pre tabindex="0">&lt;code>kubectl apply -f nsdemo.yaml
 namespace/development created
 pod/mypod created
@@ -2086,10 +2349,13 @@ kubectl get namespace &amp;lt;namespace-name&amp;gt; -o json
 kubectl get namespace &amp;lt;namespace-name&amp;gt; -o yaml
 # 查看命名空间状态
 kubectl get namespace &amp;lt;namespace-name&amp;gt; --show-labels
-&lt;/code>&lt;/pre></description></item><item><title>kubernetes | configMap</title><link>https://hidlestone.github.io/blog/infrastructure/kubernetes/07-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-configmap/</link><pubDate>Thu, 17 Mar 2022 22:07:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/kubernetes/07-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-configmap/</guid><description>&lt;h2 id="一configmap-概述">一、ConfigMap 概述&lt;/h2>&lt;p>在生产环境中经常会遇到需要修改配置文件的情况，传统的修改方式不仅会影响到服务的正常运行，而且操作步骤也很繁琐。为了解决这个问题，kubernetes 项目从1.2版本引入了 ConfigMap 功能，&lt;code>用于将应用的配置信息与程序的分离&lt;/code>。这种方式不仅可以实现应用程序被的复用，而且还可以通过不同的配置实现更灵活的功能。在创建容器时，用户可以将应用程序打包为容器镜像后，通过环境变量或者外接挂载文件的方式进行配置注入。
-ConfigMap &amp;amp;&amp;amp; Secret 是 K8S 中的针对应用的配置中心，它有效的解决了应用挂载的问题，并且支持加密以及热更新等功能，可以说是一个 k8s 提供的一件非常好用的功能。
+&lt;/code>&lt;/pre></description></item><item><title>kubernetes | configMap</title><link>https://hidlestone.github.io/blog/infrastructure/kubernetes/07-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-configmap/</link><pubDate>Thu, 17 Mar 2022 22:07:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/kubernetes/07-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-configmap/</guid><description>&lt;h2 id="一configmap-概述">一、ConfigMap 概述&lt;/h2>&lt;p>在生产环境中经常会遇到需要修改配置文件的情况，传统的修改方式不仅会影响到服务的正常运行，而且操作步骤也很繁琐。为了解决这个问题，kubernetes 项目从 1.2 版本引入了 ConfigMap 功能，&lt;code>用于将应用的配置信息与程序的分离&lt;/code>。这种方式不仅可以实现应用程序被的复用，而且还可以通过不同的配置实现更灵活的功能。在创建容器时，用户可以将应用程序打包为容器镜像后，通过环境变量或者外接挂载文件的方式进行配置注入。
+&lt;code>ConfigMap&lt;/code> &amp;amp;&amp;amp; &lt;code>Secret&lt;/code> 是 K8S 中的针对应用的配置中心，它有效的解决了应用挂载的问题，并且支持加密以及热更新等功能，可以说是一个 k8s 提供的一件非常好用的功能。
 ConfigMap 功能在 Kubernetes1.2 版本中引入，许多应用程序会从配置文件、命令行参数或环境变量中读取配置信息。ConfigMap API 给我们提供了向容器中注入配置信息的机制，ConfigMap 可以被用来保存单个属性，也可以用来保存整个配置文件或者 JSON 二进制大对象&lt;/p>
-&lt;h2 id="二configmap-的创建">二、ConfigMap 的创建&lt;/h2>&lt;p>（1）使用目录创建&lt;/p>
+&lt;h2 id="二configmap-的创建">二、ConfigMap 的创建&lt;/h2>&lt;p>（1）使用目录创建
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看&lt;/summary>
 &lt;pre tabindex="0">&lt;code>$ ls docs/user-guide/configmap/kubectl/
 game.properties
 ui.properties
@@ -2107,7 +2373,10 @@ color.bad=yellow
 allow.textmode=true
 how.nice.to.look=fairlyNice
 $ kubectl create configmap game-config --from-file=docs/user-guide/configmap/kubectl
-&lt;/code>&lt;/pre>&lt;p>&lt;code>--from-file&lt;/code> 指定在目录下的所有文件都会被用在 ConfigMap 里面创建一个键值对，键的名字就是文件名，值就是文件的内容。&lt;/p>
+&lt;/code>&lt;/pre>
+&lt;/details>
+&lt;/p>
+&lt;code>--from-file&lt;/code> 指定在目录下的所有文件都会被用在 ConfigMap 里面创建一个键值对，键的名字就是文件名，值就是文件的内容。&lt;/p>
 &lt;p>（2）使用文件创建&lt;br>
 只要指定为一个文件就可以从单个文件中创建 ConfigMap&lt;/p>
 &lt;pre tabindex="0">&lt;code>$ kubectl create configmap game-config-2 --from-file=docs/user-guide/configmap/kubectl/game.properties
@@ -2126,7 +2395,7 @@ namespace: default
 data:
 name: dave
 password: pass
-#基于yaml文件运行configmap
+# 基于 yaml 文件运行 configmap
 kubectl apply -f configmap-literal.yaml
 &lt;/code>&lt;/pre>&lt;p>&lt;code>configmap-env.yaml&lt;/code>&lt;/p>
 &lt;pre tabindex="0">&lt;code>apiVersion: v1
@@ -2136,7 +2405,7 @@ name: env-config
 namespace: default
 data:
 log_level: INFO
-#基于yaml文件运行configmap
+# 基于 yaml 文件运行 configmap
 kubectl apply -f configmap-env.yaml
 &lt;/code>&lt;/pre>&lt;p>&lt;code>configmap-pod.yaml&lt;/code>&lt;/p>
 &lt;pre tabindex="0">&lt;code>apiVersion: v1
@@ -2147,29 +2416,57 @@ spec:
 containers:
 - name: test-container
 image: centos:7.9.2009
-command: [ &amp;#34;/bin/sh&amp;#34;, &amp;#34;-c&amp;#34;, &amp;#34;env&amp;#34; ]
+command: [&amp;#34;/bin/sh&amp;#34;, &amp;#34;-c&amp;#34;, &amp;#34;env&amp;#34;]
 env:
-- name: USERNAME #创建一个环境变量的名字
-valueFrom: #来源
-configMapKeyRef: #来源于configMapKeyRef
-name: literal-config #来自于上面创建的literal-config
-key: name #来自于name字段
+- name: USERNAME # 创建一个环境变量的名字
+valueFrom: # 来源
+configMapKeyRef: # 来源于 configMapKeyRef
+name: literal-config # 来自于上面创建的 literal-config
+key: name # 来自于 name 字段
 - name: PASSWORD
 valueFrom:
 configMapKeyRef:
 name: literal-config
 key: password
-envFrom: #使用envFrom字段可以将env-config中的所有键值对作为环境变量导入到Pod中
+envFrom: # 使用 envFrom 字段可以将 env-config 中的所有键值对作为环境变量导入到 Pod 中
 - configMapRef:
 name: env-config
 restartPolicy: Never
-&lt;/code>&lt;/pre>&lt;p>根据yaml文件创建pod&lt;/p>
+&lt;/code>&lt;/pre>&lt;p>根据 yaml 文件创建 pod&lt;/p>
 &lt;pre tabindex="0">&lt;code>kubectl create -f configmap-pod.yaml
 kubectl get pod
-&lt;/code>&lt;/pre>&lt;p>查看pod的日志&lt;/p>
-&lt;pre tabindex="0">&lt;code>kubectl logs cm-env-test-pod
-&lt;/code>&lt;/pre>&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-configMap/3459912224.png">&lt;/p>
-&lt;h3 id="32使用-configmap-设置命令行参数">3.2、使用 ConfigMap 设置命令行参数&lt;/h3>&lt;p>&lt;code>cm-command-dapi-test-pod.yaml&lt;/code>&lt;/p>
+&lt;/code>&lt;/pre>&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">查看 pod 的日志&lt;/summary>
+&lt;pre tabindex="0">&lt;code>[root@izl4y01dhbrghjuo3yt3prZ pod]# kubectl logs cm-env-test-pod
+HOSTNAME=cm-env-test-pod
+KUBERNETES_PORT_443_TCP_PORT=443
+KUBERNETES_PORT=tcp://172.21.0.1:443
+KUBERNETES_SERVICE_PORT=443
+KUBERNETES_SERVICE_HOST=172.21.0.1
+PASSWORD=pass
+MYAPP_SERVICE_HOST=172.21.10.215
+USERNAME=dave
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+PWD=/
+log_level=INFO
+MYAPP_PORT_80_TCP=tcp://172.21.10.215:80
+MYAPP_PORT_80_TCP_PORT=80
+SHLVL=1
+HOME=/root
+MYAPP_PORT_80_TCP_PROTO=tcp
+MYAPP_PORT=tcp://172.21.10.215:80
+MYAPP_SERVICE_PORT=80
+KUBERNETES_PORT_443_TCP_PROTO=tcp
+KUBERNETES_SERVICE_PORT_HTTPS=443
+KUBERNETES_PORT_443_TCP_ADDR=172.21.0.1
+MYAPP_PORT_80_TCP_ADDR=172.21.10.215
+&lt;/code>&lt;/pre>
+&lt;/details>
+&lt;/p>
+&lt;h3 id="32使用-configmap-设置命令行参数">3.2、使用 ConfigMap 设置命令行参数&lt;/h3>&lt;p>&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>cm-command-dapi-test-pod.yaml&lt;/code>&lt;/summary>
 &lt;pre tabindex="0">&lt;code>apiVersion: v1
 kind: Pod
 metadata:
@@ -2191,9 +2488,14 @@ configMapKeyRef:
 name: literal-config
 key: password
 restartPolicy: Never
-&lt;/code>&lt;/pre>&lt;p>查看日志&lt;/p>
+&lt;/code>&lt;/pre>
+&lt;/details>
+&lt;/p>
+查看日志&lt;/p>
 &lt;pre tabindex="0">&lt;code>kubectl logs cm-command-dapi-test-pod
-&lt;/code>&lt;/pre>&lt;h3 id="33通过数据卷插件使用-configmap">3.3、通过数据卷插件使用 ConfigMap&lt;/h3>&lt;p>&lt;code>cm-volume-test-pod.yaml&lt;/code>&lt;/p>
+&lt;/code>&lt;/pre>&lt;h3 id="33通过数据卷插件使用-configmap">3.3、通过数据卷插件使用 ConfigMap&lt;/h3>&lt;p>&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>cm-volume-test-pod.yml&lt;/code>&lt;/summary>
 &lt;pre tabindex="0">&lt;code>apiVersion: v1
 kind: Pod
 metadata:
@@ -2211,17 +2513,35 @@ volumes:
 configMap: # 基于 configMap 提供的
 name: literal-config # 基于名字为 literal-config 的 configMap 提供的
 restartPolicy: Never
-&lt;/code>&lt;/pre>&lt;p>进入容器：&lt;/p>
+&lt;/code>&lt;/pre>
+&lt;/details>
+&lt;/p>
+进入容器：&lt;/p>
 &lt;pre tabindex="0">&lt;code>kubectl exec -it cm-volume-test-pod -- /bin/bash
-&lt;/code>&lt;/pre>&lt;p>进入容器后，执行下列命令，查看挂载的volume卷的信息。
-&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-configMap/1205822559.png">
-为什么这里这么设计，因为这里支持热更新。
-什么叫热更新呢，就是我现在把configmap的对象改变的话，这里的内容也会变化。
+&lt;/code>&lt;/pre>&lt;p>进入容器后，执行下列命令，查看挂载的 volume 卷的信息。&lt;/p>
+&lt;pre tabindex="0">&lt;code>[root@cm-volume-test-pod log]# cd /etc/config
+[root@cm-volume-test-pod config]# ls
+name password
+[root@cm-volume-test-pod config]# cat name
+dave[root@cm-volume-test-pod config]#
+[root@cm-volume-test-pod config]# cat password
+pass[root@cm-volume-test-pod config]#
+[root@cm-volume-test-pod config]# ls -l
+total 0
+lrwxrwxrwx 1 root root 11 Jan 5 04:07 name -&amp;gt; ..data/name
+lrwxrwxrwx 1 root root 15 Jan 5 04:07 password -&amp;gt; ..data/password
+[root@cm-volume-test-pod config]# cd ..data/
+[root@cm-volume-test-pod ..data]# ls
+name password
+&lt;/code>&lt;/pre>&lt;p>为什么这里这么设计，因为这里支持热更新。
+什么叫热更新呢，就是我现在把 configmap 的对象改变的话，这里的内容也会变化。
 注意：这里不是共享，这是注入。
 如果共享过多的话，会造成过多的资源损耗。
-注入的话就不会有这个问题，先注入10个 pod，这10个 pod 注入以后，再注入下10 pod。
+注入的话就不会有这个问题，先注入 10 个 pod，这 10 个 pod 注入以后，再注入下 10 pod。
 什么叫注入，cat 这个文件，重定向到你的目录下，这叫注入。&lt;/p>
-&lt;h2 id="四configmap-的热更新">四、ConfigMap 的热更新&lt;/h2>&lt;p>&lt;code>hot-update.yaml&lt;/code>&lt;/p>
+&lt;h2 id="四configmap-的热更新">四、ConfigMap 的热更新&lt;/h2>&lt;p>&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>hot-update.yml&lt;/code>&lt;/summary>
 &lt;pre tabindex="0">&lt;code>apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -2230,7 +2550,7 @@ namespace: default
 data:
 log_level: INFO
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
 name: hot-update
@@ -2257,48 +2577,82 @@ volumes:
 - name: config-volume
 configMap:
 name: log-config
-&lt;/code>&lt;/pre>&lt;p>&lt;code>kubectl create -f hot-update.yaml&lt;/code>
-开第二个终端：&lt;/p>
-&lt;pre tabindex="0">&lt;code>#观察信息
+&lt;/code>&lt;/pre>
+&lt;/details>
+&lt;/p>
+&lt;code>kubectl create -f hot-update.yaml&lt;/code>&lt;br>
+开第2个终端：&lt;/p>
+&lt;pre tabindex="0">&lt;code># 观察信息
 while 2&amp;gt;1;do kubectl exec hot-update-5f9f99b44f-sm7kf -- cat /etc/config/log_level;sleep 1s;date;done
-&lt;/code>&lt;/pre>&lt;p>终端1：&lt;/p>
-&lt;pre tabindex="0">&lt;code>#修改data里的键值INFO为log_level:ERROR
-#annotations:里面的INFO为ERROR
+&lt;/code>&lt;/pre>&lt;p>终端 1：&lt;/p>
+&lt;pre tabindex="0">&lt;code># 修改 data 里的键值 INFO 为 log_level:ERROR
+#annotations: 里面的 INFO 为 ERROR
 kubectl edit cm log-config
-&lt;/code>&lt;/pre>&lt;p>终端2查看变化。
-&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-configMap/1008363247.png">&lt;/p>
-&lt;pre tabindex="0">&lt;code>#查看yaml文件
+&lt;/code>&lt;/pre>&lt;p>终端 2 查看变化。&lt;/p>
+&lt;h3 id="41滚动更新触发器">4.1、滚动更新触发器&lt;/h3>&lt;p>通过手动修改 Pod 的注解（Annotations），强制触发 Deployment 的滚动更新（Rolling Update）。&lt;/p>
+&lt;p>为什么要这么做？&lt;br>
+在 Kubernetes 中，当你修改了 ConfigMap 的内容后：&lt;/p>
+&lt;ul>
+&lt;li>容器内的文件虽然会“热更新”，但应用程序往往并不知道文件变了。&lt;/li>
+&lt;li>如果你的程序不具备自动重新加载配置的能力，你就需要重启 Pod。&lt;/li>
+&lt;li>直接删 Pod 风险大（可能导致服务短暂中断）。&lt;/li>
+&lt;/ul>
+&lt;p>通过&lt;code> kubectl patch&lt;/code> 给 Deployment 打上一个无意义的 &lt;code>version/config&lt;/code> 标签，会改变 Pod 模板（Pod Template）的哈希值。Kubernetes 监测到模板变了，就会认为配置已更新，从而启动滚动更新：先启动一个新 Pod（加载了新配置），再删掉一个旧 Pod。&lt;/p>
+&lt;pre tabindex="0">&lt;code># 查看 yaml 文件
 kubectl get deployment hot-update -o yaml
-#更新版本
+# 更新版本
 kubectl patch deployment hot-update --patch &amp;#39;{&amp;#34;spec&amp;#34;: {&amp;#34;template&amp;#34;: {&amp;#34;metadata&amp;#34;: {&amp;#34;annotations&amp;#34;: {&amp;#34;version/config&amp;#34;: &amp;#34;20190411&amp;#34; }}}}}&amp;#39;
-#再次查看yaml文件
+# 再次查看 yaml 文件
 kubectl get deployment hot-update -o yaml
-&lt;/code>&lt;/pre>&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-configMap/6072720.png">&lt;/p>
+spec:
+progressDeadlineSeconds: 600
+replicas: 2
+revisionHistoryLimit: 10
+selector:
+matchLabels:
+run: nginx
+strategy:
+rollingUpdate:
+maxSurge: 25%
+maxUnavailable: 25%
+type: RollingUpdate
+template:
+metadata:
+annotations:
+version/config: &amp;#34;20190411&amp;#34;
+creationTimestamp: null
+labels:
+run: nginx
+spec:
+containers:
+- image: nginx:latest
+imagePullPolicy: IfNotPresent
+&lt;/code>&lt;/pre>&lt;p>如果只是想简单地触发重启，而不关心那个具体的日期标签，可以使用更语义化的命令：&lt;/p>
+&lt;pre tabindex="0">&lt;code>kubectl rollout restart deployment hot-update
+&lt;/code>&lt;/pre>&lt;p>这个命令的作用与 patch 完全一致，会自动在注解里加上 &lt;code>kubectl.kubernetes.io/restartedAt&lt;/code>，实现优雅的滚动重启。&lt;/p>
 &lt;h2 id="五configmap-更新后滚动更新-pod">五、ConfigMap 更新后滚动更新 Pod&lt;/h2>&lt;p>更新 ConfigMap 目前并不会触发相关 Pod 的滚动更新，可以通过修改 pod annotations 的 方式强制触发滚动更新。&lt;/p>
 &lt;pre tabindex="0">&lt;code>kubectl patch deployment my-nginx --patch &amp;#39;{&amp;#34;spec&amp;#34;: {&amp;#34;template&amp;#34;: {&amp;#34;metadata&amp;#34;: {&amp;#34;annotations&amp;#34;: {&amp;#34;version/config&amp;#34;: &amp;#34;20190411&amp;#34; }}}}}&amp;#39;
-&lt;/code>&lt;/pre>&lt;p>这个例子里我们在 &lt;code>spec.template.metadata.annotations&lt;/code> 中添加 &lt;code>version/config&lt;/code> ,每次通过修改 &lt;code>version/config&lt;/code> 来触发滚动更新&lt;br>
-更新 ConfigMap 后：&lt;br>
+&lt;/code>&lt;/pre>&lt;p>这个例子里我们在 &lt;code>spec.template.metadata.annotations&lt;/code> 中添加 &lt;code>version/config&lt;/code> , 每次通过修改 &lt;code>version/config&lt;/code> 来触发滚动更新。&lt;/p>
+&lt;p>更新 ConfigMap 后：&lt;br>
 使用该 ConfigMap 挂载的 Env 不会同步更新。&lt;br>
-使用该 ConfigMap 挂载的 Volume 中的数据需要一段时间（实测大概 10 秒）才能同步更新。&lt;/p></description></item><item><title>kubernetes | Secret</title><link>https://hidlestone.github.io/blog/infrastructure/kubernetes/06-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-secret/</link><pubDate>Thu, 17 Mar 2022 22:06:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/kubernetes/06-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-secret/</guid><description>&lt;h2 id="一secret-存在意义">一、Secret 存在意义&lt;/h2>&lt;p>&lt;code>Secret 是一种包含少量敏感信息例如密码、令牌或密钥的对象&lt;/code>。这样的信息可能会被放在 Pod 规约中或者镜像中。使用 Secret 意味着你不需要在应用程序代码中包含机密数据。&lt;br>
-由于创建 Secret 可以独立于使用它们的 Pod，因此在创建、查看和编辑 Pod 的工作流程中暴露 Secret（及其数据）的风险较小。 Kubernetes 和在集群中运行的应用程序也可以对 Secret 采取额外的预防措施， 例如避免将机密数据写入非易失性存储。
+使用该 ConfigMap 挂载的 Volume 中的数据需要一段时间（实测大概 10 秒）才能同步更新。&lt;/p></description></item><item><title>kubernetes | Secret</title><link>https://hidlestone.github.io/blog/infrastructure/kubernetes/06-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-secret/</link><pubDate>Thu, 17 Mar 2022 22:06:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/kubernetes/06-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-secret/</guid><description>&lt;h2 id="一secret-存在意义">一、Secret 存在意义&lt;/h2>&lt;p>&lt;code>Secret 是一种包含少量敏感信息例如密码、令牌或密钥的对象&lt;/code>。这样的信息可能会被放在 Pod 规约中或者镜像中。使用 Secret 意味着你不需要在应用程序代码中包含机密数据。&lt;/p>
+&lt;p>由于创建 Secret 可以独立于使用它们的 Pod，因此在创建、查看和编辑 Pod 的工作流程中暴露 Secret（及其数据）的风险较小。 Kubernetes 和在集群中运行的应用程序也可以对 Secret 采取额外的预防措施， 例如避免将机密数据写入非易失性存储。
 Secret 类似于 ConfigMap 但专门用于保存机密数据。&lt;/p>
-&lt;p>作用：&lt;br>
-Secret 解决了密码、token、密钥等敏感数据的配置问题，而不需要把这些敏感数据暴露到镜像或者 Pod Spec 中。Secret 可以以 Volume 或者环境变量的方式使用。&lt;/p>
+&lt;h3 id="作用">作用&lt;/h3>&lt;p>Secret 解决了密码、token、密钥等敏感数据的配置问题，而不需要把这些敏感数据暴露到镜像或者 Pod Spec 中。Secret 可以以 Volume 或者环境变量的方式使用。&lt;/p>
 &lt;p>默认情况下，Kubernetes Secret 未加密地存储在 API 服务器的底层数据存储（etcd）中。 任何拥有 API 访问权限的人都可以检索或修改 Secret，任何有权访问 etcd 的人也可以。 此外，任何有权限在命名空间中创建 Pod 的人都可以使用该访问权限读取该命名空间中的任何 Secret；这包括间接访问，例如创建 Deployment 的能力。&lt;/p>
 &lt;p>为了安全地使用 Secret，请至少执行以下步骤：&lt;br>
 1、为 Secret 启用静态加密；&lt;br>
 2、启用或配置 RBAC 规则来限制读取 Secret 的数据（包括通过间接方式）。&lt;br>
 3、在适当的情况下，还可以使用 RBAC 等机制来限制允许哪些主体创建新 Secret 或替换现有 Secret。&lt;/p>
-&lt;p>概览：&lt;br>
-要使用 Secret，Pod 需要引用 Secret。 Pod 可以用三种方式之一来使用 Secret：&lt;br>
+&lt;h3 id="概览">概览&lt;/h3>&lt;p>要使用 Secret，Pod 需要引用 Secret。 Pod 可以用三种方式之一来使用 Secret：&lt;br>
 1、作为挂载到一个或多个容器上的卷中的文件。&lt;br>
 2、作为容器的环境变量。&lt;br>
 3、由 kubelet 在为 Pod 拉取镜像时使用。&lt;br>
 Kubernetes 控制平面也使用 Secret； 例如，引导令牌 Secret 是一种帮助自动化节点注册的机制。&lt;/p>
-&lt;p>Secret 对象的名称必须是合法的 DNS 子域名。在为创建 Secret 编写配置文件时，你可以设置 &lt;code>data&lt;/code> 与/或 &lt;code>stringData&lt;/code> 字段。data 和 stringData 字段都是可选的。data 字段中所有键值都必须是 base64 编码的字符串。如果不希望执行这种 base64 字符串的转换操作，你可以选择设置 stringData 字段，其中可以使用任何字符串作为其取值。&lt;/p>
+&lt;p>Secret 对象的名称必须是合法的 DNS 子域名。在为创建 Secret 编写配置文件时，你可以设置 &lt;code>data&lt;/code> 与 / 或 &lt;code>stringData&lt;/code> 字段。data 和 stringData 字段都是可选的。data 字段中所有键值都必须是 base64 编码的字符串。如果不希望执行这种 base64 字符串的转换操作，你可以选择设置 stringData 字段，其中可以使用任何字符串作为其取值。&lt;/p>
 &lt;h2 id="二secret-有三种类型">二、Secret 有三种类型&lt;/h2>&lt;p>创建 Secret 时，你可以使用 Secret 资源的 type 字段， 或者与其等价的 kubectl 命令行参数（如果有的话）为其设置类型。 Secret 的 type 有助于对不同类型机密数据的编程处理。&lt;/p>
 &lt;ul>
-&lt;li>&lt;code>Service Account&lt;/code> 用来访问 Kubernetes API,由 Kubernetes 自动创建，并且会自动挂 载到 Pod 的 &lt;code>/run/secrets/kubernetes.io/serviceaccount&lt;/code> 目录中。&lt;/li>
+&lt;li>&lt;code>Service Account&lt;/code> 用来访问 Kubernetes API, 由 Kubernetes 自动创建，并且会自动挂 载到 Pod 的 &lt;code>/run/secrets/kubernetes.io/serviceaccount&lt;/code> 目录中。&lt;/li>
 &lt;li>&lt;code>Opaque&lt;/code> base64 编码格式的 Secret，用来存储密码、密钥等。&lt;/li>
 &lt;li>&lt;code>kubernetes.io/dockerconfigjson&lt;/code> 用来存储私有 docker registry 的认证信息。&lt;/li>
 &lt;/ul>
@@ -2326,8 +2680,10 @@ type: Opaque
 data:
 password: MWYyZDFlMmU2N2Rm
 username: YWRtaW4=
-&lt;/code>&lt;/pre>&lt;p>（3）使用方式&lt;br>
-将 Secret 挂载到 Volume 中。&lt;/p>
+&lt;/code>&lt;/pre>&lt;p>（3）使用方式&lt;/p>
+&lt;ul>
+&lt;li>1、将 Secret 挂载到 Volume 中。&lt;/li>
+&lt;/ul>
 &lt;pre tabindex="0">&lt;code>apiVersion: v1
 kind: Pod
 metadata:
@@ -2344,19 +2700,25 @@ volumes:
 - name: foo
 secret:
 secretName: mysecret
-# 启动kubectl create -f xxx.yaml
-# 进入容器kubectl exec -it [pod名称]
-# 验证 cat /etc/foo/username
-# cat /etc/foo/password
-&lt;/code>&lt;/pre>&lt;p>将 Secret 导出到环境变量中&lt;/p>
+&lt;/code>&lt;/pre>&lt;p>启动 &lt;code>kubectl create -f xxx.yaml&lt;/code>&lt;br>
+进入容器 &lt;code>kubectl exec -it [pod 名称]&lt;/code>&lt;br>
+验证 &lt;code>cat /etc/foo/username&lt;/code> &amp;amp; &lt;code>cat /etc/foo/password&lt;/code>&lt;/p>
+&lt;ul>
+&lt;li>2、将 Secret 导出到环境变量中&lt;/li>
+&lt;/ul>
 &lt;pre tabindex="0">&lt;code>apiVersion: apps/v1
 kind: Deployment
 metadata:
 name: web02
 spec:
 replicas: 1
+selector: # 修正：必须添加 selector
+matchLabels:
+app: web-nginx
 template:
 metadata:
+labels: # 修正：必须与 selector 匹配
+app: web-nginx
 spec:
 containers:
 - image: nginx
@@ -2364,25 +2726,23 @@ name: nginx
 env:
 - name: TEST_USER
 valueFrom:
-secretKeyRef:
+secretKeyRef: # 去名为 mysecret 的 Secret 资源里，把 password 对应的值取出来存到环境变量 TEST_USER 中
 name: mysecret
-key: password
+key: username
 - name: TEST_PASS
 valueFrom:
 secretKeyRef:
 name: mysecret
-key: username
-# 启动kubectl create -f .yaml
-# 进入容器kubectl exec -it [pod名称]
-# 验证 echo &amp;#34;$TEST_USER&amp;#34;
-# echo &amp;#34;TEST_PASS&amp;#34;
-&lt;/code>&lt;/pre>&lt;h2 id="五kubernetesiodockerconfigjson">五、kubernetes.io/dockerconfig.json&lt;/h2>&lt;p>使用 Kuberctl 创建 docker registry 认证的 secret。&lt;/p>
+key: password
+&lt;/code>&lt;/pre>&lt;p>启动 &lt;code>kubectl create -f xxx.yaml&lt;/code>&lt;br>
+进入容器 &lt;code>kubectl exec -it [pod 名称]&lt;/code>&lt;br>
+验证 &lt;code>echo &amp;quot;$TEST_USER&amp;quot;&lt;/code> &amp;amp; &lt;code>echo &amp;quot;TEST_PASS&amp;quot;&lt;/code>&lt;/p>
+&lt;h2 id="五kubernetesiodockerconfigjson">五、kubernetes.io/dockerconfig.json&lt;/h2>&lt;p>使用 Kuberctl 创建 docker registry 认证的 secret。&lt;/p>
 &lt;pre tabindex="0">&lt;code>kubectl create secret docker-registry myregistrykey
--- dockerserver=DOCKER_REGISTRY_SERVER
+-- docker-server=DOCKER_REGISTRY_SERVER # 私有仓库的地址（例如 index.docker.io/v1/ 或 harbor.test.com）
 -- docker-username=DOCKER_USER
--- dockerpassword=DOCKER_PASSWORD
+-- docker-password=DOCKER_PASSWORD
 -- docker-email=DOCKER_EMAIL
-secret &amp;#34;myregistrykey&amp;#34; created.
 &lt;/code>&lt;/pre>&lt;p>在创建 Pod 的时候，通过 imagePullSecrets 来引用刚创建的 myregistrykey。&lt;/p>
 &lt;pre tabindex="0">&lt;code>apiVersion: v1
 kind: Pod
@@ -2765,12 +3125,15 @@ pv005 15Gi RWO,RWX Retain Available 3m10s
 注意：如果匹配到了 20Gi 的 pv003，剩下的 10Gi 空间也就“浪费”了，因为一个 PV 只能绑定一个 PVC。&lt;/p>
 &lt;h4 id="nfs-server-连通性">NFS Server 连通性&lt;/h4>&lt;p>配置里 server: nfs。如果这是一个外部服务器，请确保每个 Node 节点的 &lt;code>/etc/hosts&lt;/code> 里有 nfs 的解析，或者直接使用 IP。&lt;br>
 server: nfs 就是指存数据的物理机器在哪里。它不在 K8s 集群的“控制”范围内，它是一个外部的、提供磁盘空间的“服务商”。&lt;/p>
-&lt;h3 id="26创建-pvc">2.6、创建 PVC&lt;/h3>&lt;p>1、编写 yaml 文件，创建一个 pvc，需要 6G 存储；所以不会匹配 pv001、pv002、pv003，&lt;code>pvc.yaml&lt;/code>。&lt;/p>
+&lt;h3 id="26创建-pvc">2.6、创建 PVC&lt;/h3>&lt;p>1、编写 yaml 文件，创建一个 pvc，需要 6G 存储；所以不会匹配 pv001、pv002、pv003，&lt;code>pvc.yaml&lt;/code>。
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>pvc.yml&lt;/code>&lt;/summary>
 &lt;pre tabindex="0">&lt;code>apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
 name: mypvc
-namespace: default
+namespace: default # PV 是集群级别的（不属于任何空间），但 PVC 是属于特定命名空间的。
 spec:
 accessModes: [&amp;#34;ReadWriteMany&amp;#34;]
 resources:
@@ -2786,14 +3149,17 @@ spec:
 volumes:
 - name: html
 persistentVolumeClaim:
-claimName: mypvc
+claimName: mypvc # 指向上面定义的 PVC 名字
 containers:
 - name: myapp
 image: ikubernetes/myapp:v1
 volumeMounts:
 - name: html
 mountPath: /usr/share/nginx/html/
-&lt;/code>&lt;/pre>&lt;p>2、创建 PVC&lt;/p>
+&lt;/code>&lt;/pre>
+&lt;/details>
+&lt;/p>
+2、创建 PVC&lt;/p>
 &lt;pre tabindex="0">&lt;code>[root@kubernetes-master-001 ~]# kubectl apply -f pvc.yaml
 persistentvolumeclaim/mypvc created
 pod/vol-pvc created
@@ -2811,11 +3177,11 @@ pv005 15G RWO,RWX Retain Available 20m
 [root@kubernetes-master-001 ~]# kubectl get pod
 NAME READY STATUS RESTARTS AGE
 vol-pvc 1/1 running 0 11m
-[root@kubernetes-master-001 ~]# curl 10.244.2.117
+[root@kubernetes-master-001 ~]# curl 10.244.2.117 # NFS 服务器的网页内容
 &amp;lt;h1&amp;gt;NFS stor 04&amp;lt;/h1&amp;gt;
-&lt;/code>&lt;/pre>&lt;h3 id="27storageclass">2.7、StorageClass&lt;/h3>&lt;p>在一个大规模的 Kubernetes 集群里，可能有成千上万个 PVC，这就意味着运维人员必须实现创建出这个多个 PV，此外，随着项目的需要，会有新的 PVC 不断被提交，那么运维人员就需要不断的添加新的，满足要求的 PV，否则新的 Pod 就会因为 PVC 绑定不到 PV 而导致创建失败。而且通过 PVC 请求到一定的存储空间也很有可能不足以满足应用对于存储设备的各种需求，而且不同的应用程序对于存储性能的要求可能也不尽相同，比如读写速度、并发性能等，为了解决这一问题，Kubernetes 又为我们引入了一个新的资源对象：StorageClass，通过 StorageClass 的定义，管理员可以将存储资源定义为某种类型的资源，比如快速存储、慢速存储等，kubernetes 根据 StorageClass 的描述就可以非常直观的知道各种存储资源的具体特性了，这样就可以根据应用的特性去申请合适的存储资源了。&lt;/p>
-&lt;p>1、定义 StorageClass
-每一个存储类都包含 provisioner、parameters 和 reclaimPolicy 这三个参数域，当一个属于某个类的 PersistentVolume 需要被动态提供时，将会使用上述的参数域。&lt;/p>
+&lt;/code>&lt;/pre>&lt;p>系统通常会选择满足条件的最小那个 PV。在这种情况下，mypvc 很有可能会与 pv004 (10Gi) 绑定。&lt;/p>
+&lt;h3 id="27storageclass">2.7、StorageClass&lt;/h3>&lt;p>在一个大规模的 Kubernetes 集群里，可能有成千上万个 PVC，这就意味着运维人员必须实现创建出这个多个 PV，此外，随着项目的需要，会有新的 PVC 不断被提交，那么运维人员就需要不断的添加新的，满足要求的 PV，否则新的 Pod 就会因为 PVC 绑定不到 PV 而导致创建失败。而且通过 PVC 请求到一定的存储空间也很有可能不足以满足应用对于存储设备的各种需求，而且不同的应用程序对于存储性能的要求可能也不尽相同，比如读写速度、并发性能等，为了解决这一问题，Kubernetes 又为我们引入了一个新的资源对象：StorageClass，通过 StorageClass 的定义，管理员可以将存储资源定义为某种类型的资源，比如快速存储、慢速存储等，kubernetes 根据 StorageClass 的描述就可以非常直观的知道各种存储资源的具体特性了，这样就可以根据应用的特性去申请合适的存储资源了。&lt;/p>
+&lt;h4 id="定义-storageclass">定义 StorageClass&lt;/h4>&lt;p>每一个存储类都包含 &lt;code>provisioner、parameters 和 reclaimPolicy&lt;/code> 这三个参数域，当一个属于某个类的 PersistentVolume 需要被动态提供时，将会使用上述的参数域。&lt;/p>
 &lt;pre tabindex="0">&lt;code># 下载 helm
 wget https://get.helm.sh/helm-v3.3.4-linux-amd64.tar.gz
 # 解压
@@ -2835,10 +3201,66 @@ helm pull stable/nfs-client-provisioner
 # 解压安装包
 tar xf nfs-client-provisioner-1.2.11.tgz &amp;amp;&amp;amp; cd nfs-client-provisioner/
 # 修改配置文件 values.yaml
-&lt;/code>&lt;/pre>&lt;pre tabindex="0">&lt;code># 安装 nfs client
+# 安装 nfs client
 helm install nfs ./
-# 运行案例
-kind: PersistentVolumeClaim
+# 使用 -f 参数指定你的配置文件
+helm install nfs-storage ./nfs-client-provisioner -f my-values.yaml
+&lt;/code>&lt;/pre>&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>values.yml&lt;/code>&lt;/summary>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yml" data-lang="yml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># nfs-client-provisioner values.yaml&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">nfs&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># 必填：NFS 服务器的 IP 地址或主机名&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">server&lt;/span>: &lt;span style="color:#ae81ff">192.168.12.71&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># 必填：NFS 服务器上共享的导出目录&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">path&lt;/span>: &lt;span style="color:#ae81ff">/data/nfs/dynamic&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># 挂载参数，通常保持默认即可&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">mountOptions&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">storageClass&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># 存储类的名字，以后在 PVC 的 storageClassName 字段就写这个&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">nfs-storage&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># 是否将此存储类设置为集群默认的存储类。写 PVC 时不写 storageClassName，系统会自动动用这个 NFS 存储。&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">defaultClass&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># 回收策略：Delete (删除 PVC 时同时删除 NFS 上的数据) &lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># 或 Retain (保留数据，需手动清理)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">reclaimPolicy&lt;/span>: &lt;span style="color:#ae81ff">Delete&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># 是否允许 PVC 创建后扩容（需底层存储支持，NFS 通常支持）&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">allowVolumeExpansion&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># 归档模式：如果设为 true，删除 PVC 时数据会被重命名备份而非直接删除。NFS 上的文件夹会加上 archived- 前缀保留下来，而不是被彻底抹除。&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">archiveOnDelete&lt;/span>: &lt;span style="color:#66d9ef">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">rbac&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e"># 必填：必须创建 RBAC 角色，否则 Provisioner 没有权限在集群内创建 PV&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">create&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># 镜像配置&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">image&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">repository&lt;/span>: &lt;span style="color:#ae81ff">quay.io/external_storage/nfs-client-provisioner&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">tag&lt;/span>: &lt;span style="color:#ae81ff">v3.1.0-k8s1.11&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">pullPolicy&lt;/span>: &lt;span style="color:#ae81ff">IfNotPresent&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># 资源限制，防止 Provisioner 占用过多系统资源&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">resources&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">limits&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">cpu&lt;/span>: &lt;span style="color:#ae81ff">100m &lt;/span> &lt;span style="color:#75715e"># 1.0 CPU = 1 核 = 1000m&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">memory&lt;/span>: &lt;span style="color:#ae81ff">128Mi&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">requests&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">cpu&lt;/span>: &lt;span style="color:#ae81ff">100m&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">memory&lt;/span>: &lt;span style="color:#ae81ff">128Mi&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># 如果你的 Node 节点有特殊污点，需要设置容忍度&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">tolerations&lt;/span>: []
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># 节点亲和性设置&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">nodeSelector&lt;/span>: {}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;/details>
+&lt;/p>
+&lt;h4 id="运行案例">运行案例&lt;/h4>&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>storage.yml&lt;/code>&lt;/summary>
+&lt;pre tabindex="0">&lt;code>kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
 namespace: default
@@ -2848,7 +3270,7 @@ app: test-nfs
 spec:
 accessModes:
 - ReadWriteMany
-storageClassName: nfs-client
+storageClassName: nfs-storage # NFS 服务器的共享目录下创建一个子目录（名字通常类似 default-test-nfs-pvc-xxxx）
 resources:
 requests:
 storage: 8Gi
@@ -2879,10 +3301,13 @@ name: test-nfs
 volumes:
 - name: test-nfs
 persistentVolumeClaim:
-claimName: test-nfs
-# 测试
-[root@kubernetes-master-001 helm]# vim test.yaml
-[root@kubernetes-master-001 helm]# kubectl apply -f test.yaml
+claimName: test-nfs # 指向了名为 test-nfs 的 PVC
+&lt;/code>&lt;/pre>
+&lt;/details>
+&lt;/p>
+&lt;p>验证：&lt;/p>
+&lt;pre tabindex="0">&lt;code>[root@kubernetes-master-001 helm]# vim storage.yml
+[root@kubernetes-master-001 helm]# kubectl apply -f storage.yml
 persistentvolumeclaim/test-nfs created
 deployment.apps/test-nfs-storageclass created
 [root@kubernetes-master-001 helm]# kubectl get pvc,pv
@@ -2893,8 +3318,8 @@ persistentvolume/pvc-cf0c8175-f145-438a-ba5c-35effc080231 8Gi RWX Delete Bound d
 [root@kubernetes-master-001 helm]# ll /nfs/v1
 total 4
 drwxrwxrwx 2 root root 4096 Oct 16 09:56 default-test-nfs-pvc-cf0c8175-f145-438a-ba5c-35effc080231
-# 编写一个 index.html 测试网络存储。
-[root@kubernetes-master-001 helm]# cd /nfs/v1/default-test-nfs-pvc-cf0c8175-f145-438a-ba5c-35effc080231/
+&lt;/code>&lt;/pre>&lt;p>编写一个 index.html 测试网络存储：&lt;/p>
+&lt;pre tabindex="0">&lt;code>[root@kubernetes-master-001 helm]# cd /nfs/v1/default-test-nfs-pvc-cf0c8175-f145-438a-ba5c-35effc080231/
 [root@kubernetes-master-001 default-test-nfs-pvc-cf0c8175-f145-438a-ba5c-35effc080231]# echo &amp;#34;index&amp;#34; &amp;gt; index.html
 [root@kubernetes-master-001 default-test-nfs-pvc-cf0c8175-f145-438a-ba5c-35effc080231]# kubectl get pods -l app=test-nfs
 NAME READY STATUS RESTARTS AGE
