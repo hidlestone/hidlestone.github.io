@@ -400,8 +400,71 @@ Switched to context &amp;#34;dashboard-admin@kubernetes&amp;#34;.
 &lt;/code>&lt;/pre>&lt;p>浏览器选择 Kubeconfig 方式登录。&lt;/p>
 &lt;p>参考：
 &lt;a href="https://blog.csdn.net/mushuangpanny/article/details/126944780">https://blog.csdn.net/mushuangpanny/article/details/126944780&lt;/a>
-&lt;a href="https://blog.csdn.net/qq_32202885/article/details/126231040">https://blog.csdn.net/qq_32202885/article/details/126231040&lt;/a>&lt;/p></description></item><item><title>kubernetes | Helm</title><link>https://hidlestone.github.io/blog/infrastructure/kubernetes/17-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-helm/</link><pubDate>Thu, 17 Mar 2022 22:17:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/kubernetes/17-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-helm/</guid><description>&lt;h2 id="一helm-引入">一、Helm 引入&lt;/h2>&lt;p>K8S 上的应用对象，都是由特定的资源描述组成，包括 deployment、service 等。都保存各自文件中或者集中写到一个配置文件。然后 &lt;code>kubectl apply –f&lt;/code> 部署。
-&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-Helm/1269789687.png">
+&lt;a href="https://blog.csdn.net/qq_32202885/article/details/126231040">https://blog.csdn.net/qq_32202885/article/details/126231040&lt;/a>&lt;/p></description></item><item><title>kubernetes | Helm</title><link>https://hidlestone.github.io/blog/infrastructure/kubernetes/17-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-helm/</link><pubDate>Thu, 17 Mar 2022 22:17:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/kubernetes/17-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-helm/</guid><description>&lt;h2 id="一helm-引入">一、Helm 引入&lt;/h2>&lt;p>K8S 上的应用对象，都是由特定的资源描述组成，包括 deployment、service 等。都保存各自文件中或者集中写到一个配置文件。然后 &lt;code>kubectl apply –f&lt;/code> 部署。&lt;br>
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>deploy.yml&lt;/code>&lt;/summary>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">apiVersion&lt;/span>: &lt;span style="color:#ae81ff">apps/v1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">kind&lt;/span>: &lt;span style="color:#ae81ff">Deployment&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">metadata&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">web&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">namespace&lt;/span>: &lt;span style="color:#ae81ff">default&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">spec&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">replicas&lt;/span>: &lt;span style="color:#ae81ff">3&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">selector&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">matchLabels&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">app&lt;/span>: &lt;span style="color:#ae81ff">nginx&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">template&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">metadata&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">labels&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">app&lt;/span>: &lt;span style="color:#ae81ff">nginx&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">spec&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">containers&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">nginx&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">image&lt;/span>: &lt;span style="color:#ae81ff">nginx:1.15&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">ports&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#f92672">containerPort&lt;/span>: &lt;span style="color:#ae81ff">80&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>---
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">apiVersion&lt;/span>: &lt;span style="color:#ae81ff">v1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">kind&lt;/span>: &lt;span style="color:#ae81ff">Service&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">metadata&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">labels&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">app&lt;/span>: &lt;span style="color:#ae81ff">web&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">web&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">spec&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">ports&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#f92672">port&lt;/span>: &lt;span style="color:#ae81ff">80&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">protocol&lt;/span>: &lt;span style="color:#ae81ff">TCP&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">targetPort&lt;/span>: &lt;span style="color:#ae81ff">8080&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">selector&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">app&lt;/span>: &lt;span style="color:#ae81ff">web&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>---
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">apiVersion&lt;/span>: &lt;span style="color:#ae81ff">v1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">kind&lt;/span>: &lt;span style="color:#ae81ff">ConfigMap&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">metadata&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">redis-config&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">data&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">redis.properties&lt;/span>: |&lt;span style="color:#e6db74">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> redis.host=127.0.0.1
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> redis.port=6379
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74"> redis.password=123456&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>---
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">apiVersion&lt;/span>: &lt;span style="color:#ae81ff">networking.k8s.io/v1beta1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">kind&lt;/span>: &lt;span style="color:#ae81ff">Ingress&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">metadata&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">web&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">spec&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">rules&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#f92672">host&lt;/span>: &lt;span style="color:#ae81ff">www.ctnrs.com&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">http&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">paths&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#f92672">path&lt;/span>: &lt;span style="color:#ae81ff">/&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">backend&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">serviceName&lt;/span>: &lt;span style="color:#ae81ff">web&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">servicePort&lt;/span>: &lt;span style="color:#ae81ff">80&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;/details>
+&lt;/p>
 如果应用只由一个或几个这样的服务组成，上面部署方式足够了。而对于一个复杂的应用，会有很多类似上面的资源描述文件，例如微服务架构应用，组成应用的服务可能多达十个，几十个。如果有更新或回滚应用的需求，可能要修改和维护所涉及的大量资源文件，而这种组织和管理应用的方式就显得力不从心了。且由于缺少对发布过的应用版本管理和控制，使 Kubernetes 上的应用维护和更新等面临诸多的挑战，主要面临以下问题：&lt;/p>
 &lt;ul>
 &lt;li>如何将这些服务作为一个整体管理。&lt;/li>
@@ -411,9 +474,9 @@ Switched to context &amp;#34;dashboard-admin@kubernetes&amp;#34;.
 &lt;h2 id="二helm">二、Helm&lt;/h2>&lt;p>&lt;code>Helm 是一个 Kubernetes 的包管理工具&lt;/code>，就像 Linux 下的包管理器，如 yum/apt 等，可以很方便的将之前打包好的 yaml 文件部署到 kubernetes 上。&lt;br>
 Helm 有 3 个重要概念：&lt;/p>
 &lt;ul>
-&lt;li>&lt;strong>helm&lt;/strong>：一个命令行客户端工具，主要用于 Kubernetes 应用 chart 的创建、打包、发布和管理。&lt;/li>
-&lt;li>&lt;strong>Chart&lt;/strong>：应用描述，一系列用于描述 k8s 资源相关文件的集合。&lt;/li>
-&lt;li>&lt;strong>Release&lt;/strong>：基于 Chart 的部署实体，一个 chart 被 Helm 运行后将会生成对应的一个release；将在 k8s 中创建出真实运行的资源对象。&lt;/li>
+&lt;li>&lt;code>helm&lt;/code>：一个命令行客户端工具，主要用于 Kubernetes 应用 chart 的创建、打包、发布和管理。&lt;/li>
+&lt;li>&lt;code>Chart&lt;/code>：应用描述，一系列用于描述 k8s 资源相关文件的集合。&lt;/li>
+&lt;li>&lt;code>Release&lt;/code>：基于 Chart 的部署实体，一个 chart 被 Helm 运行后将会生成对应的一个 release；将在 k8s 中创建出真实运行的资源对象。&lt;/li>
 &lt;/ul>
 &lt;h3 id="21helm-作用">2.1、Helm 作用&lt;/h3>&lt;p>使用 helm 可以这些 yaml 文件作为一个整体管理。
 实现 yaml 高效复用。
@@ -439,15 +502,15 @@ Helm 有 3 个重要概念：&lt;/p>
 total 0
 drwxr-xr-x 2 3434 3434 50 Oct 14 04:09 linux-amd64
 &lt;/code>&lt;/pre>&lt;p>3、配置环境变量&lt;/p>
-&lt;pre tabindex="0">&lt;code>#1.配置环境变量
+&lt;pre tabindex="0">&lt;code>#1. 配置环境变量
 [root@kubernetes-master-001 /opt]# vim /etc/profile.d/helm.sh
 export PATH=/opt/linux-amd64:$PATH
-#2.刷新环境变量
+#2. 刷新环境变量
 [root@kubernetes-master-001 /opt]# source /etc/profile.d/helm.sh
 &lt;/code>&lt;/pre>&lt;p>4、验证 helm&lt;/p>
 &lt;pre tabindex="0">&lt;code>[root@kubernetes-master-001 /opt]# helm version
-version.BuildInfo{Version:&amp;#34;v3.7.1&amp;#34;, GitCommit:&amp;#34;1d11fcb5d3f3bf00dbe6fe31b8412839a96b3dc4&amp;#34;, GitTreeState:&amp;#34;clean&amp;#34;, GoVersion:&amp;#34;go1.16.9&amp;#34;}
-&lt;/code>&lt;/pre>&lt;h3 id="24helm常用命令">2.4、Helm常用命令&lt;/h3>&lt;ul>
+version.BuildInfo {Version:&amp;#34;v3.7.1&amp;#34;, GitCommit:&amp;#34;1d11fcb5d3f3bf00dbe6fe31b8412839a96b3dc4&amp;#34;, GitTreeState:&amp;#34;clean&amp;#34;, GoVersion:&amp;#34;go1.16.9&amp;#34;}
+&lt;/code>&lt;/pre>&lt;h3 id="24helm-常用命令">2.4、Helm 常用命令&lt;/h3>&lt;ul>
 &lt;li>&lt;code>create&lt;/code> 创建一个 chart 并指定名字&lt;/li>
 &lt;li>&lt;code>dependency&lt;/code> 管理 chart 依赖&lt;/li>
 &lt;li>&lt;code>get&lt;/code> 下载一个 release。可用子命令：all、hooks、manifest、notes、values&lt;/li>
@@ -466,7 +529,7 @@ version.BuildInfo{Version:&amp;#34;v3.7.1&amp;#34;, GitCommit:&amp;#34;1d11fcb5d
 &lt;li>&lt;code>upgrade&lt;/code> 更新一个 release&lt;/li>
 &lt;li>&lt;code>version&lt;/code> 查看 helm 客户端版本&lt;/li>
 &lt;/ul>
-&lt;h3 id="25配置国内chart仓库">2.5、配置国内chart仓库&lt;/h3>&lt;p>1、常用国内仓库&lt;/p>
+&lt;h3 id="25配置国内-chart-仓库">2.5、配置国内 chart 仓库&lt;/h3>&lt;p>1、常用国内仓库&lt;/p>
 &lt;pre tabindex="0">&lt;code>微软仓库（http://mirror.azure.cn/kubernetes/charts/）这个仓库推荐，基本上官网有的 chart 这里都有。
 阿里云仓库（https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts）
 官方仓库（https://hub.kubeapps.com/charts/incubator）官方 chart 仓库，国内有点不好使。
@@ -479,42 +542,42 @@ Hang tight while we grab the latest from your chart repositories...
 ...Successfully got an update from the &amp;#34;stable&amp;#34; chart repository
 Update Complete. ⎈Happy Helming!⎈
 &lt;/code>&lt;/pre>&lt;p>3、查看配置的存储库&lt;/p>
-&lt;pre tabindex="0">&lt;code>#1.查看配置的存储库
+&lt;pre tabindex="0">&lt;code>#1. 查看配置的存储库
 helm repo list
 NAME URL
 stable http://mirror.azure.cn/kubernetes/charts
 aliyun https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts
-#2.查看配置存储库的服务清单
+#2. 查看配置存储库的服务清单
 helm search repo stable
 &lt;/code>&lt;/pre>&lt;p>4、删除存储库&lt;/p>
-&lt;pre tabindex="0">&lt;code>#1.查看存储库
+&lt;pre tabindex="0">&lt;code>#1. 查看存储库
 [root@kubernetes-master-001 /opt]# helm repo list
 NAME URL
 stable http://mirror.azure.cn/kubernetes/charts
 aliyun https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts
-#2.删除存储库aliyun
+#2. 删除存储库 aliyun
 [root@kubernetes-master-001 /opt]# helm repo remove aliyun
 &amp;#34;aliyun&amp;#34; has been removed from your repositories
-#3.再次查看存储库
+#3. 再次查看存储库
 [root@kubernetes-master-001 /opt]# helm repo list
 NAME URL
 stable http://mirror.azure.cn/kubernetes/charts
 &lt;/code>&lt;/pre>&lt;h3 id="26helm-基本使用">2.6、Helm 基本使用&lt;/h3>&lt;p>主要三个命令：&lt;/p>
 &lt;ul>
-&lt;li>chart install&lt;/li>
-&lt;li>chart upgrade&lt;/li>
-&lt;li>chart rollback&lt;/li>
+&lt;li>&lt;code>chart install&lt;/code>&lt;/li>
+&lt;li>&lt;code>chart upgrade&lt;/code>&lt;/li>
+&lt;li>&lt;code>chart rollback&lt;/code>&lt;/li>
 &lt;/ul>
 &lt;h3 id="27使用-helm-部署一个应用">2.7、使用 helm 部署一个应用&lt;/h3>&lt;p>部署 weave 界面&lt;/p>
 &lt;pre tabindex="0">&lt;code>$ export KUBERNETES_MASTER=http://127.0.0.1:8080
 $ helm search repo weave
 $ helm install k8s-ui azure/weave-scope
-$ helm list #列出helm部署应用
+$ helm list #列出 helm 部署应用
 $ helm status k8s-ui #查看状态
-#如果要浏览器本地访问，需要设置svc为NodePort
+# 如果要浏览器本地访问，需要设置 svc 为 NodePort
 &lt;/code>&lt;/pre>&lt;p>部署 mysql&lt;/p>
 &lt;pre tabindex="0">&lt;code>$ helm search repo mysql
-$ helm install db azure/mysql #这样不能成功，因为mysql需要pv，所以一直处于pending状态
+$ helm install db azure/mysql #这样不能成功，因为 mysql 需要 pv，所以一直处于 pending 状态
 $ cat pv01.yml
 apiVersion: v1
 kind: PersistentVolume
@@ -533,12 +596,12 @@ $ kubectl apply -f pv01.yml
 $ kubectl run mysql-client -it --rm --image=mysql:5.7 -- bash #测试数据库
 mysql -h db1-mysql -pdSt9QIYNGF
 &lt;/code>&lt;/pre>&lt;p>查看 chart 的 values 和 values 设置&lt;/p>
-&lt;pre tabindex="0">&lt;code>$ helm show values azure/mysql #查看values
-$ helm pull azure/mysql --untar #可以直接下载chart之后再看
+&lt;pre tabindex="0">&lt;code>$ helm show values azure/mysql #查看 values
+$ helm pull azure/mysql --untar #可以直接下载 chart 之后再看
 $ helm install db1 --set persistence.storageClass=&amp;#34;managed-nfs-storage&amp;#34; azure/mysql
 $ kubectl get secret --namespace default db-mysql -o jsonpath=&amp;#34;{.data.mysql-root-password}&amp;#34; | base64 --decode; echo #获取登陆密码
 dSt9QIYNGF
-&lt;/code>&lt;/pre>&lt;p>values yaml与set使用：
+&lt;/code>&lt;/pre>&lt;p>values yaml 与 set 使用：
 &lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-Helm/3509004851.png">&lt;/p>
 &lt;pre tabindex="0">&lt;code>$ helm pull azure/mysql --untar &amp;amp;&amp;amp; cat mysql/values.yml
 persistence:
@@ -565,7 +628,7 @@ annotations: {}
 mysqlUser: ops
 mysqlPassword: &amp;#34;Qwer1234@&amp;#34;
 mysqlDatabase: &amp;#34;opsDB&amp;#34;
-$ helm install db3 azure/mysql -f values.yml # 根据values指定参数创建
+$ helm install db3 azure/mysql -f values.yml # 根据 values 指定参数创建
 $ kubectl exec -it mysql-client -- bash #测试创建信息
 root@mysql-client:/# mysql -h db3-mysql -pE1ihmKspOL
 mysql: [Warning] Using a password on the command line interface can be insecure.
@@ -593,14 +656,14 @@ mysql&amp;gt; show databases;
 $ helm create mychart
 $ tree mychart/
 mychart/
-├── charts #目录里存放这个chart依赖的所有子chart。
-├── Chart.yaml #用于描述这个 Chart的基本信息，包括名字、描述信息以及版本等。
-├── templates #目录里面存放所有yaml模板文件。
+├── charts #目录里存放这个 chart 依赖的所有子 chart。
+├── Chart.yaml #用于描述这个 Chart 的基本信息，包括名字、描述信息以及版本等。
+├── templates #目录里面存放所有 yaml 模板文件。
 │ ├── deployment.yaml
 │ ├── _helpers.tpl #放置模板助手的地方，可以在整个 chart 中重复使用
 │ ├── hpa.yaml
 │ ├── ingress.yaml
-│ ├── NOTES.txt #用于介绍Chart帮助信息， helm install 部署后展示给用户。例如：如何使用这个 Chart、列出缺省的设置等。
+│ ├── NOTES.txt #用于介绍 Chart 帮助信息， helm install 部署后展示给用户。例如：如何使用这个 Chart、列出缺省的设置等。
 │ ├── serviceaccount.yaml
 │ ├── service.yaml
 │ └── tests
@@ -611,8 +674,8 @@ $ helm install web1 mychart #直接部署
 &lt;pre tabindex="0">&lt;code>$ helm package mychart
 Successfully packaged chart and saved it to: /root/lesson/helm/mychart-0.1.0.tgz
 &lt;/code>&lt;/pre>&lt;p>升级，回滚和删除
-发布新版本的chart时，或者当您要更改发布的配置时，可以使用该&lt;code>helm upgrade&lt;/code>命令。&lt;/p>
-&lt;p>参考：
+发布新版本的 chart 时，或者当您要更改发布的配置时，可以使用该 &lt;code>helm upgrade&lt;/code> 命令。&lt;/p>
+&lt;p>Reference&lt;br>
 &lt;a href="https://cloud.tencent.com/developer/article/1702139">https://cloud.tencent.com/developer/article/1702139&lt;/a>&lt;/p></description></item><item><title>kubernetes | Ingress</title><link>https://hidlestone.github.io/blog/infrastructure/kubernetes/16-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-ingress/</link><pubDate>Thu, 17 Mar 2022 22:16:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/kubernetes/16-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-ingress/</guid><description>&lt;h2 id="一引言">一、引言&lt;/h2>&lt;p>在 Kubernetes 中，Ingress 是一种 API 对象，用于管理外部访问集群服务的方式，通常是 HTTP 和 HTTPS 流量。可以将 Ingress 理解为一个智能的路由器，它根据请求的 URL 路径或主机名将流量路由到不同的服务。
 主要功能：&lt;/p>
 &lt;ul>
