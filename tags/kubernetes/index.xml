@@ -30,11 +30,11 @@ kubernetes-dashboard-7448ffc97b-7f7gg 1/1 Running 0 107s
 &lt;/code>&lt;/pre>&lt;h2 id="五修改对外服务端口">五、修改对外服务端口&lt;/h2>&lt;h3 id="51修改对外服务端口">5.1、修改对外服务端口&lt;/h3>&lt;pre tabindex="0">&lt;code>[root@k8s-master-01 ~]# kubectl edit svc -n kubernetes-dashboard
 将 type: ClusterIP 改为 type: NodePort
 &lt;/code>&lt;/pre>&lt;h3 id="52查看端口映射">5.2、查看端口映射&lt;/h3>&lt;pre tabindex="0">&lt;code>[root@k8s-master-001 ~]# kubectl get svc -n kubernetes-dashboard
-NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE
+NAME TYPE CLUSTER-IP EXTERNAL-IP PORT (S) AGE
 dashboard-metrics-scraper ClusterIP 10.106.254.133 &amp;lt;none&amp;gt; 8000/TCP 7m29s
 kubernetes-dashboard NodePort 10.98.245.78 &amp;lt;none&amp;gt; 443:31424/TCP 7m29s
-&lt;/code>&lt;/pre>&lt;h2 id="六访问测试">六、访问测试&lt;/h2>&lt;p>访问：&lt;code>https://集群任意IP:端口&lt;/code>，&lt;code>https://192.168.10.146:32500&lt;/code>（记住替换为自己的IP地址）&lt;/p>
-&lt;h2 id="七获取-token">七、获取 Token&lt;/h2>&lt;h3 id="71编写token文件">7.1、编写Token文件&lt;/h3>&lt;p>&lt;code>token.yaml&lt;/code>&lt;/p>
+&lt;/code>&lt;/pre>&lt;h2 id="六访问测试">六、访问测试&lt;/h2>&lt;p>访问：&lt;code>https:// 集群任意 IP: 端口&lt;/code>，&lt;code>https://192.168.10.146:32500&lt;/code>（记住替换为自己的 IP 地址）&lt;/p>
+&lt;h2 id="七获取-token">七、获取 Token&lt;/h2>&lt;h3 id="71编写-token-文件">7.1、编写 Token 文件&lt;/h3>&lt;p>&lt;code>token.yaml&lt;/code>&lt;/p>
 &lt;pre tabindex="0">&lt;code>apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -58,7 +58,7 @@ namespace: kube-system
 &lt;/code>&lt;/pre>&lt;h3 id="72部署-token">7.2、部署 Token&lt;/h3>&lt;pre tabindex="0">&lt;code>[root@k8s-master-001 ~]# kubectl apply -f token.yaml
 serviceaccount/admin-user created
 clusterrolebinding.rbac.authorization.k8s.io/admin-user created
-&lt;/code>&lt;/pre>&lt;h3 id="73获取token">7.3、获取Token&lt;/h3>&lt;pre tabindex="0">&lt;code>[root@k8s-master-001 ~]# kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin-user | awk &amp;#39;{print $1}&amp;#39;)
+&lt;/code>&lt;/pre>&lt;h3 id="73获取-token">7.3、获取 Token&lt;/h3>&lt;pre tabindex="0">&lt;code>[root@k8s-master-001 ~]# kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin-user | awk &amp;#39;{print $1}&amp;#39;)
 Name: admin-user-token-fw57d
 Namespace: kube-system
 Labels: &amp;lt;none&amp;gt;
@@ -70,11 +70,11 @@ Data
 ca.crt: 1025 bytes
 namespace: 11 bytes
 token: eyJhbGciOiJSUzI1NiIsImtpZCI6InUtcnJJbUVBa201WEYwUmgwcmQwbzFQNG1KSzFTT2NtWHpXTC1ja2xRUmMifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLWZ3NTdkIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJjZGMxYzRkNS0wODUwLTQ1MmItOTExMy1kNjM3OWMzOWM1NDAiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06YWRtaW4tdXNlciJ9.Sdsw9fg5DCkKEHexKbIwwPr4tm_RPvy18LuAIx2DMxNzviow_7ZAJAj91beaM3a-3WmDzS1Nz4hX2ne3tP_I9JMFttmDyUdjzY0uLBESO-c8JTeC6ZFX7erHL7e97s5M8nyBo4UoUcwPTnqZNr5-Eod41NmjHfs3xgteqK25lpIYhVYmVvQCSaXgnByQ2FXhj5rIjVbzetTxLHM5ZGflHpTL_c070D34feZ_0nYe66y-X4x6pU6C22dn5o551_wqA5iBbL2vRy7yswLbQeODQtt7NGTUnO7MGSbNn5e31kfp4fp9ldYKT3R8QwtgpGalX3Sm8MDaCGDro44wJnr_Hw
-&lt;/code>&lt;/pre>&lt;p>输入Token，正常访问。&lt;/p>
-&lt;h2 id="八kubeconfig-的方式方式登录">八、Kubeconfig 的方式方式登录&lt;/h2>&lt;p>基于token的基础之上，进行以下操作：&lt;/p>
+&lt;/code>&lt;/pre>&lt;p>输入 Token，正常访问。&lt;/p>
+&lt;h2 id="八kubeconfig-的方式方式登录">八、Kubeconfig 的方式方式登录&lt;/h2>&lt;p>基于 token 的基础之上，进行以下操作：&lt;/p>
 &lt;h3 id="81查看刚才创建的-token">8.1、查看刚才创建的 Token&lt;/h3>&lt;pre tabindex="0">&lt;code>[root@k8s-master-001 ~]# kubectl -n kube-system get secret | grep admin-user
 admin-user-token-g4dbs kubernetes.io/service-account-token 3 9m31s
-&lt;/code>&lt;/pre>&lt;h3 id="82查看token的详细信息会获取token">8.2、查看Token的详细信息，会获取token&lt;/h3>&lt;pre tabindex="0">&lt;code>[root@k8s-master-001 ~]# kubectl describe secrets -n kube-system admin-user-token-g4dbs
+&lt;/code>&lt;/pre>&lt;h3 id="82查看-token-的详细信息会获取-token">8.2、查看 Token 的详细信息，会获取 token&lt;/h3>&lt;pre tabindex="0">&lt;code>[root@k8s-master-001 ~]# kubectl describe secrets -n kube-system admin-user-token-g4dbs
 Name: admin-user-token-lv7qr
 Namespace: kube-system
 Labels: &amp;lt;none&amp;gt;
@@ -87,7 +87,7 @@ ca.crt: 1066 bytes
 namespace: 11 bytes
 token: eyJhbGciOiJSUzI1NiIsImtpZCI6InUtckNQdnlZV3o1a3F6X3k1aUFsdjJydXBEZU1mbTRObUlmalV2dk0wOE0ifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLWx2N3FyIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJlM2MwYzFmMC02NWEwLTQ1ODgtYmJhMi01ODg0NTYzOTg4M2MiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06YWRtaW4tdXNlciJ9.jXhfXkADAXV6WWbDTAlEtnBhIlBVzzErCQMsdvufA67lptNlV_1GW6nIpm-hU5V9plRpascvpv7vi2f00jIGnhGbi3WNZQWB7ELVYUamcHxoZRbFc4BO8DTk2XtsxWfGnff5siqlsWYaUiBvsXkccsx7u93VrFpPgcYUfnRal1vp7Urir461KjincGsxD_aIsNbQZcYUz4ARuJ4EJpO5ZeMuQEfW4HhfoTO23Eku809RQnjosJ7bdGYS8TFotfrCQyqKxi2y3DI2jWA_2nrEXLTK1UPhRJJe5qJD-xXdTctz73ZZGQ1FobfA3p6nnmJZbvgLISHNuXiS044B9Nkj2A
 &lt;/code>&lt;/pre>&lt;h3 id="83将-token-的信息生成一个变量">8.3、将 Token 的信息生成一个变量&lt;/h3>&lt;pre tabindex="0">&lt;code>[root@k8s-master-001 ~]# DASH_TOKEN=$(kubectl get secrets -n kube-system admin-user-token-g4dbs -o jsonpath={.data.token} | base64 -d)
-&lt;/code>&lt;/pre>&lt;h3 id="84将k8s集群的配置信息写入到一个文件中文件可自定义">8.4、将k8s集群的配置信息写入到一个文件中，文件可自定义&lt;/h3>&lt;pre tabindex="0">&lt;code>[root@k8s-master-001 ~]# kubectl config set-cluster kubernets --server=192.168.10.146:6443 --kubeconfig=/root/.dashboard-admin.conf
+&lt;/code>&lt;/pre>&lt;h3 id="84将-k8s-集群的配置信息写入到一个文件中文件可自定义">8.4、将 k8s 集群的配置信息写入到一个文件中，文件可自定义&lt;/h3>&lt;pre tabindex="0">&lt;code>[root@k8s-master-001 ~]# kubectl config set-cluster kubernets --server=192.168.10.146:6443 --kubeconfig=/root/.dashboard-admin.conf
 Cluster &amp;#34;kubernets&amp;#34; set.
 &lt;/code>&lt;/pre>&lt;h3 id="85将-token-的信息也写入到文件中同一个文件">8.5、将 Token 的信息也写入到文件中（同一个文件）&lt;/h3>&lt;pre tabindex="0">&lt;code>[root@k8s-master-001 ~]# kubectl config set-credentials dashboard-admin --token=${DASH_TOKEN} --kubeconfig=/root/.dashboard-admin.conf
 User &amp;#34;dashboard-admin&amp;#34; set.
@@ -95,9 +95,9 @@ User &amp;#34;dashboard-admin&amp;#34; set.
 Context &amp;#34;dashboard-admin@kubernetes&amp;#34; created.
 &lt;/code>&lt;/pre>&lt;h3 id="87将上下文的配置信息也写入文件中同一个文件">8.7、将上下文的配置信息也写入文件中（同一个文件）&lt;/h3>&lt;pre tabindex="0">&lt;code>[root@k8s-master-001 ~]# kubectl config use-context dashboard-admin@kubernetes --kubeconfig=/root/.dashboard-admin.conf
 Switched to context &amp;#34;dashboard-admin@kubernetes&amp;#34;.
-&lt;/code>&lt;/pre>&lt;h3 id="88最后将配置信息dashboard-adminconf下载到本地">8.8、最后将配置信息&lt;code>.dashboard-admin.conf&lt;/code>下载到本地&lt;/h3>&lt;pre tabindex="0">&lt;code>[root@k8s-master-001 ~]# sz /root/.dashboard-admin.conf
+&lt;/code>&lt;/pre>&lt;h3 id="88最后将配置信息-dashboard-adminconf-下载到本地">8.8、最后将配置信息 &lt;code>.dashboard-admin.conf&lt;/code> 下载到本地&lt;/h3>&lt;pre tabindex="0">&lt;code>[root@k8s-master-001 ~]# sz /root/.dashboard-admin.conf
 &lt;/code>&lt;/pre>&lt;p>浏览器选择 Kubeconfig 方式登录。&lt;/p>
-&lt;p>参考：
+&lt;p>Reference&lt;br>
 &lt;a href="https://blog.csdn.net/mushuangpanny/article/details/126944780">https://blog.csdn.net/mushuangpanny/article/details/126944780&lt;/a>
 &lt;a href="https://blog.csdn.net/qq_32202885/article/details/126231040">https://blog.csdn.net/qq_32202885/article/details/126231040&lt;/a>&lt;/p></description></item><item><title>kubernetes | Helm</title><link>https://hidlestone.github.io/blog/infrastructure/kubernetes/17-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-helm/</link><pubDate>Thu, 17 Mar 2022 22:17:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/kubernetes/17-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-helm/</guid><description>&lt;h2 id="一helm-引入">一、Helm 引入&lt;/h2>&lt;p>K8S 上的应用对象，都是由特定的资源描述组成，包括 deployment、service 等。都保存各自文件中或者集中写到一个配置文件。然后 &lt;code>kubectl apply –f&lt;/code> 部署。&lt;br>
 &lt;p>
