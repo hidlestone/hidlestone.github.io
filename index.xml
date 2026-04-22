@@ -955,7 +955,28 @@ tcp6 0 0 :::80 :::* LISTEN 93825/nginx: master
 &lt;li>Controller 监测：运行在 Pod 里的 Nginx-Ingress-Controller 发现了你的 YAML。&lt;/li>
 &lt;li>配置转化：它把 YAML 转化成 nginx.conf 里的 upstream 和 server 块。&lt;/li>
 &lt;li>流量分发：外部请求打到 Nginx Pod -&amp;gt; Nginx 根据配置 -&amp;gt; 直接转发给后端的业务 Pod IP。&lt;/li>
-&lt;/ul></description></item><item><title>kubernetes | 一次性任务与定时任务</title><link>https://hidlestone.github.io/blog/infrastructure/kubernetes/15-kubernetes-%E4%B8%80%E6%AC%A1%E6%80%A7%E4%BB%BB%E5%8A%A1%E4%B8%8E%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/</link><pubDate>Thu, 17 Mar 2022 22:15:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/kubernetes/15-kubernetes-%E4%B8%80%E6%AC%A1%E6%80%A7%E4%BB%BB%E5%8A%A1%E4%B8%8E%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/</guid><description>&lt;h2 id="一job-一次性任务概述">一、Job 一次性任务概述&lt;/h2>&lt;p>主要负责批处理任务，Job 创建一个或多个 Pod，并确保指定数量的 Pod 成功终止。Pod 成功完成后，Job 将跟踪成功完成的情况。当达到指定的成功完成次数时，任务（即 Job）就完成了。删除 Job 将清除其创建的 Pod。&lt;/p>
+&lt;/ul>
+&lt;h3 id="86ingress-规则">8.6、Ingress 规则&lt;/h3>&lt;p>查看集群中定义了哪些 IngressClass&lt;/p>
+&lt;pre tabindex="0">&lt;code>kubectl get ingressclass
+&lt;/code>&lt;/pre>&lt;p>&lt;strong>输出示例：&lt;/strong>&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:left">NAME&lt;/th>
+&lt;th style="text-align:left">CONTROLLER&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:left">&lt;code>nginx-public&lt;/code>&lt;/td>
+&lt;td style="text-align:left">&lt;code>k8s.io/ingress-nginx-public&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">&lt;code>nginx-internal&lt;/code>&lt;/td>
+&lt;td style="text-align:left">&lt;code>k8s.io/ingress-nginx-internal&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table></description></item><item><title>kubernetes | 一次性任务与定时任务</title><link>https://hidlestone.github.io/blog/infrastructure/kubernetes/15-kubernetes-%E4%B8%80%E6%AC%A1%E6%80%A7%E4%BB%BB%E5%8A%A1%E4%B8%8E%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/</link><pubDate>Thu, 17 Mar 2022 22:15:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/kubernetes/15-kubernetes-%E4%B8%80%E6%AC%A1%E6%80%A7%E4%BB%BB%E5%8A%A1%E4%B8%8E%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/</guid><description>&lt;h2 id="一job-一次性任务概述">一、Job 一次性任务概述&lt;/h2>&lt;p>主要负责批处理任务，Job 创建一个或多个 Pod，并确保指定数量的 Pod 成功终止。Pod 成功完成后，Job 将跟踪成功完成的情况。当达到指定的成功完成次数时，任务（即 Job）就完成了。删除 Job 将清除其创建的 Pod。&lt;/p>
 &lt;p>一个简单的情况是创建一个 Job 对象，以便可靠地运行一个 Pod 来完成。如果第一个 Pod 发生故障或被删除（例如，由于节点硬件故障或节点重启），则 Job 对象将启动一个新的 Pod。当然还可以使用 Job 并行运行多个 Pod。&lt;/p>
 &lt;h2 id="二job-终止和清理">二、Job 终止和清理&lt;/h2>&lt;p>Job 完成后，不会再创建其他 Pod，但是 Pod 也不会被删除。这样使我们仍然可以查看已完成容器的日志，以检查是否有错误、警告或其他诊断输出。Job 对象在完成后也将保留下来，以便您查看其状态。当我们删除 Job 对象时，对应的 pod 也会被删除。&lt;/p>
 &lt;p>特殊说明:&lt;br>
