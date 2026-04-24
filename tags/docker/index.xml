@@ -1,16 +1,18 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Docker on PeifengZhuang</title><link>https://hidlestone.github.io/tags/docker/</link><description>Recent content in Docker on PeifengZhuang created by</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>qiaoxiazhimin@gmail.com (PeifengZhuang)</managingEditor><webMaster>qiaoxiazhimin@gmail.com (PeifengZhuang)</webMaster><copyright>2026 PeifengZhuang All rights reserved</copyright><lastBuildDate>Sun, 27 Feb 2022 23:14:00 +0000</lastBuildDate><atom:link href="https://hidlestone.github.io/tags/docker/index.xml" rel="self" type="application/rss+xml"/><item><title>Docker | Machine</title><link>https://hidlestone.github.io/blog/infrastructure/docker/14-docker-machine/</link><pubDate>Sun, 27 Feb 2022 23:14:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/docker/14-docker-machine/</guid><description>&lt;h2 id="一简介">一、简介&lt;/h2>&lt;p>Docker Machine 是 Docker 官方编排项目之一，使用 go 语言编写的，使用不同引擎在多种平台上快速的安装 Docker 环境。
-Docker Machine 是一个工具，它允许你在虚拟宿主机上安装 Docker，并使用 docker-machine 命令管理这个宿主机，可以使用 Docker Machine 在本地的 MAC 或者 windows box、公司网络，数据中心或者 AWS 这样的云提供商上创建 docker。
-使用 docker-machine 命令，可以启动、审查、停止、重启托管的 docker 也可以升级 Docker 客户端和守护程序并配置 docker 客户端和宿主机通信。
-Docker Machine 也可以集中管理所以得 docker 主机。&lt;/p>
-&lt;h2 id="二为什么要使用-docker-machine">二、为什么要使用 Docker Machine&lt;/h2>&lt;p>Docker Machine 使你能够在各种 Linux 上配置多个远程 Docker 宿主机。
-此外，Machine 允许你在较早的 Mac 或 Windows 系统上运行 Docker，如上一主题所述。
-Docker Engine Linux 系统上原生地运行。如果你有一个 Linux 作为你的主系统，并且想要运行 docker 命令，所有你需要做的就是下载并安装 Docker Engine 。然而，如果你想要在网络上、云中甚至本地配置多个 Docker 宿主机有一个有效的方式，你需要 Docker Machine。
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Docker on PeifengZhuang</title><link>https://hidlestone.github.io/tags/docker/</link><description>Recent content in Docker on PeifengZhuang created by</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>qiaoxiazhimin@gmail.com (PeifengZhuang)</managingEditor><webMaster>qiaoxiazhimin@gmail.com (PeifengZhuang)</webMaster><copyright>2026 PeifengZhuang All rights reserved</copyright><lastBuildDate>Sun, 27 Feb 2022 23:14:00 +0000</lastBuildDate><atom:link href="https://hidlestone.github.io/tags/docker/index.xml" rel="self" type="application/rss+xml"/><item><title>Docker | Machine</title><link>https://hidlestone.github.io/blog/infrastructure/docker/14-docker-machine/</link><pubDate>Sun, 27 Feb 2022 23:14:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/docker/14-docker-machine/</guid><description>&lt;h2 id="一简介">一、简介&lt;/h2>&lt;p>Docker Machine 是 Docker 官方编排项目之一，使用 go 语言编写的，使用不同引擎在多种平台上快速的安装 Docker 环境。&lt;br>
+Docker Machine 是一个工具，它允许你在虚拟宿主机上安装 Docker，并使用 docker-machine 命令管理这个宿主机，可以使用 Docker Machine 在本地的 MAC 或者 windows box、公司网络，数据中心或者 AWS 这样的云提供商上创建 docker。&lt;br>
+使用 docker-machine 命令，可以启动、审查、停止、重启托管的 docker 也可以升级 Docker 客户端和守护程序并配置 docker 客户端和宿主机通信。&lt;br>
+Docker Machine 也可以集中管理所有的 docker 主机。&lt;/p>
+&lt;p>Docker Machine 是一个曾经非常流行的工具，它让你可以在远程主机、虚拟机或云平台上轻松安装和管理 Docker 引擎。&lt;br>
+如果把 Docker 比作“集装箱”，Docker Machine 就是那个负责在空地上&lt;strong>铺设码头底层架构&lt;/strong>的施工队。&lt;/p>
+&lt;h2 id="二为什么要使用-docker-machine">二、为什么要使用 Docker Machine&lt;/h2>&lt;p>Docker Machine 使你能够在各种 Linux 上配置多个远程 Docker 宿主机。&lt;br>
+此外，Machine 允许你在较早的 Mac 或 Windows 系统上运行 Docker，如上一主题所述。&lt;br>
+Docker Engine Linux 系统上原生地运行。如果你有一个 Linux 作为你的主系统，并且想要运行 docker 命令，所有你需要做的就是下载并安装 Docker Engine 。然而，如果你想要在网络上、云中甚至本地配置多个 Docker 宿主机有一个有效的方式，你需要 Docker Machine。&lt;br>
 无论你的主系统是 Mac、Windows 还是 Linux，你都可以在其上安装 Docker Machine，并使用 docker-machine 命令来配置和管理大量的 Docker 宿主机。它会自动创建宿主机、在其上安装 Docker Engine 、然后配置 docker 客户端。每个被管理的宿主机（“machine”）是 Docker 宿主机和配置好的客户端的结合&lt;/p>
-&lt;h2 id="三docker-和-docker-machine-之间的区别">三、Docker 和 Docker Machine 之间的区别&lt;/h2>&lt;p>当人们说 “Docker” 时，他们通常是指 Docker Engine，它是一个客户端 - 服务器应用程序，由 Docker 守护进程、一个 REST API 指定与守护进程交互的接口、和一个命令行接口（CLI）与守护进程通信（通过封装 REST API）。Docker Engine 从 CLI 中接受 docker 命令，例如 docker run &lt;!-- raw HTML omitted -->、docker ps 来列出正在运行的容器、docker images 来列出镜像，等等。&lt;/p>
+&lt;h2 id="三docker-和-docker-machine-之间的区别">三、Docker 和 Docker Machine 之间的区别&lt;/h2>&lt;p>当人们说 “Docker” 时，他们通常是指 &lt;code>Docker Engine&lt;/code>，它是一个客户端 - 服务器应用程序，由 Docker 守护进程、一个 REST API 指定与守护进程交互的接口、和一个命令行接口（CLI）与守护进程通信（通过封装 REST API）。Docker Engine 从 CLI 中接受 docker 命令，例如 docker run &lt;!-- raw HTML omitted -->、docker ps 来列出正在运行的容器、docker images 来列出镜像，等等。&lt;/p>
 &lt;p>Docker Machine 是一个用于配置和管理你的宿主机（上面具有 Docker Engine 的主机）的工具。通常，你在你的本地系统上安装 Docker Machine。Docker Machine 有自己的命令行客户端 docker-machine 和 Docker Engine 客户端 docker。你可以使用 Machine 在一个或多个虚拟系统上安装 Docker Engine。&lt;/p>
 &lt;p>这些虚拟系统可以是本地的（就像你在 Mac 或 Windows 上使用 Machine 在 VirtualBox 中安装和运行 Docker Engine 一样）或远程的（就像你使用 Machine 在云提供商上 provision Dockerized 宿主机一样）。Dockerized 宿主机本身可以认为是，且有时就称为，被管理的 “machines”。&lt;/p>
-&lt;h2 id="四安装">四、安装&lt;/h2>&lt;p>Docker Mechine 可以在多种平台上安装使用，包括 Linux 、MacOS 已经 windows
-Docker Mechine 安装非常的简单：GitHub 地址:&lt;a href="https://github.com/docker/machine/releases/">Releases&lt;/a>。
+&lt;h2 id="四安装">四、安装&lt;/h2>&lt;p>Docker Mechine 可以在多种平台上安装使用，包括 Linux 、MacOS 以及 windows&lt;br>
+Docker Mechine 安装非常的简单：GitHub 地址:&lt;a href="https://github.com/docker/machine/releases/">Releases&lt;/a>。&lt;br>
 安装 Docker Mechine：&lt;/p>
 &lt;pre tabindex="0">&lt;code>curl -L https://github.com/docker/machine/releases/download/v0.15.0/docker-machine-$(uname -s)-$(uname -m) &amp;gt;/tmp/docker-machine &amp;amp;&amp;amp;
 chmod +x /tmp/docker-machine &amp;amp;&amp;amp;
@@ -40,9 +42,15 @@ sudo cp /tmp/docker-machine/usr/local/bin/docker-machine
 &lt;li>&lt;code>url&lt;/code> 获取指定 Docker 主机的监听 URL&lt;/li>
 &lt;li>&lt;code>version&lt;/code> 显示 Docker Machine 的版本或者主机 Docker 版本&lt;/li>
 &lt;li>&lt;code>help&lt;/code> 显示帮助信息&lt;/li>
-&lt;li>&lt;/li>
 &lt;/ul>
-&lt;p>参考：
+&lt;h2 id="六现状">六、现状&lt;/h2>&lt;p>Docker Machine 目前已经处于“维护模式”，官方不再积极开发新功能。 &lt;br>
+原因在于基础设施管理工具的进化：&lt;/p>
+&lt;ul>
+&lt;li>本地开发：现在有了 Docker Desktop（Windows/Mac），它内置了虚拟机管理，不再需要手动用 Machine 去折腾。&lt;/li>
+&lt;li>云端部署：现在大家更多使用 Terraform 或云厂商自带的容器服务（如阿里云 ACK、AWS EKS），这些工具比 Docker Machine 更强大、更稳健。&lt;/li>
+&lt;li>集群管理：正如你刚才图片里看到的 Docker Swarm 或 Kubernetes，它们自带了节点管理功能。&lt;/li>
+&lt;/ul>
+&lt;p>Reference
 &lt;a href="https://blog.csdn.net/L08130421/article/details/141155326">Docker三剑客之Docker Machine&lt;/a>&lt;/p></description></item><item><title>Docker | Swarm</title><link>https://hidlestone.github.io/blog/infrastructure/docker/13-docker-swarm/</link><pubDate>Sun, 27 Feb 2022 23:13:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/docker/13-docker-swarm/</guid><description>&lt;h2 id="一前言">一、前言&lt;/h2>&lt;p>Swarm 是 Docker 公司推出的用来管理 docker 集群的平台，几乎全部用 GO 语言来完成的开发的，代码开源：&lt;a href="https://github.com/docker/swarm">https://github.com/docker/swarm&lt;/a>&lt;/p>
 &lt;p>Docker Swarm 和 Docker Compose 一样，都是 Docker 官方容器编排项目，但不同的是，Docker Compose 是一个在单个服务器或主机上创建多个容器的工具，而 Docker Swarm 则可以在多个服务器或主机上创建容器集群服务，对于微服务的部署，显然 Docker Swarm 会更加适合。从 Docker 1.12.0 版本开始，Docker Swarm 已经包含在 Docker 引擎中（docker swarm），并且已经内置了服务发现工具，就不需要像之前一样，再配置 Etcd 或者 Consul 来进行服务发现配置了。
 &lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20Swarm/3624095101.png">&lt;/p>
