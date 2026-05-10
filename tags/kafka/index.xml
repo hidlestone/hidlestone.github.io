@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kafka on PeifengZhuang</title><link>https://hidlestone.github.io/tags/kafka/</link><description>Recent content in Kafka on PeifengZhuang created by</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>qiaoxiazhimin@gmail.com (PeifengZhuang)</managingEditor><webMaster>qiaoxiazhimin@gmail.com (PeifengZhuang)</webMaster><copyright>2026 PeifengZhuang All rights reserved</copyright><lastBuildDate>Sun, 06 Mar 2022 19:15:00 +0000</lastBuildDate><atom:link href="https://hidlestone.github.io/tags/kafka/index.xml" rel="self" type="application/rss+xml"/><item><title>Kafka 幂等和事务</title><link>https://hidlestone.github.io/blog/bigdata/kafka/15-kafka-%E5%B9%82%E7%AD%89%E5%92%8C%E4%BA%8B%E5%8A%A1/</link><pubDate>Sun, 06 Mar 2022 19:15:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/15-kafka-%E5%B9%82%E7%AD%89%E5%92%8C%E4%BA%8B%E5%8A%A1/</guid><description>&lt;h2 id="一幂等性">一、幂等性&lt;/h2>&lt;h3 id="11exactly-once">1.1、Exactly-Once&lt;/h3>&lt;p>保证在消息重发的时候，消费者不会重复处理。即使在消费者收到重复消息的时候，重复处理，也要保证最终结果的一致性。&lt;br>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kafka on PeifengZhuang</title><link>https://hidlestone.github.io/tags/kafka/</link><description>Recent content in Kafka on PeifengZhuang created by</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>qiaoxiazhimin@gmail.com (PeifengZhuang)</managingEditor><webMaster>qiaoxiazhimin@gmail.com (PeifengZhuang)</webMaster><copyright>2026 PeifengZhuang All rights reserved</copyright><lastBuildDate>Fri, 06 May 2022 19:15:00 +0000</lastBuildDate><atom:link href="https://hidlestone.github.io/tags/kafka/index.xml" rel="self" type="application/rss+xml"/><item><title>Kafka 幂等和事务</title><link>https://hidlestone.github.io/blog/bigdata/kafka/15-kafka-%E5%B9%82%E7%AD%89%E5%92%8C%E4%BA%8B%E5%8A%A1/</link><pubDate>Fri, 06 May 2022 19:15:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/15-kafka-%E5%B9%82%E7%AD%89%E5%92%8C%E4%BA%8B%E5%8A%A1/</guid><description>&lt;h2 id="一幂等性">一、幂等性&lt;/h2>&lt;h3 id="11exactly-once">1.1、Exactly-Once&lt;/h3>&lt;p>保证在消息重发的时候，消费者不会重复处理。即使在消费者收到重复消息的时候，重复处理，也要保证最终结果的一致性。&lt;br>
 所谓幂等性，数学概念就是：&lt;code>f(f(x)) = f(x)&lt;/code> 。f 函数表示对消息的处理。 &lt;br>
 比如，银行转账，如果失败，需要重试。不管重试多少次，都要保证最终结果一定是一致的。&lt;br>
 &lt;code>Exactly-Once&lt;/code>：即精准一次，来保证幂等性。Exactly once 是 Kafka 从版本 &lt;code>0.11&lt;/code> 之后提供的高级特性。&lt;/p>
@@ -342,7 +342,7 @@ void abortTransaction () throws ProducerFencedException;
 &lt;li>开启了事务的消费者，如果配置读隔离级别为 read-committed, 在内部会使用存储在目标 topic-partition 中的事务控制消息，来过滤掉没有提交的消息，包括回滚的消息和尚未提交的消息，从而确保只读到已提交的事务的 message；&lt;/li>
 &lt;li>开启了事务的消费者，过滤消息时，KAFKA consumer 不需要跟 transactional coordinator 进行 rpc 交互，因为 topic 中存储的消息，包括正常的数据消息和控制消息，包含了足够的元数据信息来支持消息过滤；&lt;/li>
 &lt;li>当然 kakfa 的 producer 和 consumer 是解耦的，你也可以使用非 transactional consumer 来消费 transactional producer 生产的消息，此时目标 topic-partition 中的所有消息都会被返回，不会进行过滤，此时也就丢失了事务 ACID 的支持；&lt;/li>
-&lt;/ul></description></item><item><title>Kafka 分区副本重分配、数据迁移、副本扩缩容</title><link>https://hidlestone.github.io/blog/bigdata/kafka/14-kafka-%E5%88%86%E5%8C%BA%E5%89%AF%E6%9C%AC%E9%87%8D%E5%88%86%E9%85%8D%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB%E5%89%AF%E6%9C%AC%E6%89%A9%E7%BC%A9%E5%AE%B9/</link><pubDate>Sun, 06 Mar 2022 19:14:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/14-kafka-%E5%88%86%E5%8C%BA%E5%89%AF%E6%9C%AC%E9%87%8D%E5%88%86%E9%85%8D%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB%E5%89%AF%E6%9C%AC%E6%89%A9%E7%BC%A9%E5%AE%B9/</guid><description>&lt;p>&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E5%88%86%E5%8C%BA%E5%89%AF%E6%9C%AC%E9%87%8D%E5%88%86%E9%85%8D%E3%80%81%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB%E3%80%81%E5%89%AF%E6%9C%AC%E6%89%A9%E7%BC%A9%E5%AE%B9/1237282311.png">&lt;/p>
+&lt;/ul></description></item><item><title>Kafka 分区副本重分配、数据迁移、副本扩缩容</title><link>https://hidlestone.github.io/blog/bigdata/kafka/14-kafka-%E5%88%86%E5%8C%BA%E5%89%AF%E6%9C%AC%E9%87%8D%E5%88%86%E9%85%8D%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB%E5%89%AF%E6%9C%AC%E6%89%A9%E7%BC%A9%E5%AE%B9/</link><pubDate>Fri, 06 May 2022 19:14:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/14-kafka-%E5%88%86%E5%8C%BA%E5%89%AF%E6%9C%AC%E9%87%8D%E5%88%86%E9%85%8D%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB%E5%89%AF%E6%9C%AC%E6%89%A9%E7%BC%A9%E5%AE%B9/</guid><description>&lt;p>&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E5%88%86%E5%8C%BA%E5%89%AF%E6%9C%AC%E9%87%8D%E5%88%86%E9%85%8D%E3%80%81%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB%E3%80%81%E5%89%AF%E6%9C%AC%E6%89%A9%E7%BC%A9%E5%AE%B9/1237282311.png">&lt;/p>
 &lt;h2 id="一脚本的使用介绍">一、脚本的使用介绍&lt;/h2>&lt;p>该脚本是 kafka 提供用来重新分配分区的脚本工具；&lt;/p>
 &lt;h3 id="11生成推荐配置脚本">1.1、生成推荐配置脚本&lt;/h3>&lt;p>关键参数 &lt;code>--generate&lt;/code>。
 在进行分区副本重分配之前，最好是用下面方式获取一个合理的分配文件；
@@ -490,7 +490,7 @@ A comma separated list of directories under which to store log fileslog.dirs=kaf
 &lt;/code>&lt;/pre>&lt;p>然后执行脚本：&lt;/p>
 &lt;pre tabindex="0">&lt;code>sh bin/kafka-reassign-partitions.sh --zookeeper xxxxx --reassignment-json-file config/reassignment-json-file.json --execute --bootstrap-serverxxxxx:9092 --replica-alter-log-dirs-throttle 10000
 &lt;/code>&lt;/pre>&lt;p>注意 &lt;code>--bootstrap-server&lt;/code> 在跨路径迁移的情况下，必须传入此参数。
-如果需要限流的话 加上参数 &lt;code>--replica-alter-log-dirs-throttle&lt;/code> ; 跟 &lt;code>--throttle&lt;/code> 不一样的是 &lt;code>--replica-alter-log-dirs-throttle&lt;/code> 限制的是 Broker 内不同路径的迁移流量。&lt;/p></description></item><item><title>13-Kafka 集群部署</title><link>https://hidlestone.github.io/blog/bigdata/kafka/13-kafka-%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/</link><pubDate>Sun, 06 Mar 2022 19:13:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/13-kafka-%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/</guid><description>&lt;h2 id="一kafka-基本概念和系统架构">一、Kafka 基本概念和系统架构&lt;/h2>&lt;p>在 Kafka 集群中存在以下几种节点角色：&lt;/p>
+如果需要限流的话 加上参数 &lt;code>--replica-alter-log-dirs-throttle&lt;/code> ; 跟 &lt;code>--throttle&lt;/code> 不一样的是 &lt;code>--replica-alter-log-dirs-throttle&lt;/code> 限制的是 Broker 内不同路径的迁移流量。&lt;/p></description></item><item><title>Kafka 集群部署</title><link>https://hidlestone.github.io/blog/bigdata/kafka/13-kafka-%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/</link><pubDate>Fri, 06 May 2022 19:13:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/13-kafka-%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/</guid><description>&lt;h2 id="一kafka-基本概念和系统架构">一、Kafka 基本概念和系统架构&lt;/h2>&lt;p>在 Kafka 集群中存在以下几种节点角色：&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>Producer&lt;/code>：生产者，生产消息并推送到 Kafka 集群中。&lt;/li>
 &lt;li>&lt;code>Consumer&lt;/code>：消费者，从 Kafka 集群中拉取并消费消息。可以将一个和多个 Consumer 指定为一个 Consumer Group（消费者组），一个消费者组在逻辑上是一个订阅者，不同消费者组之间可以消费相同的数据，消费者组之间互不干扰。&lt;/li>
@@ -809,7 +809,7 @@ kafka.eagle.username=root
 kafka.eagle.password=123456
 &lt;/code>&lt;/pre>&lt;h3 id="615启动-kafka-eagle">6.1.5、启动 Kafka Eagle&lt;/h3>&lt;p>使用以下命令启动 Kafka Eagle：&lt;/p>
 &lt;pre tabindex="0">&lt;code>bin/ke.sh start
-&lt;/code>&lt;/pre>&lt;p>在浏览器输入 &lt;code>http://192.168.1.6:8048&lt;/code> 访问 Kafka Eagle 页面，用户名 admin，密码 123456。&lt;/p></description></item><item><title>Kafka 数据迁移</title><link>https://hidlestone.github.io/blog/bigdata/kafka/12-kafka-%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB/</link><pubDate>Sun, 06 Mar 2022 19:12:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/12-kafka-%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB/</guid><description>&lt;p>两种迁移场景，分别是：同集群数据迁移、跨集群数据迁移。
+&lt;/code>&lt;/pre>&lt;p>在浏览器输入 &lt;code>http://192.168.1.6:8048&lt;/code> 访问 Kafka Eagle 页面，用户名 admin，密码 123456。&lt;/p></description></item><item><title>Kafka 数据迁移</title><link>https://hidlestone.github.io/blog/bigdata/kafka/12-kafka-%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB/</link><pubDate>Fri, 06 May 2022 19:12:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/12-kafka-%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB/</guid><description>&lt;p>两种迁移场景，分别是：同集群数据迁移、跨集群数据迁移。
 &lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB/236880281.png">&lt;/p>
 &lt;h2 id="一同集群迁移">一、同集群迁移&lt;/h2>&lt;p>同集群之间数据迁移，比如在已有的集群中新增了一个 Broker 节点，此时需要将原来集群中已有的 Topic 的数据迁移部分到新的集群中，缓解集群压力。
 将新的节点添加到 Kafka 集群很简单，只需为它们分配一个唯一的 Broker ID，并在新服务器上启动 Kafka。但是，这些新服务器节点不会自动分配任何数据分区，因此除非将分区移动到新增的节点，否则在创建新 Topic 之前新节点不会执行任何操作。因此，通常在将新服务器节点添加到 Kafka 集群时，需要将一些现有数据迁移到这些新的节点。
@@ -854,7 +854,7 @@ Kafka 系统提供了一个分区重新分配工具 &lt;code>kafka-reassign-part
 &lt;/code>&lt;/pre>&lt;p>需要注意的是，&lt;code>consumer.properties&lt;/code> 文件配置源 Kafka 集群 Broker 地址，&lt;code>producer.properties&lt;/code> 文件配置目标 Kafka 集群地址。如果需要迁移多个 Topic，可以使用 &lt;code>--whitelist 'A|B'&lt;/code>，如果需要迁移所有的 Topic，可以使用 &lt;code>--whitelist '*'&lt;/code>。&lt;/p>
 &lt;h2 id="三结果预览">三、结果预览&lt;/h2>&lt;p>执行跨集群迁移命令后，目标集群中使用 Kafka Eagle 中查看 Topic Size 大小看是否与源集群的 Topic Size 大小相等，或者使用 SQL 语句，验证是否有数据迁移过来，结果如下图所示：&lt;/p>
 &lt;pre tabindex="0">&lt;code>select * from &amp;#34;ke03&amp;#34; where &amp;#34;partition&amp;#34; in (0)
-&lt;/code>&lt;/pre>&lt;p>跨集群迁移数据的本质是，Kafka 启动了消费者读取源集群数据，并将消费后的数据写入到目标集群，在迁移的过程中，可以启动多个实例，提供迁出的吞吐量。&lt;/p></description></item><item><title>Kafka 脚本补全</title><link>https://hidlestone.github.io/blog/bigdata/kafka/10-kafka-%E8%84%9A%E6%9C%AC%E8%A1%A5%E5%85%A8/</link><pubDate>Sun, 06 Mar 2022 19:10:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/10-kafka-%E8%84%9A%E6%9C%AC%E8%A1%A5%E5%85%A8/</guid><description>&lt;h3 id="1概览">1、概览&lt;/h3>&lt;p>kafka 安装目录下的 bin 目录包含了很多运维可操作的 shell 脚本，列举如下：&lt;/p>
+&lt;/code>&lt;/pre>&lt;p>跨集群迁移数据的本质是，Kafka 启动了消费者读取源集群数据，并将消费后的数据写入到目标集群，在迁移的过程中，可以启动多个实例，提供迁出的吞吐量。&lt;/p></description></item><item><title>Kafka 脚本补全</title><link>https://hidlestone.github.io/blog/bigdata/kafka/10-kafka-%E8%84%9A%E6%9C%AC%E8%A1%A5%E5%85%A8/</link><pubDate>Fri, 06 May 2022 19:10:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/10-kafka-%E8%84%9A%E6%9C%AC%E8%A1%A5%E5%85%A8/</guid><description>&lt;h3 id="1概览">1、概览&lt;/h3>&lt;p>kafka 安装目录下的 bin 目录包含了很多运维可操作的 shell 脚本，列举如下：&lt;/p>
 &lt;pre tabindex="0">&lt;code>脚本名称 用途描述
 connect-distributed.sh 连接 kafka 集群模式
 connect-standalone.sh 连接 kafka 单机模式
@@ -1089,7 +1089,7 @@ aclVersion = 0
 ephemeralOwner = 0x1642cb09421006c
 dataLength = 216
 numChildren = 0
-&lt;/code>&lt;/pre></description></item><item><title>Kafka 安全(SASL+ACL)</title><link>https://hidlestone.github.io/blog/bigdata/kafka/09-kafka-%E5%AE%89%E5%85%A8sasl+acl/</link><pubDate>Sun, 06 Mar 2022 19:09:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/09-kafka-%E5%AE%89%E5%85%A8sasl+acl/</guid><description>&lt;h2 id="一security">一、Security&lt;/h2>&lt;p>在 Kafka 的官方文档中介绍了如下几种安全方式，以满足用户不同场景对安全的需求。&lt;/p>
+&lt;/code>&lt;/pre></description></item><item><title>Kafka 安全(SASL+ACL)</title><link>https://hidlestone.github.io/blog/bigdata/kafka/09-kafka-%E5%AE%89%E5%85%A8sasl+acl/</link><pubDate>Fri, 06 May 2022 19:09:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/09-kafka-%E5%AE%89%E5%85%A8sasl+acl/</guid><description>&lt;h2 id="一security">一、Security&lt;/h2>&lt;p>在 Kafka 的官方文档中介绍了如下几种安全方式，以满足用户不同场景对安全的需求。&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>SASL/GSSAPI (Kerberos) - starting at version 0.9.0.0&lt;/code>。主要是为 Kerberos 使用，如果当前已有 Kerberos 认证，只需要为集群中每个 Broker 和访问用户申请 Principle ，然后在 Kafka 配置文件中开启 Kerberos 的支持即可。官方文档详见 &lt;a href="https://kafka.apache.org/33/documentation.html#security_sasl_kerberos">Authentication using SASL/Kerberos&lt;/a>。&lt;/li>
 &lt;li>&lt;code>SASL/PLAIN - starting at version 0.10.0.0&lt;/code>。一个简单的用户名和密码身份认证机制，通常与 TLS/SSL 一起用于加密，以实现身份验证。是一种比较容易使用的方式，但是也有一个很明显的缺点，这种方式会把用户账户文件配置到静态文件中，每次想要添加新的账户都需要重启 Kafka 去加载静态文件，才能生效，十分不方便。官方文档详见 &lt;a href="https://kafka.apache.org/33/documentation.html#security_sasl_plain">Authentication using SASL/PLAIN&lt;/a>。&lt;/li>
@@ -1342,7 +1342,7 @@ props.put (&amp;#34;sasl.jaas.config&amp;#34;, &amp;#34;org.apache.kafka.common.
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#39;properties.security.protocol&amp;#39;&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;SASL_PLAINTEXT&amp;#39;&lt;/span>,
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#39;properties.sasl.mechanism&amp;#39;&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;PLAIN&amp;#39;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>);
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Kafka Tool</title><link>https://hidlestone.github.io/blog/bigdata/kafka/08-kafka-tool/</link><pubDate>Sun, 06 Mar 2022 19:08:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/08-kafka-tool/</guid><description>&lt;h2 id="一下载安装">一、下载安装&lt;/h2>&lt;p>下载地址：&lt;a href="https://www.kafkatool.com/download.html">Offset Explorer&lt;/a>&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Kafka Tool</title><link>https://hidlestone.github.io/blog/bigdata/kafka/08-kafka-tool/</link><pubDate>Fri, 06 May 2022 19:08:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/08-kafka-tool/</guid><description>&lt;h2 id="一下载安装">一、下载安装&lt;/h2>&lt;p>下载地址：&lt;a href="https://www.kafkatool.com/download.html">Offset Explorer&lt;/a>&lt;/p>
 &lt;p>根据不同的系统下载对应的版本。&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ find ./libs/ -name *kafka_* | head -1 | grep -o &amp;#39;kafka[^ ]*&amp;#39;
 kafka_2.12-3.0.0.jar
@@ -1354,7 +1354,7 @@ kafka_2.12-3.0.0.jar
 &lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Tool/1084560442.png">&lt;br>
 注释：更改完Content Types，要点击Update和Refresh按钮。 &lt;br>
 再次查看kafka的数据： &lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Tool/3919095670.png">&lt;/p></description></item><item><title>Kafka 有序性</title><link>https://hidlestone.github.io/blog/bigdata/kafka/07-kafka-%E6%9C%89%E5%BA%8F%E6%80%A7/</link><pubDate>Sun, 06 Mar 2022 19:07:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/07-kafka-%E6%9C%89%E5%BA%8F%E6%80%A7/</guid><description>&lt;p>如何保障kafka消费的顺序性，宗旨就是通过将消息绑定到定向的分区或者队列来保证顺序性，通过增加分区或者线程来提升消费能力。&lt;/p>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Tool/3919095670.png">&lt;/p></description></item><item><title>Kafka 有序性</title><link>https://hidlestone.github.io/blog/bigdata/kafka/07-kafka-%E6%9C%89%E5%BA%8F%E6%80%A7/</link><pubDate>Fri, 06 May 2022 19:07:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/07-kafka-%E6%9C%89%E5%BA%8F%E6%80%A7/</guid><description>&lt;p>如何保障kafka消费的顺序性，宗旨就是通过将消息绑定到定向的分区或者队列来保证顺序性，通过增加分区或者线程来提升消费能力。&lt;/p>
 &lt;h2 id="一生产者">一、生产者&lt;/h2>&lt;p>要保证生产者发消息发的是顺序性的消息，发消息的时候指定一下key相同的key会发送到一个分区中，而分区时有序的在发消息的时候多个操作（下单，支付）保证顺序的话，保证这些操作在一个topic下的同一个分区，发送的时候指定key相同的key会去到同一个分区中，&lt;code>kafkaTemplate.send（topic,partition,key,data）&lt;/code>有参数可以指定key。意思就是保证发消息的时候有序，发到同一个分区中，那么消费的时候也是有序的，因为分区可以理解为一个队列，消息先进先出。&lt;/p>
 &lt;p>当有消息被生产出来的时候，如果没有指定分区或者指定 key ，那么消费会按照【轮询】的方式均匀地分配到所有可用分区中，但不一定按照分区顺序来分配。 &lt;br>
 在 Kafka 中消费者可以订阅一个或多个主题，并被分配一个或多个分区。&lt;br>
@@ -1369,7 +1369,10 @@ kafka_2.12-3.0.0.jar
 当生产者发送消息时，可以指定一个键（key），Kafka 使用这个键通过哈希算法来确定消息被发送到哪个分区。&lt;/p>
 &lt;h2 id="四代码">四、代码&lt;/h2>&lt;p>实现顺序性原理：消息发送的时候保证有序，设置相同的key会把消息投递到同一个分区的topic中，再由一个消费者来消费该分区topic。&lt;br>
 topic: &amp;ldquo;topic_query_p3r1&amp;rdquo; 分配了三个partition分区。&lt;/p>
-&lt;h3 id="41producer-投递顺序消息">4.1、producer 投递顺序消息&lt;/h3>&lt;p>同一组行为设置相同的key，会把这组数据投递到同一分区topic中。&lt;/p>
+&lt;h3 id="41producer-投递顺序消息">4.1、producer 投递顺序消息&lt;/h3>&lt;p>同一组行为设置相同的key，会把这组数据投递到同一分区topic中。
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>testKafka2&lt;/code>&lt;/summary>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">/**
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> * 投递顺序性消息，根据用户id做取模推送到不同分区的topic中
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> * 相同的key推送到同一分区中
@@ -1386,8 +1389,15 @@ topic: &amp;ldquo;topic_query_p3r1&amp;rdquo; 分配了三个partition分区。&
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> kafkaTemplate.&lt;span style="color:#a6e22e">send&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;topic_query_p3r1&amp;#34;&lt;/span>, userId &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;delete&amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> userId);
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>;
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="42consumer-消费顺序消息">4.2、consumer 消费顺序消息&lt;/h3>&lt;p>前提是生产者发消息的时候指定key了。&lt;/p>
-&lt;h4 id="1直接进行消费">1、直接进行消费&lt;/h4>&lt;p>因为投递的相同行为的消息是有序的，所以直接消费也不会有问题。&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;/details>
+&lt;/p>
+&lt;/p>
+&lt;h3 id="42consumer-消费顺序消息">4.2、consumer 消费顺序消息&lt;/h3>&lt;p>前提是生产者发消息的时候指定key了。&lt;/p>
+&lt;h4 id="1直接进行消费">1、直接进行消费&lt;/h4>&lt;p>因为投递的相同行为的消息是有序的，所以直接消费也不会有问题。
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>p3r2ConsumerGroupId0&lt;/code>&lt;/summary>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">/**
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> * 消费topic_query_p3r1主题，ConsumerGroupId1消费组
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> */&lt;/span>
@@ -1399,7 +1409,14 @@ topic: &amp;ldquo;topic_query_p3r1&amp;rdquo; 分配了三个partition分区。&
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;, 分区位置:&amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> consumer.&lt;span style="color:#a6e22e">partition&lt;/span>() &lt;span style="color:#f92672">+&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;, 下标&amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> consumer.&lt;span style="color:#a6e22e">offset&lt;/span>()&lt;span style="color:#f92672">+&lt;/span>&lt;span style="color:#e6db74">&amp;#34; &amp;#34;&lt;/span>&lt;span style="color:#f92672">+&lt;/span>Thread.&lt;span style="color:#a6e22e">currentThread&lt;/span>().&lt;span style="color:#a6e22e">getId&lt;/span>());
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Thread.&lt;span style="color:#a6e22e">sleep&lt;/span>(10);
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="2一个消费者来指定具体分区进行消费">2、一个消费者来指定具体分区进行消费&lt;/h4>&lt;p>指定具体分区来进行消费。&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;/details>
+&lt;/p>
+&lt;/p>
+&lt;h4 id="2一个消费者来指定具体分区进行消费">2、一个消费者来指定具体分区进行消费&lt;/h4>&lt;p>指定具体分区来进行消费。
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>receive&lt;/code>&lt;/summary>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">/**
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> * 消费者，解决消息顺序性
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> * 注解参数：partitions=0表示：只消费该主题中0分区的数据。
@@ -1412,7 +1429,14 @@ topic: &amp;ldquo;topic_query_p3r1&amp;rdquo; 分配了三个partition分区。&
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;分区位置:&amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> consumer.&lt;span style="color:#a6e22e">partition&lt;/span>() &lt;span style="color:#f92672">+&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;, 下标&amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> consumer.&lt;span style="color:#a6e22e">offset&lt;/span>());
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="3多个消费者来指定不同分区进行消费">3、多个消费者来指定不同分区进行消费。&lt;/h4>&lt;p>写多个消费者方法来分别指向不同分区，提高消费速度，但是此方法不灵活。&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;/details>
+&lt;/p>
+&lt;/p>
+&lt;h4 id="3多个消费者来指定不同分区进行消费">3、多个消费者来指定不同分区进行消费。&lt;/h4>&lt;p>写多个消费者方法来分别指向不同分区，提高消费速度，但是此方法不灵活。
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>p3r2ConsumerGroupId0&lt;/code>&lt;/summary>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">/**
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> * 消费0分区的topic_query_p3r1主题消费者，ConsumerGroupId1消费组
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> */&lt;/span>
@@ -1449,7 +1473,14 @@ topic: &amp;ldquo;topic_query_p3r1&amp;rdquo; 分配了三个partition分区。&
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;, 下标&amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> consumer.&lt;span style="color:#a6e22e">offset&lt;/span>()&lt;span style="color:#f92672">+&lt;/span>&lt;span style="color:#e6db74">&amp;#34; &amp;#34;&lt;/span>&lt;span style="color:#f92672">+&lt;/span>Thread.&lt;span style="color:#a6e22e">currentThread&lt;/span>().&lt;span style="color:#a6e22e">getId&lt;/span>());
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Thread.&lt;span style="color:#a6e22e">sleep&lt;/span>(10);
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="4多线程顺序消费">4、多线程顺序消费&lt;/h4>&lt;p>&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%9C%89%E5%BA%8F%E6%80%A7/2638899096.png">&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;/details>
+&lt;/p>
+&lt;/p>
+&lt;h4 id="4多线程顺序消费">4、多线程顺序消费&lt;/h4>&lt;p>&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%9C%89%E5%BA%8F%E6%80%A7/2638899096.png">&lt;/p>
+&lt;p>&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>ShunXuConsumerMoreThread&lt;/code>&lt;/summary>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">@RestController&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">@Slf4j&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">ShunXuConsumerMoreThread&lt;/span> &lt;span style="color:#66d9ef">implements&lt;/span> ApplicationRunner {
@@ -1545,8 +1576,13 @@ topic: &amp;ldquo;topic_query_p3r1&amp;rdquo; 分配了三个partition分区。&
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }.&lt;span style="color:#a6e22e">start&lt;/span>();
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>此时消费是按照顺序的。&lt;/p></description></item><item><title>@KafkaListener 注解</title><link>https://hidlestone.github.io/blog/bigdata/kafka/06-@kafkalistener-%E6%B3%A8%E8%A7%A3/</link><pubDate>Sun, 06 Mar 2022 19:06:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/06-@kafkalistener-%E6%B3%A8%E8%A7%A3/</guid><description>&lt;h2 id="一简介">一、简介&lt;/h2>&lt;p>Kafka 目前主要作为一个分布式的发布订阅式的消息系统使用，也是目前最流行的消息队列系统之一。本文集成的框架 &lt;code>spring-kafka&lt;/code>。&lt;br>
-源码解读：&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;/details>
+&lt;/p>
+此时消费是按照顺序的。&lt;/p></description></item><item><title>@KafkaListener 注解</title><link>https://hidlestone.github.io/blog/bigdata/kafka/06-@kafkalistener-%E6%B3%A8%E8%A7%A3/</link><pubDate>Fri, 06 May 2022 19:06:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/06-@kafkalistener-%E6%B3%A8%E8%A7%A3/</guid><description>&lt;h2 id="一简介">一、简介&lt;/h2>&lt;p>Kafka 目前主要作为一个分布式的发布订阅式的消息系统使用，也是目前最流行的消息队列系统之一。本文集成的框架 &lt;code>spring-kafka&lt;/code>。 &lt;br>
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>KafkaListener&lt;/code>&lt;/summary>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">@Target&lt;/span> ({ElementType.&lt;span style="color:#a6e22e">TYPE&lt;/span>, ElementType.&lt;span style="color:#a6e22e">METHOD&lt;/span>, ElementType.&lt;span style="color:#a6e22e">ANNOTATION_TYPE&lt;/span>})
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">@Retention&lt;/span> (RetentionPolicy.&lt;span style="color:#a6e22e">RUNTIME&lt;/span>)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">@MessageMapping&lt;/span>
@@ -1598,8 +1634,15 @@ topic: &amp;ldquo;topic_query_p3r1&amp;rdquo; 分配了三个partition分区。&
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> */&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> String &lt;span style="color:#a6e22e">beanRef&lt;/span> () &lt;span style="color:#66d9ef">default&lt;/span> &lt;span style="color:#e6db74">&amp;#34;__listener&amp;#34;&lt;/span>;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="二案例">二、案例&lt;/h2>&lt;h3 id="21consumerrecord-类消费">2.1、ConsumerRecord 类消费&lt;/h3>&lt;p>使用 ConsumerRecord 类接收有一定的好处，ConsumerRecord 类里面包含分区信息、消息头、消息体等内容，如果业务需要获取这些参数时，使用 ConsumerRecord 会是个不错的选择。如果使用具体的类型接收消息体则更加方便，比如说用 String 类型去接收消息体。&lt;br>
-这里编写一个 Listener 方法，监听 &lt;code>topic1&lt;/code>，并把 ConsumerRecord 里面所包含的内容打印到控制台中：&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;/details>
+&lt;/p>
+&lt;/p>
+&lt;h2 id="二案例">二、案例&lt;/h2>&lt;h3 id="21consumerrecord-类消费">2.1、ConsumerRecord 类消费&lt;/h3>&lt;p>使用 ConsumerRecord 类接收有一定的好处，ConsumerRecord 类里面包含分区信息、消息头、消息体等内容，如果业务需要获取这些参数时，使用 ConsumerRecord 会是个不错的选择。如果使用具体的类型接收消息体则更加方便，比如说用 String 类型去接收消息体。&lt;br>
+这里编写一个 Listener 方法，监听 &lt;code>topic1&lt;/code>，并把 ConsumerRecord 里面所包含的内容打印到控制台中：
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>Listener&lt;/code>&lt;/summary>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">@Component&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Listener&lt;/span> {
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">static&lt;/span> &lt;span style="color:#66d9ef">final&lt;/span> Logger log &lt;span style="color:#f92672">=&lt;/span> LoggerFactory.&lt;span style="color:#a6e22e">getLogger&lt;/span> (Listener.&lt;span style="color:#a6e22e">class&lt;/span>);
@@ -1609,7 +1652,11 @@ topic: &amp;ldquo;topic_query_p3r1&amp;rdquo; 分配了三个partition分区。&
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> log.&lt;span style="color:#a6e22e">info&lt;/span> (&lt;span style="color:#e6db74">&amp;#34;topic.quick.consumer receive :&amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> record.&lt;span style="color:#a6e22e">toString&lt;/span> ());
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="22批量消费">2.2、批量消费&lt;/h3>&lt;p>批量消费在现实业务场景中是很有实用性的。因为批量消费可以增大 kafka 消费吞吐量，提高性能。&lt;br>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;/details>
+&lt;/p>
+&lt;/p>
+&lt;h3 id="22批量消费">2.2、批量消费&lt;/h3>&lt;p>批量消费在现实业务场景中是很有实用性的。因为批量消费可以增大 kafka 消费吞吐量，提高性能。&lt;br>
 批量消费实现步骤：&lt;/p>
 &lt;ul>
 &lt;li>1、重新创建一份新的消费者配置，配置为一次拉取 10 条消息。&lt;/li>
@@ -1617,6 +1664,9 @@ topic: &amp;ldquo;topic_query_p3r1&amp;rdquo; 分配了三个partition分区。&
 &lt;li>3、创建一个分区数为 8 的 Topic。&lt;/li>
 &lt;li>4、创建监听方法，设置消费 id 为 batchConsumer，clientID 前缀为 batch，监听 batch，使用 batchContainerFactory 工厂创建该监听容器。&lt;/li>
 &lt;/ul>
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>BatchListener&lt;/code>&lt;/summary>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">@Component&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">BatchListener&lt;/span> {
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">static&lt;/span> &lt;span style="color:#66d9ef">final&lt;/span> Logger log &lt;span style="color:#f92672">=&lt;/span> LoggerFactory.&lt;span style="color:#a6e22e">getLogger&lt;/span> (BatchListener.&lt;span style="color:#a6e22e">class&lt;/span>);
@@ -1660,9 +1710,15 @@ topic: &amp;ldquo;topic_query_p3r1&amp;rdquo; 分配了三个partition分区。&
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="23监听-topic-中指定的分区">2.3、监听 Topic 中指定的分区&lt;/h3>&lt;p>使用 @KafkaListener 注解的 topicPartitions 属性监听不同的 partition 分区。&lt;br>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;/details>
+&lt;/p>
+&lt;h3 id="23监听-topic-中指定的分区">2.3、监听 Topic 中指定的分区&lt;/h3>&lt;p>使用 @KafkaListener 注解的 topicPartitions 属性监听不同的 partition 分区。&lt;br>
 @TopicPartition：&lt;code>topic&lt;/code> 需要监听的 Topic 的名称，&lt;code>partitions&lt;/code> 需要监听 Topic 的分区 id，&lt;code>partitionOffsets&lt;/code> 可以设置从某个偏移量开始监听。
-@PartitionOffset：&lt;code>partition&lt;/code> 分区 Id，非数组，&lt;code>initialOffset&lt;/code> 初始偏移量。&lt;/p>
+@PartitionOffset：&lt;code>partition&lt;/code> 分区 Id，非数组，&lt;code>initialOffset&lt;/code> 初始偏移量。
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>batchListenerWithPartition&lt;/code>&lt;/summary>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">@Bean&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> NewTopic &lt;span style="color:#a6e22e">batchWithPartitionTopic&lt;/span> () {
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> NewTopic (&lt;span style="color:#e6db74">&amp;#34;topic.batch.partition&amp;#34;&lt;/span>, 8, (&lt;span style="color:#66d9ef">short&lt;/span>) 1);
@@ -1682,7 +1738,11 @@ topic: &amp;ldquo;topic_query_p3r1&amp;rdquo; 分配了三个partition分区。&
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> log.&lt;span style="color:#a6e22e">info&lt;/span> (s);
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="24注解方式获取消息头及消息体">2.4、注解方式获取消息头及消息体&lt;/h3>&lt;p>当你接收的消息包含请求头，以及你监听方法需要获取该消息非常多的字段时可以通过这种方式。。这里使用的是默认的监听容器工厂创建的，如果你想使用批量消费，把对应的类型改为 List 即可，比如 List data ， List key。&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;/details>
+&lt;/p>
+&lt;/p>
+&lt;h3 id="24注解方式获取消息头及消息体">2.4、注解方式获取消息头及消息体&lt;/h3>&lt;p>当你接收的消息包含请求头，以及你监听方法需要获取该消息非常多的字段时可以通过这种方式。。这里使用的是默认的监听容器工厂创建的，如果你想使用批量消费，把对应的类型改为 List 即可，比如 List data ， List key。&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>@Payload&lt;/code> 获取的是消息的消息体，也就是发送内容。&lt;/li>
 &lt;li>&lt;code>@Header (KafkaHeaders.RECEIVED_MESSAGE_KEY)&lt;/code> 获取发送消息的 key。&lt;/li>
@@ -1690,6 +1750,9 @@ topic: &amp;ldquo;topic_query_p3r1&amp;rdquo; 分配了三个partition分区。&
 &lt;li>&lt;code>@Header (KafkaHeaders.RECEIVED_TOPIC)&lt;/code> 获取监听的 TopicName。&lt;/li>
 &lt;li>&lt;code>@Header (KafkaHeaders.RECEIVED_TIMESTAMP)&lt;/code> 获取时间戳。&lt;/li>
 &lt;/ul>
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>otherListener&lt;/code>&lt;/summary>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">@KafkaListener&lt;/span> (id &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;params&amp;#34;&lt;/span>, topics &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;topic.params&amp;#34;&lt;/span>)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">otherListener&lt;/span> (&lt;span style="color:#a6e22e">@Payload&lt;/span> String data,
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">@Header&lt;/span> (KafkaHeaders.&lt;span style="color:#a6e22e">RECEIVED_MESSAGE_KEY&lt;/span>) Integer key,
@@ -1704,7 +1767,10 @@ topic: &amp;ldquo;topic_query_p3r1&amp;rdquo; 分配了三个partition分区。&
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;timestamp :&amp;#34;&lt;/span>&lt;span style="color:#f92672">+&lt;/span>ts&lt;span style="color:#f92672">+&lt;/span>&lt;span style="color:#e6db74">&amp;#34;\n&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> );
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="25使用-ack-机制确认消费">2.5、使用 Ack 机制确认消费&lt;/h3>&lt;p>Kafka 是通过最新保存偏移量进行消息消费的，而且确认消费的消息并不会立刻删除，所以我们可以重复的消费未被删除的数据，当第一条消息未被确认，而第二条消息被确认的时候，Kafka 会保存第二条消息的偏移量，也就是说第一条消息再也不会被监听器所获取，除非是根据第一条消息的偏移量手动获取。Kafka 的 ack 机制可以有效的确保消费不被丢失。因为自动提交是在 kafka 拉取到数据之后就直接提交，这样很容易丢失数据，尤其是在需要事物控制的时候。&lt;br>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;/details>
+&lt;/p>
+&lt;h3 id="25使用-ack-机制确认消费">2.5、使用 Ack 机制确认消费&lt;/h3>&lt;p>Kafka 是通过最新保存偏移量进行消息消费的，而且确认消费的消息并不会立刻删除，所以我们可以重复的消费未被删除的数据，当第一条消息未被确认，而第二条消息被确认的时候，Kafka 会保存第二条消息的偏移量，也就是说第一条消息再也不会被监听器所获取，除非是根据第一条消息的偏移量手动获取。Kafka 的 ack 机制可以有效的确保消费不被丢失。因为自动提交是在 kafka 拉取到数据之后就直接提交，这样很容易丢失数据，尤其是在需要事物控制的时候。&lt;br>
 使用 Kafka 的 Ack 机制比较简单，只需简单的三步即可：&lt;/p>
 &lt;ul>
 &lt;li>设置 &lt;code>ENABLE_AUTO_COMMIT_CONFIG=false&lt;/code>，禁止自动提交。&lt;/li>
@@ -1712,6 +1778,9 @@ topic: &amp;ldquo;topic_query_p3r1&amp;rdquo; 分配了三个partition分区。&
 &lt;li>监听方法加入 &lt;code>Acknowledgment ack&lt;/code> 参数。&lt;/li>
 &lt;li>使用 &lt;code>Consumer.seek&lt;/code> 方法，可以指定到某个偏移量的位置.&lt;/li>
 &lt;/ul>
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>AckListener&lt;/code>&lt;/summary>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">@Component&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">AckListener&lt;/span> {
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">static&lt;/span> &lt;span style="color:#66d9ef">final&lt;/span> Logger log &lt;span style="color:#f92672">=&lt;/span> LoggerFactory.&lt;span style="color:#a6e22e">getLogger&lt;/span> (AckListener.&lt;span style="color:#a6e22e">class&lt;/span>);
@@ -1742,7 +1811,10 @@ topic: &amp;ldquo;topic_query_p3r1&amp;rdquo; 分配了三个partition分区。&
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ack.&lt;span style="color:#a6e22e">acknowledge&lt;/span> ();
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="26解决重复消费">2.6、解决重复消费&lt;/h3>&lt;p>上一节中使用 ack 手动提交偏移量时，假如 consumer 挂了重启，那它将从 committed offset 位置开始重新消费，而不是 consume offset 位置。这也就意味着有可能重复消费。&lt;br>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;/details>
+&lt;/p>
+&lt;h3 id="26解决重复消费">2.6、解决重复消费&lt;/h3>&lt;p>上一节中使用 ack 手动提交偏移量时，假如 consumer 挂了重启，那它将从 committed offset 位置开始重新消费，而不是 consume offset 位置。这也就意味着有可能重复消费。&lt;br>
 在 0.9 客户端中，有 3 种 ack 策略：&lt;/p>
 &lt;ul>
 &lt;li>策略 1： 自动的，周期性的 ack。&lt;/li>
@@ -1767,9 +1839,9 @@ topic: &amp;ldquo;topic_query_p3r1&amp;rdquo; 分配了三个partition分区。&
 每次取到消息，把对应的 offset 存下来。&lt;br>
 下次重启，通过 &lt;code>consumer.seek&lt;/code> 函数，定位到自己保存的 offset，从那开始消费。&lt;br>
 更进一步处理可以对消息加入唯一 id, 进行判重。&lt;/p>
-&lt;p>参考：
-&lt;a href="https://blog.csdn.net/u010634066/article/details/109803987">【spring-kafka】@KafkaListener详解与使用&lt;/a>
-&lt;a href="https://blog.csdn.net/sinat_25134571/article/details/149317466">Spring Boot与Kafka整合：实现百万级高吞吐消息处理的最佳实践&lt;/a>&lt;/p></description></item><item><title>Kafka | 生产调优</title><link>https://hidlestone.github.io/blog/bigdata/kafka/05-kafka-%E7%94%9F%E4%BA%A7%E8%B0%83%E4%BC%98/</link><pubDate>Sun, 06 Mar 2022 19:05:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/05-kafka-%E7%94%9F%E4%BA%A7%E8%B0%83%E4%BC%98/</guid><description>&lt;h2 id="一kafka-硬件配置选择">一、Kafka 硬件配置选择&lt;/h2>&lt;h3 id="11场景说明">1.1、场景说明&lt;/h3>&lt;p>100 万日活，每人每天 100 条日志，每天总共的日志条数是 100 万 * 100 条 = 1 亿条。
+&lt;p>Reference&lt;br>
+&lt;a href="https://blog.csdn.net/u010634066/article/details/109803987">【spring-kafka】@KafkaListener详解与使用&lt;/a>&lt;br>
+&lt;a href="https://blog.csdn.net/sinat_25134571/article/details/149317466">Spring Boot与Kafka整合：实现百万级高吞吐消息处理的最佳实践&lt;/a>&lt;/p></description></item><item><title>Kafka | 生产调优</title><link>https://hidlestone.github.io/blog/bigdata/kafka/05-kafka-%E7%94%9F%E4%BA%A7%E8%B0%83%E4%BC%98/</link><pubDate>Fri, 06 May 2022 19:05:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/05-kafka-%E7%94%9F%E4%BA%A7%E8%B0%83%E4%BC%98/</guid><description>&lt;h2 id="一kafka-硬件配置选择">一、Kafka 硬件配置选择&lt;/h2>&lt;h3 id="11场景说明">1.1、场景说明&lt;/h3>&lt;p>100 万日活，每人每天 100 条日志，每天总共的日志条数是 100 万 * 100 条 = 1 亿条。
 1 亿 / 24 小时 / 60 分 / 60 秒 = 1150 条 / 每秒钟。
 每条日志大小：0.5k - 2k（取 1k）。
 1150 条 / 每秒钟 * 1k ≈ 1m/s 。
@@ -1797,7 +1869,9 @@ fi
 1931 QuorumPeerMain
 &lt;/code>&lt;/pre>&lt;p>（2）根据 Kafka 进程号，查看 Kafka 的 GC 情况。
 &lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E7%94%9F%E4%BA%A7%E8%B0%83%E4%BC%98/912335366.png">
-参数说明：&lt;/p>
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>参数说明&lt;/code>&lt;/summary>
 &lt;pre tabindex="0">&lt;code>S0C：第一个幸存区的大小； S1C：第二个幸存区的大小
 S0U：第一个幸存区的使用大小； S1U：第二个幸存区的使用大小
 EC：伊甸园区的大小； EU：伊甸园区的使用大小
@@ -1807,7 +1881,13 @@ CCSC: 压缩类空间大小； CCSU: 压缩类空间使用大小
 YGC：年轻代垃圾回收次数； YGCT：年轻代垃圾回收消耗时间
 FGC：老年代垃圾回收次数； FGCT：老年代垃圾回收消耗时间
 GCT：垃圾回收消耗总时间；
-&lt;/code>&lt;/pre>&lt;p>（3）根据 Kafka 进程号，查看 Kafka 的堆内存。&lt;/p>
+&lt;/code>&lt;/pre>
+&lt;/details>
+&lt;/p>
+（3）根据 Kafka 进程号，查看 Kafka 的堆内存。
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>堆内存&lt;/code>&lt;/summary>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ jmap -heap 2321
 Attaching to process ID 2321, please wait...
 Debugger attached successfully.
@@ -1855,15 +1935,20 @@ used = 151995904 (144.95458984375MB)
 free = 1882241536 (1795.04541015625MB)
 7.471886074420103% used
 13364 interned Strings occupying 1449608 bytes.
-&lt;/code>&lt;/pre>&lt;p>2）页缓存：页缓存是 Linux 系统服务器的内存。我们只需要保证 1 个 segment（1g）中 25% 的数据在内存中就好。
+&lt;/code>&lt;/pre>
+&lt;/details>
+&lt;/p>
+2）页缓存：页缓存是 Linux 系统服务器的内存。我们只需要保证 1 个 segment（1g）中 25% 的数据在内存中就好。
 每个节点页缓存大小 =（分区数 * 1g * 25%）/ 节点数。例如 10 个分区，页缓存大小 =（10 * 1g * 25%）/ 3 ≈ 1g
 建议服务器内存大于等于 11G。&lt;/p>
-&lt;h3 id="15cpu-选择">1.5、CPU 选择&lt;/h3>&lt;p>&lt;code>num.io.threads = 8&lt;/code> 负责写磁盘的线程数，整个参数值要占总核数的 50%。
-&lt;code>num.replica.fetchers = 1&lt;/code> 副本拉取线程数，这个参数占总核数的 50% 的 1/3。
-&lt;code>num.network.threads = 3&lt;/code> 数据传输线程数，这个参数占总核数的 50% 的 2/3。
-建议 32 个 cpu core。&lt;/p>
-&lt;h3 id="16网络选择">1.6、网络选择&lt;/h3>&lt;p>网络带宽 = 峰值吞吐量 ≈ 20MB/s 选择千兆网卡即可。
-100Mbps 单位是 bit；10M/s 单位是 byte ; 1byte = 8bit，100Mbps/8 = 12.5M/s。
+&lt;h3 id="15cpu-选择">1.5、CPU 选择&lt;/h3>&lt;ul>
+&lt;li>&lt;code>num.io.threads = 8&lt;/code> 负责写磁盘的线程数，整个参数值要占总核数的 50%。&lt;/li>
+&lt;li>&lt;code>num.replica.fetchers = 1&lt;/code> 副本拉取线程数，这个参数占总核数的 50% 的 1/3。&lt;/li>
+&lt;li>&lt;code>num.network.threads = 3&lt;/code> 数据传输线程数，这个参数占总核数的 50% 的 2/3。&lt;br>
+建议 32 个 cpu core。&lt;/li>
+&lt;/ul>
+&lt;h3 id="16网络选择">1.6、网络选择&lt;/h3>&lt;p>网络带宽 = 峰值吞吐量 ≈ 20MB/s 选择千兆网卡即可。&lt;br>
+100Mbps 单位是 bit；10M/s 单位是 byte ; 1byte = 8bit，100Mbps/8 = 12.5M/s。&lt;br>
 一般百兆的网卡（100Mbps ）、千兆的网卡（1000Mbps）、万兆的网卡（10000Mbps）。&lt;/p>
 &lt;h2 id="二kafka-生产者">二、Kafka 生产者&lt;/h2>&lt;pre tabindex="0">&lt;code>3.1.1 Updating Broker Configs
 From Kafka version 1.1 onwards, some of the broker configs can be updated without restarting the broker. See the Dynamic Update Mode column in Broker Configs for the update mode of each broker config.
@@ -1983,9 +2068,8 @@ Kafka 中数据保存的时间，毫秒级别，默认关闭。&lt;/li>
 &lt;li>&lt;code>log.flush.interval.ms&lt;/code>
 每隔多久，刷数据到磁盘，默认是 null。一般不建议修改，交给系统自己管理。&lt;/li>
 &lt;/ul>
-&lt;h3 id="32服役新节点--退役旧节点">3.2、服役新节点 / 退役旧节点&lt;/h3>&lt;p>（1）创建一个要均衡的主题。&lt;/p>
-&lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ vim topics-to-move.json
-{
+&lt;h3 id="32服役新节点--退役旧节点">3.2、服役新节点 / 退役旧节点&lt;/h3>&lt;p>（1）创建一个要均衡的主题 &lt;code>topics-to-move.json&lt;/code>。&lt;/p>
+&lt;pre tabindex="0">&lt;code>{
 &amp;#34;topics&amp;#34;: [
 {&amp;#34;topic&amp;#34;: &amp;#34;first&amp;#34;}
 ],
@@ -2010,15 +2094,16 @@ Kafka 中数据保存的时间，毫秒级别，默认关闭。&lt;/li>
 &lt;pre tabindex="0">&lt;code>{&amp;#34;version&amp;#34;:1,&amp;#34;partitions&amp;#34;:[{&amp;#34;topic&amp;#34;:&amp;#34;four&amp;#34;,&amp;#34;partition&amp;#34;:0,&amp;#34;replicas&amp;#34;:[0,1,2]},{&amp;#34;topic&amp;#34;:&amp;#34;four&amp;#34;,&amp;#34;partition&amp;#34;:1,&amp;#34;replicas&amp;#34;:[0,1,2]},{&amp;#34;topic&amp;#34;:&amp;#34;four&amp;#34;,&amp;#34;partition&amp;#34;:2,&amp;#34;replicas&amp;#34;:[0,1,2]}]}
 &lt;/code>&lt;/pre>&lt;p>（2）执行副本存储计划。&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ bin/kafka-reassign-partitions.sh --bootstrap-server hadoop102:9092 --reassignment-json-file increasereplication-factor.json --execute
-&lt;/code>&lt;/pre>&lt;h3 id="35手动调整分区副本存储">3.5、手动调整分区副本存储&lt;/h3>&lt;p>（1）创建副本存储计划（所有副本都指定存储在 broker0、broker1 中）。&lt;/p>
-&lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ vim increase-replication-factor.json
-&lt;/code>&lt;/pre>&lt;p>输入如下内容：&lt;/p>
+&lt;/code>&lt;/pre>&lt;h3 id="35手动调整分区副本存储">3.5、手动调整分区副本存储&lt;/h3>&lt;p>（1）创建副本存储计划（所有副本都指定存储在 broker0、broker1 中）。
+输入如下内容 &lt;code>increase-replication-factor.json&lt;/code>：&lt;/p>
 &lt;pre tabindex="0">&lt;code>{
 &amp;#34;version&amp;#34;:1,
-&amp;#34;partitions&amp;#34;:[{&amp;#34;topic&amp;#34;:&amp;#34;three&amp;#34;,&amp;#34;partition&amp;#34;:0,&amp;#34;replicas&amp;#34;:[0,1]},
+&amp;#34;partitions&amp;#34;:[
+{&amp;#34;topic&amp;#34;:&amp;#34;three&amp;#34;,&amp;#34;partition&amp;#34;:0,&amp;#34;replicas&amp;#34;:[0,1]},
 {&amp;#34;topic&amp;#34;:&amp;#34;three&amp;#34;,&amp;#34;partition&amp;#34;:1,&amp;#34;replicas&amp;#34;:[0,1]},
 {&amp;#34;topic&amp;#34;:&amp;#34;three&amp;#34;,&amp;#34;partition&amp;#34;:2,&amp;#34;replicas&amp;#34;:[1,0]},
-{&amp;#34;topic&amp;#34;:&amp;#34;three&amp;#34;,&amp;#34;partition&amp;#34;:3,&amp;#34;replicas&amp;#34;:[1,0]}]
+{&amp;#34;topic&amp;#34;:&amp;#34;three&amp;#34;,&amp;#34;partition&amp;#34;:3,&amp;#34;replicas&amp;#34;:[1,0]}
+]
 }
 &lt;/code>&lt;/pre>&lt;p>（2）执行副本存储计划。&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ bin/kafka-reassign-partitions.sh --bootstrap-server hadoop102:9092 --reassignment-json-file increasereplication-factor.json --execute
@@ -2038,14 +2123,12 @@ Kafka 中数据保存的时间，毫秒级别，默认关闭。&lt;/li>
 &amp;gt;hello world
 &lt;/code>&lt;/pre>&lt;p>2）查看 five 主题的详情&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ bin/kafka-topics.sh --bootstrap-server hadoop102:9092 --describe --topic five
-&lt;/code>&lt;/pre>&lt;h2 id="四kafka-消费者">四、Kafka 消费者&lt;/h2>&lt;h3 id="41kafka-消费者核心参数配置">4.1、Kafka 消费者核心参数配置&lt;/h3>&lt;p>消费者组初始化流程&lt;br>
-1、coordinator：辅助实现消费者组的初始化和分区的分配。
+&lt;/code>&lt;/pre>&lt;h2 id="四kafka-消费者">四、Kafka 消费者&lt;/h2>&lt;h3 id="41kafka-消费者核心参数配置">4.1、Kafka 消费者核心参数配置&lt;/h3>&lt;h4 id="消费者组初始化流程">消费者组初始化流程&lt;/h4>&lt;p>1、coordinator：辅助实现消费者组的初始化和分区的分配。
 coordinator 节点选择 = groupid 的 hashcode 值 % 50（ __consumer_offsets 的分区数量）
 例如：groupid 的 hashcode 值 = 1，1% 50 = 1，那么__consumer_offsets 主题的 1 号分区，在哪个 broker 上，就选择这个节点的 coordinator 作为这个消费者组的老大。消费者组下的所有的消费者提交 offset 的时候就往这个分区去提交 offset。
 &lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E7%94%9F%E4%BA%A7%E8%B0%83%E4%BC%98/4037098503.png">&lt;/p>
-&lt;p>消费者组详细消费流程
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E7%94%9F%E4%BA%A7%E8%B0%83%E4%BC%98/1664722549.png">&lt;/p>
-&lt;p>参数：&lt;/p>
+&lt;h4 id="消费者组详细消费流程">消费者组详细消费流程&lt;/h4>&lt;p>&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E7%94%9F%E4%BA%A7%E8%B0%83%E4%BC%98/1664722549.png">
+参数：&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>bootstrap.servers&lt;/code>
 向 Kafka 集群建立初始连接用到的 host/port 列表。&lt;/li>
@@ -2099,12 +2182,16 @@ Kafka 消费者和 coordinator 之间的心跳时间，默认 3s。该条目的�
 &lt;li>&lt;code>max.poll.records&lt;/code>&lt;br>
 一次 poll 拉取数据返回消息的最大条数，默认是 500 条&lt;/li>
 &lt;/ul>
-&lt;h2 id="五kafka-总体">五、Kafka 总体&lt;/h2>&lt;h3 id="51如何提升吞吐量">5.1、如何提升吞吐量&lt;/h3>&lt;h4 id="1提升生产吞吐量">1）提升生产吞吐量&lt;/h4>&lt;p>（1）&lt;code>buffer.memory&lt;/code>：发送消息的缓冲区大小，默认值是 32m，可以增加到 64m。
-（2）&lt;code>batch.size&lt;/code>：默认是 16k。如果 batch 设置太小，会导致频繁网络请求，吞吐量下降；如果 batch 太大，会导致一条消息需要等待很久才能被发送出去，增加网络延时。
-（3）&lt;code>linger.ms&lt;/code>，这个值默认是 0，意思就是消息必须立即被发送。一般设置一个 5-100 毫秒。如果 linger.ms 设置的太小，会导致频繁网络请求，吞吐量下降；如果 linger.ms 太长，会导致一条消息需要等待很久才能被发送出去，增加网络延时。
-（4）&lt;code>compression.type&lt;/code>：默认是 none，不压缩，但是也可以使用 lz4 压缩，效率还是不错的，压缩之后可以减小数据量，提升吞吐量，但是会加大 producer 端的 CPU 开销。&lt;/p>
-&lt;h4 id="2增加分区">2）增加分区&lt;/h4>&lt;h4 id="3消费者提高吞吐量">3）消费者提高吞吐量&lt;/h4>&lt;p>（1）调整 fetch.max.bytes 大小，默认是 50m。
-（2）调整 max.poll.records 大小，默认是 500 条。&lt;/p>
+&lt;h2 id="五kafka-总体">五、Kafka 总体&lt;/h2>&lt;h3 id="51如何提升吞吐量">5.1、如何提升吞吐量&lt;/h3>&lt;h4 id="1提升生产吞吐量">1）提升生产吞吐量&lt;/h4>&lt;ul>
+&lt;li>&lt;code>buffer.memory&lt;/code>：发送消息的缓冲区大小，默认值是 32m，可以增加到 64m。&lt;/li>
+&lt;li>&lt;code>batch.size&lt;/code>：默认是 16k。如果 batch 设置太小，会导致频繁网络请求，吞吐量下降；如果 batch 太大，会导致一条消息需要等待很久才能被发送出去，增加网络延时。&lt;/li>
+&lt;li>&lt;code>linger.ms&lt;/code>，这个值默认是 0，意思就是消息必须立即被发送。一般设置一个 5-100 毫秒。如果 linger.ms 设置的太小，会导致频繁网络请求，吞吐量下降；如果 linger.ms 太长，会导致一条消息需要等待很久才能被发送出去，增加网络延时。&lt;/li>
+&lt;li>&lt;code>compression.type&lt;/code>：默认是 none，不压缩，但是也可以使用 lz4 压缩，效率还是不错的，压缩之后可以减小数据量，提升吞吐量，但是会加大 producer 端的 CPU 开销。&lt;/li>
+&lt;/ul>
+&lt;h4 id="2增加分区">2）增加分区&lt;/h4>&lt;h4 id="3消费者提高吞吐量">3）消费者提高吞吐量&lt;/h4>&lt;ul>
+&lt;li>调整 fetch.max.bytes 大小，默认是 50m。&lt;/li>
+&lt;li>调整 max.poll.records 大小，默认是 500 条。&lt;/li>
+&lt;/ul>
 &lt;h4 id="4增加下游消费者处理能力">4）增加下游消费者处理能力&lt;/h4>&lt;h3 id="52数据精准一次">5.2、数据精准一次&lt;/h3>&lt;p>1）生产者角度
 acks 设置为 - 1 （acks=-1）。
 幂等性（enable.idempotence = true） + 事务 。&lt;/p>
@@ -2114,13 +2201,15 @@ ISR 里应答的最小副本数量大于等于 2 （min.insync.replicas = 2）�
 &lt;p>3）消费者
 事务 + 手动提交 offset （enable.auto.commit = false）。
 消费者输出的目的地必须支持事务（MySQL、Kafka）。&lt;/p>
-&lt;h3 id="53合理设置分区数">5.3、合理设置分区数&lt;/h3>&lt;p>（1）创建一个只有 1 个分区的 topic。
-（2）测试这个 topic 的 producer 吞吐量和 consumer 吞吐量。
-（3）假设他们的值分别是 Tp 和 Tc，单位可以是 MB/s。
-（4）然后假设总的目标吞吐量是 Tt，那么分区数 = Tt /min（Tp，Tc）。
-例如：producer 吞吐量 = 20m/s；consumer 吞吐量 = 50m/s，期望吞吐量 100m/s；
-分区数 = 100 / 20 = 5 分区
-分区数一般设置为：3-10 个
+&lt;h3 id="53合理设置分区数">5.3、合理设置分区数&lt;/h3>&lt;ul>
+&lt;li>创建一个只有 1 个分区的 topic。&lt;/li>
+&lt;li>测试这个 topic 的 producer 吞吐量和 consumer 吞吐量。&lt;/li>
+&lt;li>假设他们的值分别是 Tp 和 Tc，单位可以是 MB/s。&lt;/li>
+&lt;li>然后假设总的目标吞吐量是 Tt，那么分区数 = Tt /min（Tp，Tc）。&lt;/li>
+&lt;/ul>
+&lt;p>例如：producer 吞吐量 = 20m/s；consumer 吞吐量 = 50m/s，期望吞吐量 100m/s；&lt;br>
+分区数 = 100 / 20 = 5 分区&lt;br>
+分区数一般设置为：3-10 个&lt;br>
 分区数不是越多越好，也不是越少越好，需要搭建完集群，进行压测，再灵活调整分区个数。&lt;/p>
 &lt;h3 id="54单条日志大于-1m">5.4、单条日志大于 1m&lt;/h3>&lt;p>参数：&lt;/p>
 &lt;ul>
@@ -2134,14 +2223,16 @@ ISR 里应答的最小副本数量大于等于 2 （min.insync.replicas = 2）�
 默认 Default: 52428800（50 m）。消费者获取服务器端一批消息最大的字节数。如果服务器端一批次的数据大于该值（50m）仍然可以拉取回来这批数据，因此，这不是一个绝对最大值。一批次的大小受 message.max.bytes （broker config）or max.message.bytes （topic config）影响。&lt;/li>
 &lt;/ul>
 &lt;h3 id="55服务器挂了">5.5、服务器挂了&lt;/h3>&lt;p>在生产环境中，如果某个 Kafka 节点挂掉。
-正常处理办法：
-（1）先尝试重新启动一下，如果能启动正常，那直接解决。
-（2）如果重启不行，考虑增加内存、增加 CPU、网络带宽。
-（3）如果将 kafka 整个节点误删除，如果副本数大于等于 2，可以按照服役新节点的方式重新服役一个新节点，并执行负载均衡。&lt;/p>
+正常处理办法：&lt;/p>
+&lt;ul>
+&lt;li>先尝试重新启动一下，如果能启动正常，那直接解决。&lt;/li>
+&lt;li>如果重启不行，考虑增加内存、增加 CPU、网络带宽。&lt;/li>
+&lt;li>如果将 kafka 整个节点误删除，如果副本数大于等于 2，可以按照服役新节点的方式重新服役一个新节点，并执行负载均衡。&lt;/li>
+&lt;/ul>
 &lt;h3 id="56集群压力测试">5.6、集群压力测试&lt;/h3>&lt;h4 id="1kafka-压测">1）Kafka 压测&lt;/h4>&lt;p>用 Kafka 官方自带的脚本，对 Kafka 进行压测。&lt;/p>
 &lt;ul>
-&lt;li>生产者压测：kafka-producer-perf-test.sh&lt;/li>
-&lt;li>消费者压测：kafka-consumer-perf-test.sh
+&lt;li>生产者压测：&lt;code>kafka-producer-perf-test.sh&lt;/code>&lt;/li>
+&lt;li>消费者压测：&lt;code>kafka-consumer-perf-test.sh&lt;/code>
 &lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E7%94%9F%E4%BA%A7%E8%B0%83%E4%BC%98/560983446.png">&lt;/li>
 &lt;/ul>
 &lt;h4 id="2kafka-producer-压力测试">2）Kafka Producer 压力测试&lt;/h4>&lt;p>（1）创建一个 test topic，设置为 3 个分区 3 个副本&lt;/p>
@@ -2210,7 +2301,7 @@ config/consumer.properties
 2、再次执行&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop105 kafka]$ bin/kafka-consumer-perf-test.sh --broker-list hadoop102:9092,hadoop103:9092,hadoop104:9092 --topic test --messages 1000000 --consumer.config
 config/consumer.properties
-&lt;/code>&lt;/pre></description></item><item><title>Kafka | 消费者</title><link>https://hidlestone.github.io/blog/bigdata/kafka/04-kafka-%E6%B6%88%E8%B4%B9%E8%80%85/</link><pubDate>Sun, 06 Mar 2022 19:04:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/04-kafka-%E6%B6%88%E8%B4%B9%E8%80%85/</guid><description>&lt;h2 id="一kafka-消费方式">一、Kafka 消费方式&lt;/h2>&lt;p>&lt;code>pull（拉）模式&lt;/code>：&lt;br>
+&lt;/code>&lt;/pre></description></item><item><title>Kafka | 消费者</title><link>https://hidlestone.github.io/blog/bigdata/kafka/04-kafka-%E6%B6%88%E8%B4%B9%E8%80%85/</link><pubDate>Fri, 06 May 2022 19:04:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/04-kafka-%E6%B6%88%E8%B4%B9%E8%80%85/</guid><description>&lt;h2 id="一kafka-消费方式">一、Kafka 消费方式&lt;/h2>&lt;p>&lt;code>pull（拉）模式&lt;/code>：&lt;br>
 consumer 采用从 broker 中主动拉取数据。 Kafka 采用这种方式。&lt;br>
 &lt;code>push（推）模式&lt;/code>：&lt;br>
 Kafka 没有采用这种方式，因为由 broker 决定消息发送速率，很难适应所有消费者的消费速率。例如推送的速度是 50m/s， Consumer1、Consumer2 就来不及处理消息。&lt;br>
@@ -2222,13 +2313,11 @@ pull 模式不足之处是，如果 Kafka 没有数据，消费者可能会陷�
 消费者组之间互不影响。所有的消费者都属于某个消费者组，即消费者组是逻辑上的一个订阅者。&lt;br>
 &lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/177403972.png">&lt;br>
 &lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/1014989795.png">&lt;/p>
-&lt;p>消费者组初始化流程：&lt;br>
-&lt;code>coordinator&lt;/code>：辅助实现消费者组的初始化和分区的分配。&lt;br>
-&lt;code>coordinator 节点选择 = groupid 的 hashcode 值 % 50 ( __consumer_offsets 的分区数量)&lt;/code>&lt;br>
+&lt;h4 id="消费者组初始化流程">消费者组初始化流程&lt;/h4>&lt;p>&lt;code>coordinator&lt;/code>：辅助实现消费者组的初始化和分区的分配。 &lt;br>
+&lt;code>coordinator 节点选择 = groupid 的 hashcode 值 % 50 ( __consumer_offsets 的分区数量)&lt;/code> &lt;br>
 例如： groupid 的 hashcode 值 = 1，1% 50 = 1，那么__consumer_offsets 主题的 1 号分区，在哪个 broker 上，就选择这个节点的 coordinator 作为这个消费者组的老大。消费者组下的所有的消费者提交 offset 的时候就往这个分区去提交 offset。&lt;br>
 &lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/91361225.png">&lt;/p>
-&lt;p>消费者组详细消费流程：&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/282034895.png">&lt;/p>
+&lt;h4 id="消费者组详细消费流程">消费者组详细消费流程&lt;/h4>&lt;p>&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/282034895.png">&lt;/p>
 &lt;h3 id="23消费者重要参数">2.3、消费者重要参数&lt;/h3>&lt;ul>
 &lt;li>&lt;code>bootstrap.servers&lt;/code>&lt;br>
 向 Kafka 集群建立初始连接用到的 host/port 列表。&lt;/li>
@@ -2243,10 +2332,10 @@ pull 模式不足之处是，如果 Kafka 没有数据，消费者可能会陷�
 &lt;li>&lt;code>auto.offset.reset&lt;/code>&lt;br>
 当 Kafka 中没有初始偏移量或当前偏移量在服务器中不存在（如，数据被删除了），该如何处理？
 &lt;ul>
-&lt;li>earliest：自动重置偏移量到最早的偏移量。&lt;/li>
-&lt;li>latest：默认，自动重置偏移量为最新的偏移量。&lt;/li>
-&lt;li>none：如果消费组原来的（previous）偏移量不存在，则向消费者抛异常。&lt;/li>
-&lt;li>anything：向消费者抛异常。&lt;/li>
+&lt;li>&lt;code>earliest&lt;/code>：自动重置偏移量到最早的偏移量。&lt;/li>
+&lt;li>&lt;code>latest&lt;/code>：默认，自动重置偏移量为最新的偏移量。&lt;/li>
+&lt;li>&lt;code>none&lt;/code>：如果消费组原来的（previous）偏移量不存在，则向消费者抛异常。&lt;/li>
+&lt;li>&lt;code>anything&lt;/code>：向消费者抛异常。&lt;/li>
 &lt;/ul>
 &lt;/li>
 &lt;li>&lt;code>offsets.topic.num.partitions&lt;/code>&lt;br>
@@ -2270,7 +2359,10 @@ Kafka 消费者和 coordinator 之间的心跳时间，默认 3s。 该条目的
 创建一个独立消费者，消费 first 主题中数据。
 &lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/777644585.png">&lt;br>
 注意：在消费者 API 代码中必须配置消费者组 id。命令行启动消费者不填写消费者组 id 会被自动填写随机的消费者组 id。&lt;/p>
-&lt;p>2）实现&lt;/p>
+&lt;p>2）实现&lt;br>
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>CustomConsumer&lt;/code>&lt;/summary>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">CustomConsumer&lt;/span> {
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">static&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span> (String &lt;span style="color:#f92672">[]&lt;/span> args) {
@@ -2312,7 +2404,11 @@ Kafka 消费者和 coordinator 之间的心跳时间，默认 3s。 该条目的
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>3）测试&lt;br>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;/details>
+&lt;/p>
+&lt;/p>
+&lt;p>3）测试&lt;br>
 （1）在 IDEA 中执行消费者程序。&lt;br>
 （2）在 Kafka 集群控制台，创建 Kafka 生产者，并输入数据。&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ bin/kafka-console-producer.sh -bootstrap-server hadoop102:9092 --topic first
@@ -2321,7 +2417,10 @@ Kafka 消费者和 coordinator 之间的心跳时间，默认 3s。 该条目的
 &lt;pre tabindex="0">&lt;code>ConsumerRecord (topic = first, partition = 1, leaderEpoch = 3, offset = 0, CreateTime = 1629160841112, serialized key size = -1, serialized value size = 5, headers = RecordHeaders (headers = [], isReadOnly = false), key = null, value = hello)
 &lt;/code>&lt;/pre>&lt;h3 id="32独立消费者案例订阅分区">3.2、独立消费者案例（订阅分区）&lt;/h3>&lt;p>1）需求：创建一个独立消费者，消费 first 主题 0 号分区的数据。&lt;br>
 &lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/308206710.png">&lt;/p>
-&lt;p>2）实现&lt;/p>
+&lt;p>2）实现&lt;br>
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>CustomConsumerPartition&lt;/code>&lt;/summary>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">CustomConsumerPartition&lt;/span> {
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">static&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span> (String &lt;span style="color:#f92672">[]&lt;/span> args) {
@@ -2357,7 +2456,11 @@ Kafka 消费者和 coordinator 之间的心跳时间，默认 3s。 该条目的
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>3）测试&lt;br>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;/details>
+&lt;/p>
+&lt;/p>
+&lt;p>3）测试&lt;br>
 （1）在 IDEA 中执行消费者程序。&lt;br>
 （2）在 IDEA 中执行生产者程序 &lt;code>CustomProducerCallback ()&lt;/code> 在控制台观察生成几个 0 号分区的数据。&lt;/p>
 &lt;pre tabindex="0">&lt;code>first 0 381
@@ -2368,7 +2471,10 @@ ConsumerRecord (topic = first, partition = 0, leaderEpoch = 14, offset = 382, Cr
 &lt;/code>&lt;/pre>&lt;h3 id="33消费者组案例">3.3、消费者组案例&lt;/h3>&lt;p>1）需求：测试同一个主题的分区数据，只能由一个消费者组中的一个消费。 &lt;br>
 &lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/143287775.png">&lt;/p>
 &lt;p>2）案例&lt;br>
-（1）复制一份基础消费者的代码，在 IDEA 中同时启动，即可启动同一个消费者组中的两个消费者。&lt;/p>
+（1）复制一份基础消费者的代码，在 IDEA 中同时启动，即可启动同一个消费者组中的两个消费者。
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>CustomConsumer1&lt;/code>&lt;/summary>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">CustomConsumer1&lt;/span> {
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">static&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span> (String &lt;span style="color:#f92672">[]&lt;/span> args) {
@@ -2407,9 +2513,12 @@ ConsumerRecord (topic = first, partition = 0, leaderEpoch = 14, offset = 382, Cr
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>（2）启动代码中的生产者发送消息，在 IDEA 控制台即可看到两个消费者在消费不同分区的数据（如果只发生到一个分区，可以在发送时增加延迟代码 Thread.sleep (2);）。&lt;br>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;/details>
+&lt;/p>
+（2）启动代码中的生产者发送消息，在 IDEA 控制台即可看到两个消费者在消费不同分区的数据（如果只发生到一个分区，可以在发送时增加延迟代码 Thread.sleep (2);）。&lt;br>
 （3）重新发送到一个全新的主题中，由于默认创建的主题分区数为 1，可以看到只能有一个消费者消费到数据。&lt;/p>
-&lt;h2 id="四生产经验--分区的分配以及再平衡">四、生产经验 —— 分区的分配以及再平衡&lt;/h2>&lt;p>1、一个 consumer group 中有多个 consumer 组成，一个 topic 有多个 partition 组成，现在的问题是，到底由哪个 consumer 来消费哪个 partition 的数据。&lt;br>
+&lt;h2 id="四生产经验---分区的分配以及再平衡">四、生产经验 - 分区的分配以及再平衡&lt;/h2>&lt;p>1、一个 consumer group 中有多个 consumer 组成，一个 topic 有多个 partition 组成，现在的问题是，到底由哪个 consumer 来消费哪个 partition 的数据。&lt;br>
 2、Kafka 有四种主流的分区分配策略：&lt;code>Range、RoundRobin、Sticky、CooperativeSticky&lt;/code>。 可以通过配置参数 &lt;code>partition.assignment.strategy&lt;/code>，修改分区的分配策略。默认策略是 Range + CooperativeSticky。Kafka 可以同时使用 多个分区分配策略。&lt;br>
 &lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/2817688480.png">&lt;/p>
 &lt;p>参数：&lt;/p>
@@ -2479,7 +2588,7 @@ properties.put (ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, startegys);
 2 号消费者：消费到 0、1、4、6 号分区数据。 &lt;br>
 说明：消费者 0 已经被踢出消费者组，所以重新按照粘性方式分配。&lt;/p>
 &lt;h2 id="五offset-位移">五、offset 位移&lt;/h2>&lt;h3 id="51offset-的默认维护位置">5.1、offset 的默认维护位置&lt;/h3>&lt;p>&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/1512253725.png">&lt;br>
-__consumer_offsets 主题里面采用 key 和 value 的方式存储数据。key 是 &lt;code>group.id+topic + 分区号&lt;/code>，value 就是当前 offset 的值。每隔一段时间，kafka 内部会对这个 topic 进行 compact，也就是每个 group.id+topic + 分区号就保留最新数据。&lt;/p>
+&lt;code>__consumer_offsets&lt;/code> 主题里面采用 key 和 value 的方式存储数据。key 是 &lt;code>group.id+topic + 分区号&lt;/code>，value 就是当前 offset 的值。每隔一段时间，kafka 内部会对这个 topic 进行 compact，也就是每个 group.id+topic + 分区号就保留最新数据。&lt;/p>
 &lt;p>1）消费 offset 案例 &lt;br>
 （0）思想：__consumer_offsets 为 Kafka 中的 topic，那就可以通过消费者进行消费。 &lt;br>
 （1）在配置文件 config/consumer.properties 中添加配置 &lt;code>exclude.internal.topics=false&lt;/code>，默认是 true，表示不能消费系统主题。为了查看该系统主题数据，所以该参数修改为 false。&lt;br>
@@ -2501,7 +2610,10 @@ __consumer_offsets 主题里面采用 key 和 value 的方式存储数据。key 
 &lt;li>&lt;code>auto.commit.interval.ms&lt;/code>：自动提交 offset 的时间间隔，默认是 5。
 &lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/1072239815.png">&lt;/li>
 &lt;/ul>
-&lt;p>1）消费者自动提交 offset&lt;/p>
+&lt;p>1）消费者自动提交 offset
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>CustomConsumerAutoOffset&lt;/code>&lt;/summary>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">package&lt;/span> com.atguigu.kafka.consumer;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> org.apache.kafka.clients.consumer.ConsumerConfig;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -2548,7 +2660,11 @@ __consumer_offsets 主题里面采用 key 和 value 的方式存储数据。key 
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="53手动提交-offset">5.3、手动提交 offset&lt;/h3>&lt;p>虽然自动提交 offset 十分简单便利，但由于其是基于时间提交的，开发人员难以把握 offset 提交的时机。因此 Kafka 还提供了手动提交 offset 的 API。
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;/details>
+&lt;/p>
+&lt;/p>
+&lt;h3 id="53手动提交-offset">5.3、手动提交 offset&lt;/h3>&lt;p>虽然自动提交 offset 十分简单便利，但由于其是基于时间提交的，开发人员难以把握 offset 提交的时机。因此 Kafka 还提供了手动提交 offset 的 API。
 手动提交 offset 的方法有两种：分别是 commitSync（同步提交）和 commitAsync（异步提交）。两者的相同点是，都会将本次提交的一批数据最高的偏移量提交；不同点是，同步提交阻塞当前线程，一直到提交成功，并且会自动失败重试（由不可控因素导致，也会出现提交失败）；而异步提交则没有失败重试机制，故有可能提交失败。&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>commitSync&lt;/code>（同步提交）：必须等待 offset 提交完毕，再去消费下一批数据。&lt;/li>
@@ -2556,7 +2672,10 @@ __consumer_offsets 主题里面采用 key 和 value 的方式存储数据。key 
 &lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/508283598.png">&lt;/li>
 &lt;/ul>
 &lt;p>1）同步提交 offset
-由于同步提交 offset 有失败重试机制，故更加可靠，但是由于一直等待提交结果，提交的效率比较低。以下为同步提交 offset 的示例。&lt;/p>
+由于同步提交 offset 有失败重试机制，故更加可靠，但是由于一直等待提交结果，提交的效率比较低。以下为同步提交 offset 的示例。
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>CustomConsumerByHandSync&lt;/code>&lt;/summary>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">package&lt;/span> com.atguigu.kafka.consumer;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> org.apache.kafka.clients.consumer.ConsumerConfig;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -2603,8 +2722,14 @@ __consumer_offsets 主题里面采用 key 和 value 的方式存储数据。key 
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>2）异步提交 offset
-虽然同步提交 offset 更可靠一些，但是由于其会阻塞当前线程，直到提交成功。因此吞吐量会受到很大的影响。因此更多的情况下，会选用异步提交 offset 的方式。以下为异步提交 offset 的示例：&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;/details>
+&lt;/p>
+2）异步提交 offset
+虽然同步提交 offset 更可靠一些，但是由于其会阻塞当前线程，直到提交成功。因此吞吐量会受到很大的影响。因此更多的情况下，会选用异步提交 offset 的方式。以下为异步提交 offset 的示例：
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>CustomConsumerByHandAsync&lt;/code>&lt;/summary>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">package&lt;/span> com.atguigu.kafka.consumer;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> org.apache.kafka.clients.consumer.*;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> org.apache.kafka.common.TopicPartition;
@@ -2650,13 +2775,20 @@ __consumer_offsets 主题里面采用 key 和 value 的方式存储数据。key 
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="54指定-offset-消费">5.4、指定 Offset 消费&lt;/h3>&lt;p>&lt;code>auto.offset.reset = earliest | latest | none&lt;/code> 默认是 latest。
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;/details>
+&lt;/p>
+&lt;/p>
+&lt;h3 id="54指定-offset-消费">5.4、指定 Offset 消费&lt;/h3>&lt;p>&lt;code>auto.offset.reset = earliest | latest | none&lt;/code> 默认是 latest。
 当 Kafka 中没有初始偏移量（消费者组第一次消费）或服务器上不再存在当前偏移量时（例如该数据已被删除），该怎么办？
 （1）&lt;code>earliest&lt;/code>：自动将偏移量重置为最早的偏移量，&amp;ndash;from-beginning。
 （2）&lt;code>latest&lt;/code>（默认值）：自动将偏移量重置为最新偏移量。
 （3）&lt;code>none&lt;/code>：如果未找到消费者组的先前偏移量，则向消费者抛出异常。
 &lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/1504842196.png"> &lt;br>
-（4）任意指定 offset 位移开始消费&lt;/p>
+（4）任意指定 offset 位移开始消费
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>CustomConsumerSeek&lt;/code>&lt;/summary>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">package&lt;/span> com.atguigu.kafka.consumer;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> org.apache.kafka.clients.consumer.ConsumerConfig;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -2712,10 +2844,15 @@ __consumer_offsets 主题里面采用 key 和 value 的方式存储数据。key 
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>注意：每次执行完，需要修改消费者组名；&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;/details>
+&lt;/p>
+注意：每次执行完，需要修改消费者组名；&lt;/p>
 &lt;h3 id="55指定时间消费">5.5、指定时间消费&lt;/h3>&lt;p>需求：在生产环境中，会遇到最近消费的几个小时数据异常，想重新按照时间消费。
 例如要求按照时间消费前一天的数据，怎么处理？
-操作步骤：&lt;/p>
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>CustomConsumerForTime&lt;/code>&lt;/summary>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">package&lt;/span> com.atguigu.kafka.consumer;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> org.apache.kafka.clients.consumer.*;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> org.apache.kafka.common.TopicPartition;
@@ -2781,8 +2918,12 @@ __consumer_offsets 主题里面采用 key 和 value 的方式存储数据。key 
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="556漏消费和重复消费">5.5.6、漏消费和重复消费&lt;/h4>&lt;p>&lt;strong>重复消费&lt;/strong>：已经消费了数据，但是 offset 没提交。
-&lt;strong>漏消费&lt;/strong>：先提交 offset 后消费，有可能会造成数据的漏消费。
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;/details>
+&lt;/p>
+&lt;/p>
+&lt;h4 id="556漏消费和重复消费">5.5.6、漏消费和重复消费&lt;/h4>&lt;p>&lt;strong>重复消费&lt;/strong>：已经消费了数据，但是 offset 没提交。&lt;br>
+&lt;strong>漏消费&lt;/strong>：先提交 offset 后消费，有可能会造成数据的漏消费。&lt;br>
 （1）场景 1：重复消费。自动提交 offset 引起。&lt;br>
 &lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/3850766115.png">
 （2）场景 1：漏消费。设置 offset 为手动提交，当 offset 被提交时，数据还在内存中未落盘，此时刚好消费者线程被 kill 掉，那么 offset 已经提交，但是数据未处理，导致这部分内存中的数据丢失。
@@ -2795,11 +2936,11 @@ __consumer_offsets 主题里面采用 key 和 value 的方式存储数据。key 
 默认 Default: 52428800（50 m）。消费者获取服务器端一批 消息最大的字节数。如果服务器端一批次的数据大于该值（50m）仍然可以拉取回来这批数据，因此，这不是一个绝 对最大值。一批次的大小受 message.max.bytes （broker config）or max.message.bytes （topic config）影响。&lt;/li>
 &lt;li>&lt;code>max.poll.records&lt;/code>
 一次 poll 拉取数据返回消息的最大条数，默认是 500 条。&lt;/li>
-&lt;/ul></description></item><item><title>Kafka | Broker</title><link>https://hidlestone.github.io/blog/bigdata/kafka/03-kafka-broker/</link><pubDate>Sun, 06 Mar 2022 19:03:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/03-kafka-broker/</guid><description>&lt;h2 id="一kafka-broker-工作流程">一、Kafka Broker 工作流程&lt;/h2>&lt;h3 id="11zookeeper-存储的-kafka-信息">1.1、Zookeeper 存储的 Kafka 信息&lt;/h3>&lt;p>（1）启动 Zookeeper 客户端。
-&lt;code>bin/zkCli.sh &lt;/code>
-（2）通过 &lt;code>ls&lt;/code> 命令可以查看 kafka 相关信息。&lt;br>
-&lt;code>ls /kafka&lt;/code>
-Zookeeper 中存储的 Kafka 信息：&lt;br>
+&lt;/ul></description></item><item><title>Kafka | Broker</title><link>https://hidlestone.github.io/blog/bigdata/kafka/03-kafka-broker/</link><pubDate>Fri, 06 May 2022 19:03:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/03-kafka-broker/</guid><description>&lt;h2 id="一kafka-broker-工作流程">一、Kafka Broker 工作流程&lt;/h2>&lt;h3 id="11zookeeper-存储的-kafka-信息">1.1、Zookeeper 存储的 Kafka 信息&lt;/h3>&lt;p>（1）启动 Zookeeper 客户端。&lt;br>
+&lt;code>bin/zkCli.sh &lt;/code>&lt;br>
+（2）通过 &lt;code>ls&lt;/code> 命令可以查看 kafka 相关信息。 &lt;br>
+&lt;code>ls /kafka&lt;/code>&lt;/p>
+&lt;p>Zookeeper 中存储的 Kafka 信息： &lt;br>
 &lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/3633241200.png">&lt;/p>
 &lt;h3 id="12kafka-broker-总体工作流程">1.2、Kafka Broker 总体工作流程&lt;/h3>&lt;p>&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/2031347543.png">&lt;/p>
 &lt;h4 id="121模拟-kafka-上下线zookeeper-中数据变化">1.2.1、模拟 Kafka 上下线，Zookeeper 中数据变化&lt;/h4>&lt;p>（1）查看 &lt;code>/kafka/brokers/ids&lt;/code> 路径上的节点。&lt;/p>
@@ -2859,9 +3000,11 @@ Kafka 中数据保存的时间，毫秒级别，默认关闭。&lt;/li>
 每隔多久，刷数据到磁盘，默认是 null。一般不建议修改，交给系统自己管理。&lt;/li>
 &lt;/ul>
 &lt;h2 id="二生产经验--节点服役和退役">二、生产经验 —— 节点服役和退役&lt;/h2>&lt;h3 id="21服役新节点">2.1、服役新节点&lt;/h3>&lt;h4 id="211新节点准备">2.1.1、新节点准备&lt;/h4>&lt;p>（1）关闭 hadoop104，并右键执行克隆操作。&lt;br>
-（2）开启 hadoop105，并修改 IP 地址。&lt;/p>
-&lt;pre tabindex="0">&lt;code>[root@hadoop104 ~]# vim /etc/sysconfig/network-scripts/ifcfgens33
-DEVICE=ens33
+（2）开启 hadoop105，并修改 IP 地址。
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>/etc/sysconfig/network-scripts/ifcfgens33&lt;/code>&lt;/summary>
+&lt;pre tabindex="0">&lt;code>DEVICE=ens33
 TYPE=Ethernet
 ONBOOT=yes
 BOOTPROTO=static
@@ -2870,7 +3013,10 @@ IPADDR=192.168.10.105
 PREFIX=24
 GATEWAY=192.168.10.2
 DNS1=192.168.10.2
-&lt;/code>&lt;/pre>&lt;p>（3）在 hadoop105 上，修改主机名称为 hadoop105。&lt;/p>
+&lt;/code>&lt;/pre>
+&lt;/details>
+&lt;/p>
+（3）在 hadoop105 上，修改主机名称为 hadoop105。&lt;/p>
 &lt;pre tabindex="0">&lt;code>[root@hadoop104 ~]# vim /etc/hostname hadoop105
 &lt;/code>&lt;/pre>&lt;p>（4）重新启动 hadoop104、hadoop105。&lt;br>
 （5）修改 haodoop105 中 kafka 的 broker.id 为 3。&lt;br>
@@ -2881,20 +3027,24 @@ DNS1=192.168.10.2
 [atguigu@hadoop102 ~]$ kf.sh start
 &lt;/code>&lt;/pre>&lt;p>（8）单独启动 hadoop105 中的 kafka。&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop105 kafka]$ bin/kafka-server-start.sh daemon ./config/server.properties
-&lt;/code>&lt;/pre>&lt;h4 id="212执行负载均衡操作">2.1.2、执行负载均衡操作&lt;/h4>&lt;p>（1）创建一个要均衡的主题。&lt;/p>
-&lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ vim topics-to-move.json
-{ &amp;#34;topics&amp;#34;: [
-{&amp;#34;topic&amp;#34;: &amp;#34;first&amp;#34;}
+&lt;/code>&lt;/pre>&lt;h4 id="212执行负载均衡操作">2.1.2、执行负载均衡操作&lt;/h4>&lt;p>（1）创建一个要均衡的主题 &lt;code>topics-to-move.json&lt;/code>。&lt;/p>
+&lt;pre tabindex="0">&lt;code>{
+&amp;#34;topics&amp;#34;: [
+{
+&amp;#34;topic&amp;#34;: &amp;#34;first&amp;#34;
+}
 ],
-&amp;#34;version&amp;#34;: 1 }
+&amp;#34;version&amp;#34;: 1
+}
 &lt;/code>&lt;/pre>&lt;p>（2）生成一个负载均衡的计划。&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ bin/kafka-reassign-partitions.sh -bootstrap-server hadoop102:9092 --topics-to-move-json-file topics-to-move.json --broker-list &amp;#34;0,1,2,3&amp;#34; --generate
 Current partition replica assignment {&amp;#34;version&amp;#34;:1,&amp;#34;partitions&amp;#34;:[{&amp;#34;topic&amp;#34;:&amp;#34;first&amp;#34;,&amp;#34;partition&amp;#34;:0,&amp;#34;replic as&amp;#34;:[0,2,1],&amp;#34;log_dirs&amp;#34;:[&amp;#34;any&amp;#34;,&amp;#34;any&amp;#34;,&amp;#34;any&amp;#34;]},{&amp;#34;topic&amp;#34;:&amp;#34;first&amp;#34;,&amp;#34;par tition&amp;#34;:1,&amp;#34;replicas&amp;#34;:[2,1,0],&amp;#34;log_dirs&amp;#34;:[&amp;#34;any&amp;#34;,&amp;#34;any&amp;#34;,&amp;#34;any&amp;#34;]},{&amp;#34;to pic&amp;#34;:&amp;#34;first&amp;#34;,&amp;#34;partition&amp;#34;:2,&amp;#34;replicas&amp;#34;:[1,0,2],&amp;#34;log_dirs&amp;#34;:[&amp;#34;any&amp;#34;,&amp;#34;any&amp;#34;,&amp;#34;any&amp;#34;]}]}
 Proposed partition reassignment configuration
 {&amp;#34;version&amp;#34;:1,&amp;#34;partitions&amp;#34;:[{&amp;#34;topic&amp;#34;:&amp;#34;first&amp;#34;,&amp;#34;partition&amp;#34;:0,&amp;#34;replic as&amp;#34;:[2,3,0],&amp;#34;log_dirs&amp;#34;:[&amp;#34;any&amp;#34;,&amp;#34;any&amp;#34;,&amp;#34;any&amp;#34;]},{&amp;#34;topic&amp;#34;:&amp;#34;first&amp;#34;,&amp;#34;par tition&amp;#34;:1,&amp;#34;replicas&amp;#34;:[3,0,1],&amp;#34;log_dirs&amp;#34;:[&amp;#34;any&amp;#34;,&amp;#34;any&amp;#34;,&amp;#34;any&amp;#34;]},{&amp;#34;to pic&amp;#34;:&amp;#34;first&amp;#34;,&amp;#34;partition&amp;#34;:2,&amp;#34;replicas&amp;#34;:[0,1,2],&amp;#34;log_dirs&amp;#34;:[&amp;#34;any&amp;#34;,&amp;#34;any&amp;#34;,&amp;#34;any&amp;#34;]}]} （
-&lt;/code>&lt;/pre>&lt;p>（3）创建副本存储计划（所有副本存储在 broker0、broker1、broker2、broker3 中）。&lt;/p>
-&lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ vim increase-replication-factor.json
-&lt;/code>&lt;/pre>&lt;p>输入如下内容：&lt;/p>
+&lt;/code>&lt;/pre>&lt;p>（3）创建副本存储计划（所有副本存储在 broker0、broker1、broker2、broker3 中）。
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>increase-replication-factor.json&lt;/code>&lt;/summary>
 &lt;pre tabindex="0">&lt;code>{
 &amp;#34;version&amp;#34;: 1,
 &amp;#34;partitions&amp;#34;: [{
@@ -2904,17 +3054,20 @@ Proposed partition reassignment configuration
 &amp;#34;log_dirs&amp;#34;: [&amp;#34;any&amp;#34;, &amp;#34;any&amp;#34;, &amp;#34;any&amp;#34;]
 }, {
 &amp;#34;topic&amp;#34;: &amp;#34;first&amp;#34;,
-&amp;#34;par tition&amp;#34;: 1,
+&amp;#34;partition&amp;#34;: 1,
 &amp;#34;replicas&amp;#34;: [3, 0, 1],
 &amp;#34;log_dirs&amp;#34;: [&amp;#34;any&amp;#34;, &amp;#34;any&amp;#34;, &amp;#34;any&amp;#34;]
 }, {
-&amp;#34;to pic&amp;#34;: &amp;#34;first&amp;#34;,
+&amp;#34;topic&amp;#34;: &amp;#34;first&amp;#34;,
 &amp;#34;partition&amp;#34;: 2,
 &amp;#34;replicas&amp;#34;: [0, 1, 2],
 &amp;#34;log_dirs&amp;#34;: [&amp;#34;any&amp;#34;, &amp;#34;any&amp;#34;, &amp;#34;any&amp;#34;]
 }]
 }
-&lt;/code>&lt;/pre>&lt;p>（4）执行副本存储计划。&lt;/p>
+&lt;/code>&lt;/pre>
+&lt;/details>
+&lt;/p>
+（4）执行副本存储计划。&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ bin/kafka-reassign-partitions.sh -bootstrap-server hadoop102:9092 --reassignment-json-file increase-replication-factor.json --execute
 &lt;/code>&lt;/pre>&lt;p>（5）验证副本存储计划。&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ bin/kafka-reassign-partitions.sh -bootstrap-server hadoop102:9092 --reassignment-json-file increase-replication-factor.json --verify
@@ -2925,17 +3078,20 @@ Reassignment of partition first-2 is complete.
 Clearing broker-level throttles on brokers 0,1,2,3
 Clearing topic-level throttles on topic first
 &lt;/code>&lt;/pre>&lt;h3 id="22退役旧节点">2.2、退役旧节点&lt;/h3>&lt;h4 id="221执行负载均衡操作">2.2.1、执行负载均衡操作&lt;/h4>&lt;p>先按照退役一台节点，生成执行计划，然后按照服役时操作流程执行负载均衡。&lt;br>
-（1）创建一个要均衡的主题。&lt;/p>
-&lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ vim topics-to-move.json
-{ &amp;#34;topics&amp;#34;: [
-{&amp;#34;topic&amp;#34;: &amp;#34;first&amp;#34;}
+（1）创建一个要均衡的主题 &lt;code>topics-to-move.json&lt;/code>。&lt;/p>
+&lt;pre tabindex="0">&lt;code>{
+&amp;#34;topics&amp;#34;: [
+{
+&amp;#34;topic&amp;#34;: &amp;#34;first&amp;#34;
+}
 ],
-&amp;#34;version&amp;#34;: 1 }
+&amp;#34;version&amp;#34;: 1
+}
 &lt;/code>&lt;/pre>&lt;p>（2）创建执行计划。&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ bin/kafka-reassign-partitions.sh -bootstrap-server hadoop102:9092 --topics-to-move-json-file topics-to-move.json --broker-list &amp;#34;0,1,2&amp;#34; --generate
-&lt;/code>&lt;/pre>&lt;p>（3）创建副本存储计划（所有副本存储在 broker0、broker1、broker2 中）。&lt;/p>
-&lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ vim increase-replication-factor.json
-{&amp;#34;version&amp;#34;:1,&amp;#34;partitions&amp;#34;:[{&amp;#34;topic&amp;#34;:&amp;#34;first&amp;#34;,&amp;#34;partition&amp;#34;:0,&amp;#34;replic as&amp;#34;:[2,0,1],&amp;#34;log_dirs&amp;#34;:[&amp;#34;any&amp;#34;,&amp;#34;any&amp;#34;,&amp;#34;any&amp;#34;]},{&amp;#34;topic&amp;#34;:&amp;#34;first&amp;#34;,&amp;#34;par tition&amp;#34;:1,&amp;#34;replicas&amp;#34;:[0,1,2],&amp;#34;log_dirs&amp;#34;:[&amp;#34;any&amp;#34;,&amp;#34;any&amp;#34;,&amp;#34;any&amp;#34;]},{&amp;#34;to pic&amp;#34;:&amp;#34;first&amp;#34;,&amp;#34;partition&amp;#34;:2,&amp;#34;replicas&amp;#34;:[1,2,0],&amp;#34;log_dirs&amp;#34;:[&amp;#34;any&amp;#34;,&amp;#34;any&amp;#34;,&amp;#34;any&amp;#34;]}]}
+&lt;/code>&lt;/pre>&lt;p>（3）创建副本存储计划（所有副本存储在 broker0、broker1、broker2 中）。
+&lt;code>increase-replication-factor.json&lt;/code>&lt;/p>
+&lt;pre tabindex="0">&lt;code>{&amp;#34;version&amp;#34;:1,&amp;#34;partitions&amp;#34;:[{&amp;#34;topic&amp;#34;:&amp;#34;first&amp;#34;,&amp;#34;partition&amp;#34;:0,&amp;#34;replic as&amp;#34;:[2,0,1],&amp;#34;log_dirs&amp;#34;:[&amp;#34;any&amp;#34;,&amp;#34;any&amp;#34;,&amp;#34;any&amp;#34;]},{&amp;#34;topic&amp;#34;:&amp;#34;first&amp;#34;,&amp;#34;par tition&amp;#34;:1,&amp;#34;replicas&amp;#34;:[0,1,2],&amp;#34;log_dirs&amp;#34;:[&amp;#34;any&amp;#34;,&amp;#34;any&amp;#34;,&amp;#34;any&amp;#34;]},{&amp;#34;to pic&amp;#34;:&amp;#34;first&amp;#34;,&amp;#34;partition&amp;#34;:2,&amp;#34;replicas&amp;#34;:[1,2,0],&amp;#34;log_dirs&amp;#34;:[&amp;#34;any&amp;#34;,&amp;#34;any&amp;#34;,&amp;#34;any&amp;#34;]}]}
 &lt;/code>&lt;/pre>&lt;p>（4）执行副本存储计划。&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ bin/kafka-reassign-partitions.sh -bootstrap-server hadoop102:9092 --reassignment-json-file increase-replication-factor.json --execute
 &lt;/code>&lt;/pre>&lt;p>（5）验证副本存储计划。&lt;/p>
@@ -2946,9 +3102,10 @@ Clearing topic-level throttles on topic first
 （2）Kafka 默认副本 1 个，生产环境一般配置为 2 个，保证数据可靠性；太多副本会增加磁盘存储空间，增加网络上数据传输，降低效率。&lt;br>
 （3）Kafka 中副本分为：Leader 和 Follower。Kafka 生产者只会把数据发往 Leader，然后 Follower 找 Leader 进行同步数据。&lt;br>
 （4）Kafka 分区中的所有副本统称为 &lt;code>AR（Assigned Repllicas）&lt;/code>。&lt;/p>
-&lt;p>&lt;code>AR = ISR + OSR&lt;/code> &lt;br>
-&lt;code>ISR&lt;/code>，表示和 Leader 保持同步的 Follower 集合。如果 Follower 长时间未向 Leader 发送通信请求或同步数据，则该 Follower 将被踢出 ISR。该时间阈值由 &lt;code>replica.lag.time.max.ms&lt;/code> 参数设定，默认 30s。Leader 发生故障之后，就会从 ISR 中选举新的 Leader。&lt;br>
-&lt;code>OSR&lt;/code>，表示 Follower 与 Leader 副本同步时，延迟过多的副本。&lt;/p>
+&lt;h4 id="ar--isr--osr">&lt;code>AR = ISR + OSR&lt;/code>&lt;/h4>&lt;ul>
+&lt;li>&lt;code>ISR&lt;/code>，表示和 Leader 保持同步的 Follower 集合。如果 Follower 长时间未向 Leader 发送通信请求或同步数据，则该 Follower 将被踢出 ISR。该时间阈值由 &lt;code>replica.lag.time.max.ms&lt;/code> 参数设定，默认 30s。Leader 发生故障之后，就会从 ISR 中选举新的 Leader。&lt;/li>
+&lt;li>&lt;code>OSR&lt;/code>，表示 Follower 与 Leader 副本同步时，延迟过多的副本。&lt;/li>
+&lt;/ul>
 &lt;h3 id="32leader-选举流程">3.2、Leader 选举流程&lt;/h3>&lt;p>Kafka 集群中有一个 broker 的 Controller 会被选举为 Controller Leader，负责管理集群 broker 的上下线，所有 topic 的分区副本分配和 Leader 选举等工作。&lt;br>
 Controller 的信息同步工作是依赖于 Zookeeper 的。 &lt;br>
 &lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/3898614053.png">&lt;/p>
@@ -2971,8 +3128,10 @@ Controller 的信息同步工作是依赖于 Zookeeper 的。 &lt;br>
 &lt;/code>&lt;/pre>&lt;p>（7）停止掉 hadoop103 的 kafka 进程，并查看 Leader 分区情况&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop103 kafka]$ bin/kafka-server-stop.sh
 [atguigu@hadoop102 kafka]$ bin/kafka-topics.sh --bootstrap-server hadoop102:9092 --describe --topic atguigu1
-&lt;/code>&lt;/pre>&lt;h3 id="33leader-和-follower-故障处理细节">3.3、Leader 和 Follower 故障处理细节&lt;/h3>&lt;p>&lt;code>LEO（Log End Offset）&lt;/code>：每个副本的最后一个 offset，LEO 其实就是最新的 offset + 1。&lt;br>
-&lt;code>HW（High Watermark）&lt;/code>：所有副本中最小的 LEO 。&lt;/p>
+&lt;/code>&lt;/pre>&lt;h3 id="33leader-和-follower-故障处理细节">3.3、Leader 和 Follower 故障处理细节&lt;/h3>&lt;ul>
+&lt;li>&lt;code>LEO（Log End Offset）&lt;/code>：每个副本的最后一个 offset，LEO 其实就是最新的 offset + 1。&lt;/li>
+&lt;li>&lt;code>HW（High Watermark）&lt;/code>：所有副本中最小的 LEO 。&lt;/li>
+&lt;/ul>
 &lt;h4 id="331follower-故障">3.3.1、Follower 故障&lt;/h4>&lt;p>（1） Follower 发生故障后会被临时踢出 ISR。&lt;br>
 （2） 这个期间 Leader 和 Follower 继续接收数据。&lt;br>
 （3）待该 Follower 恢复后，Follower 会读取本地磁盘记录的 上次的 HW，并将 log 文件高于 HW 的部分截取掉，从 HW 开始向 Leader 进行同步。&lt;br>
@@ -2989,7 +3148,7 @@ Controller 的信息同步工作是依赖于 Zookeeper 的。 &lt;br>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ bin/kafka-topics.sh --bootstrap-server hadoop102:9092 --describe --topic second
 &lt;/code>&lt;/pre>&lt;p>分区副本分配&lt;br>
 &lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/80394213.png">&lt;/p>
-&lt;h3 id="35生产经验--手动调整分区副本存储">3.5、生产经验 —— 手动调整分区副本存储&lt;/h3>&lt;p>在生产环境中，每台服务器的配置和性能不一致，但是 Kafka 只会根据自己的代码规则创建对应的分区副本，就会导致个别服务器存储压力较大。所有需要手动调整分区副本的存储。&lt;br>
+&lt;h3 id="35生产经验---手动调整分区副本存储">3.5、生产经验 - 手动调整分区副本存储&lt;/h3>&lt;p>在生产环境中，每台服务器的配置和性能不一致，但是 Kafka 只会根据自己的代码规则创建对应的分区副本，就会导致个别服务器存储压力较大。所有需要手动调整分区副本的存储。&lt;br>
 需求：创建一个新的 topic，4 个分区，两个副本，名称为 three。将该 topic 的所有副本都存储到 broker0 和 broker1 两台服务器上。&lt;br>
 &lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/819339345.png">&lt;/p>
 &lt;p>手动调整分区副本存储的步骤如下：&lt;br>
@@ -2997,9 +3156,10 @@ Controller 的信息同步工作是依赖于 Zookeeper 的。 &lt;br>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ bin/kafka-topics.sh --bootstrap-server hadoop102:9092 --create --partitions 4 --replication-factor 2 -topic three
 &lt;/code>&lt;/pre>&lt;p>（2）查看分区副本存储情况。&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ bin/kafka-topics.sh --bootstrap-server hadoop102:9092 --describe --topic three
-&lt;/code>&lt;/pre>&lt;p>（3）创建副本存储计划（所有副本都指定存储在 broker0、broker1 中） 。&lt;/p>
-&lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ vim increase-replication-factor.json
-&lt;/code>&lt;/pre>&lt;p>输入如下内容：&lt;/p>
+&lt;/code>&lt;/pre>&lt;p>（3）创建副本存储计划（所有副本都指定存储在 broker0、broker1 中） 。
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>increase-replication-factor.json &lt;/code>&lt;/summary>
 &lt;pre tabindex="0">&lt;code>{
 &amp;#34;version&amp;#34;: 1,
 &amp;#34;partitions&amp;#34;: [{
@@ -3020,13 +3180,16 @@ Controller 的信息同步工作是依赖于 Zookeeper 的。 &lt;br>
 &amp;#34;replicas&amp;#34;: [1, 0]
 }]
 }
-&lt;/code>&lt;/pre>&lt;p>（4）执行副本存储计划。&lt;/p>
+&lt;/code>&lt;/pre>
+&lt;/details>
+&lt;/p>
+（4）执行副本存储计划。&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ bin/kafka-reassign-partitions.sh -bootstrap-server hadoop102:9092 --reassignment-json-file increase-replication-factor.json --execute
 &lt;/code>&lt;/pre>&lt;p>（5）验证副本存储计划。&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ bin/kafka-reassign-partitions.sh -bootstrap-server hadoop102:9092 --reassignment-json-file increase-replication-factor.json --verify
 &lt;/code>&lt;/pre>&lt;p>（6）查看分区副本存储情况。&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ bin/kafka-topics.sh --bootstrap-server hadoop102:9092 --describe --topic three
-&lt;/code>&lt;/pre>&lt;h3 id="36生产经验-leader-partition-负载平衡">3.6、生产经验 ——Leader Partition 负载平衡&lt;/h3>&lt;p>正常情况下，Kafka 本身会自动把 Leader Partition 均匀分散在各个机器上，来保证每台机器的读写吞吐量都是均匀的。但是如果某 些 broker 宕机，会导致 Leader Partition 过于集中在其他少部分几台 broker 上，这会导致少数几台 broker 的读写请求压力过高，其他宕机的 broker 重启之后都是 follower partition，读写请求很低，造成集群负载不均衡。
+&lt;/code>&lt;/pre>&lt;h3 id="36生产经验---leader-partition-负载平衡">3.6、生产经验 - Leader Partition 负载平衡&lt;/h3>&lt;p>正常情况下，Kafka 本身会自动把 Leader Partition 均匀分散在各个机器上，来保证每台机器的读写吞吐量都是均匀的。但是如果某 些 broker 宕机，会导致 Leader Partition 过于集中在其他少部分几台 broker 上，这会导致少数几台 broker 的读写请求压力过高，其他宕机的 broker 重启之后都是 follower partition，读写请求很低，造成集群负载不均衡。
 &lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/2674222894.png">&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>auto.leader.rebalance.enable&lt;/code>，默认是 true。 自动 Leader Partition 平衡&lt;/li>
@@ -3047,13 +3210,14 @@ broker2 和 broker3 节点和 broker0 不平衡率一样，需要再平衡。 Br
 &lt;li>&lt;code>leader.imbalance.check.interval.seconds&lt;/code>&lt;br>
 默认值 300 秒。检查 leader 负载是否平衡的间隔时间。&lt;/li>
 &lt;/ul>
-&lt;h3 id="37生产经验--增加副本因子">3.7、生产经验 —— 增加副本因子&lt;/h3>&lt;p>在生产环境当中，由于某个主题的重要等级需要提升，我们考虑增加副本。副本数的增加需要先制定计划，然后根据计划执行。&lt;/p>
+&lt;h3 id="37生产经验---增加副本因子">3.7、生产经验 - 增加副本因子&lt;/h3>&lt;p>在生产环境当中，由于某个主题的重要等级需要提升，我们考虑增加副本。副本数的增加需要先制定计划，然后根据计划执行。&lt;/p>
 &lt;p>1）创建 topic&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ bin/kafka-topics.sh --bootstrap-server hadoop102:9092 --create --partitions 3 --replication-factor 1 -topic four
 &lt;/code>&lt;/pre>&lt;p>2）手动增加副本存储
-（1）创建副本存储计划（所有副本都指定存储在 broker0、broker1、broker2 中）。&lt;/p>
-&lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ vim increase-replication-factor.json
-&lt;/code>&lt;/pre>&lt;p>输入如下内容：&lt;/p>
+（1）创建副本存储计划（所有副本都指定存储在 broker0、broker1、broker2 中）。
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>increase-replication-factor.json&lt;/code>&lt;/summary>
 &lt;pre tabindex="0">&lt;code>{
 &amp;#34;version&amp;#34;: 1,
 &amp;#34;partitions&amp;#34;: [{
@@ -3070,7 +3234,10 @@ broker2 和 broker3 节点和 broker0 不平衡率一样，需要再平衡。 Br
 &amp;#34;replicas&amp;#34;: [0, 1, 2]
 }]
 }
-&lt;/code>&lt;/pre>&lt;p>（2）执行副本存储计划。&lt;/p>
+&lt;/code>&lt;/pre>
+&lt;/details>
+&lt;/p>
+（2）执行副本存储计划。&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ bin/kafka-reassign-partitions.sh -bootstrap-server hadoop102:9092 --reassignment-json-file increase-replication-factor.json --execute
 &lt;/code>&lt;/pre>&lt;h2 id="四文件存储">四、文件存储&lt;/h2>&lt;h3 id="41文件存储机制">4.1、文件存储机制&lt;/h3>&lt;h4 id="411topic-数据的存储机制">4.1.1、Topic 数据的存储机制&lt;/h4>&lt;p>Topic 是逻辑上的概念，而 partition 是物理上的概念，每个 partition 对应于一个 log 文件，该 log 文件中存储的就是 Producer 生产的数据。Producer 生产的数据会被不断追加到该 log 文件末端，为防止 log 文件过大导致数据定位效率低下，Kafka 采取了分片和索引机制， 将每个 partition 分为多个 segment。每个 segment 包括：“.index” 文件、“.log” 文件和“.timeindex” 等文件。这些文件位于一个文件夹下，该 文件夹的命名规则为：topic 名称 + 分区序号，例如：first-0。&lt;br>
 &lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/3298915681.png">&lt;/p>
@@ -3142,7 +3309,7 @@ Kafka 的 producer 生产数据，要写入到 log 文件中，写的过程是�
 &lt;p>&lt;code>log.flush.interval.ms&lt;/code>&lt;br>
 每隔多久，刷数据到磁盘，默认是 null。一般不建议修改，交给系统自己管理。&lt;/p>
 &lt;/li>
-&lt;/ul></description></item><item><title>Kafka | 生产者</title><link>https://hidlestone.github.io/blog/bigdata/kafka/02-kafka-%E7%94%9F%E4%BA%A7%E8%80%85/</link><pubDate>Sun, 06 Mar 2022 19:02:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/02-kafka-%E7%94%9F%E4%BA%A7%E8%80%85/</guid><description>&lt;h2 id="一生产者消息发送流程">一、生产者消息发送流程&lt;/h2>&lt;h3 id="11发送原理">1.1、发送原理&lt;/h3>&lt;p>在消息发送的过程中，涉及到了两个线程：&lt;code>main 线程&lt;/code> 和 &lt;code>Sender 线程&lt;/code>。在 main 线程中创建了一个双端队列 &lt;code>RecordAccumulator&lt;/code>。main 线程将消息发送给 RecordAccumulator，Sender 线程不断从 RecordAccumulator 中拉取消息发送到 Kafka Broker。&lt;/p>
+&lt;/ul></description></item><item><title>Kafka | 生产者</title><link>https://hidlestone.github.io/blog/bigdata/kafka/02-kafka-%E7%94%9F%E4%BA%A7%E8%80%85/</link><pubDate>Fri, 06 May 2022 19:02:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/02-kafka-%E7%94%9F%E4%BA%A7%E8%80%85/</guid><description>&lt;h2 id="一生产者消息发送流程">一、生产者消息发送流程&lt;/h2>&lt;h3 id="11发送原理">1.1、发送原理&lt;/h3>&lt;p>在消息发送的过程中，涉及到了两个线程：&lt;code>main 线程&lt;/code> 和 &lt;code>Sender 线程&lt;/code>。在 main 线程中创建了一个双端队列 &lt;code>RecordAccumulator&lt;/code>。main 线程将消息发送给 RecordAccumulator，Sender 线程不断从 RecordAccumulator 中拉取消息发送到 Kafka Broker。&lt;/p>
 &lt;p>&lt;strong>发送流程&lt;/strong>：
 &lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E7%94%9F%E4%BA%A7%E8%80%85/1382657116.png">&lt;/p>
 &lt;h3 id="12生产者重要参数列表">1.2、生产者重要参数列表&lt;/h3>&lt;ul>
@@ -3186,8 +3353,8 @@ RecordAccumulator 缓冲区总大小，默认 32m。&lt;/li>
 &lt;h2 id="三同步发送-api">三、同步发送 API&lt;/h2>&lt;p>&lt;strong>同步发送流程&lt;/strong>：&lt;br>
 &lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E7%94%9F%E4%BA%A7%E8%80%85/835792539.png">&lt;/p>
 &lt;h2 id="四生产者分区">四、生产者分区&lt;/h2>&lt;h3 id="41分区好处">4.1、分区好处&lt;/h3>&lt;p>Kafka 分区好处：&lt;br>
-（1）便于合理使用存储资源，每个 Partition 在一个 Broker 上存储，可以把海量的数据按照分区切割成一 块一块数据存储在多台 Broker 上。合理控制分区的任务，可以实现负载均衡的效果。&lt;br>
-（2）提高并行度，生产者可以以分区为单位发送数据；消费者可以以分区为单位进行消费数据。&lt;br>
+（1）&lt;code>便于合理使用存储资源&lt;/code>，每个 Partition 在一个 Broker 上存储，可以把海量的数据按照分区切割成一 块一块数据存储在多台 Broker 上。合理控制分区的任务，可以实现负载均衡的效果。&lt;br>
+（2）&lt;code>提高并行度&lt;/code>，生产者可以以分区为单位发送数据；消费者可以以分区为单位进行消费数据。&lt;br>
 &lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E7%94%9F%E4%BA%A7%E8%80%85/2313775633.png">&lt;/p>
 &lt;h3 id="42生产者发送消息的分区策略">4.2、生产者发送消息的分区策略&lt;/h3>&lt;p>1）默认的分区器 DefaultPartitioner。&lt;/p>
 &lt;pre tabindex="0">&lt;code>public class DefaultPartitioner implements Partitioner {
@@ -3195,39 +3362,55 @@ RecordAccumulator 缓冲区总大小，默认 32m。&lt;/li>
 全局查找（ctrl +n）ProducerRecord 类，在类中可以看到如下构造方法：&lt;br>
 &lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E7%94%9F%E4%BA%A7%E8%80%85/3446713633.png">&lt;/p>
 &lt;p>2）案例一 &lt;br>
-将数据发往指定 partition 的情况下，例如，将所有数据发往分区 1 中。&lt;/p>
-&lt;pre tabindex="0">&lt;code>public class CustomProducerCallbackPartitions {
-public static void main (String [] args) throws InterruptedException {
-// 0 配置
-Properties properties = new Properties ();
-// 连接集群 bootstrap.servers
-properties.put (ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,&amp;#34;hadoop102:9092,hadoop103:9092&amp;#34;);
-// 指定对应的 key 和 value 的序列化类型 key.serializer
-// properties.put (ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,&amp;#34;org.apache.kafka.common.serialization.StringSerializer&amp;#34;);
-properties.put (ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName ());
-properties.put (ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,StringSerializer.class.getName ());
-// 关联自定义分区器
-properties.put (ProducerConfig.PARTITIONER_CLASS_CONFIG,&amp;#34;com.atguigu.kafka.producer.MyPartitioner&amp;#34;);
-// 1 创建 kafka 生产者对象
-// &amp;#34;&amp;#34; hello
-KafkaProducer&amp;lt;String, String&amp;gt; kafkaProducer = new KafkaProducer&amp;lt;&amp;gt;(properties);
-// 2 发送数据
-for (int i = 0; i &amp;lt; 5; i++) {
-kafkaProducer.send (new ProducerRecord&amp;lt;&amp;gt;(&amp;#34;first&amp;#34;, 1,&amp;#34;&amp;#34;,&amp;#34;hello&amp;#34; + i), new Callback () {
-@Override
-public void onCompletion (RecordMetadata metadata, Exception exception) {
-if (exception == null){
-System.out.println (&amp;#34;主题：&amp;#34;+metadata.topic () + &amp;#34;分区：&amp;#34;+ metadata.partition ());
-}
-}
-});
-Thread.sleep (2);
-}
-// 3 关闭资源
-kafkaProducer.close ();
-}
-}
-&lt;/code>&lt;/pre>&lt;p>测试：&lt;br>
+将数据发往指定 partition 的情况下，例如，将所有数据发往分区 1 中。
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>CustomProducerCallbackPartitions&lt;/code>&lt;/summary>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">CustomProducerCallbackPartitions&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">static&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span> (String &lt;span style="color:#f92672">[]&lt;/span> args) &lt;span style="color:#66d9ef">throws&lt;/span> InterruptedException {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 0 配置&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Properties properties &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> Properties ();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 连接集群 bootstrap.servers&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> properties.&lt;span style="color:#a6e22e">put&lt;/span> (ProducerConfig.&lt;span style="color:#a6e22e">BOOTSTRAP_SERVERS_CONFIG&lt;/span>,&lt;span style="color:#e6db74">&amp;#34;hadoop102:9092,hadoop103:9092&amp;#34;&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 指定对应的 key 和 value 的序列化类型 key.serializer&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// properties.put (ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,&amp;#34;org.apache.kafka.common.serialization.StringSerializer&amp;#34;);&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> properties.&lt;span style="color:#a6e22e">put&lt;/span> (ProducerConfig.&lt;span style="color:#a6e22e">KEY_SERIALIZER_CLASS_CONFIG&lt;/span>, StringSerializer.&lt;span style="color:#a6e22e">class&lt;/span>.&lt;span style="color:#a6e22e">getName&lt;/span> ());
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> properties.&lt;span style="color:#a6e22e">put&lt;/span> (ProducerConfig.&lt;span style="color:#a6e22e">VALUE_SERIALIZER_CLASS_CONFIG&lt;/span>,StringSerializer.&lt;span style="color:#a6e22e">class&lt;/span>.&lt;span style="color:#a6e22e">getName&lt;/span> ());
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 关联自定义分区器&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> properties.&lt;span style="color:#a6e22e">put&lt;/span> (ProducerConfig.&lt;span style="color:#a6e22e">PARTITIONER_CLASS_CONFIG&lt;/span>,&lt;span style="color:#e6db74">&amp;#34;com.atguigu.kafka.producer.MyPartitioner&amp;#34;&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 1 创建 kafka 生产者对象&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// &amp;#34;&amp;#34; hello&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> KafkaProducer&lt;span style="color:#f92672">&amp;lt;&lt;/span>String, String&lt;span style="color:#f92672">&amp;gt;&lt;/span> kafkaProducer &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> KafkaProducer&lt;span style="color:#f92672">&amp;lt;&amp;gt;&lt;/span>(properties);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 2 发送数据&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">for&lt;/span> (&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0; i &lt;span style="color:#f92672">&amp;lt;&lt;/span> 5; i&lt;span style="color:#f92672">++&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> kafkaProducer.&lt;span style="color:#a6e22e">send&lt;/span> (&lt;span style="color:#66d9ef">new&lt;/span> ProducerRecord&lt;span style="color:#f92672">&amp;lt;&amp;gt;&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;first&amp;#34;&lt;/span>, 1,&lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>,&lt;span style="color:#e6db74">&amp;#34;hello&amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> i), &lt;span style="color:#66d9ef">new&lt;/span> Callback () {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">onCompletion&lt;/span> (RecordMetadata metadata, Exception exception) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> (exception &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>){
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> System.&lt;span style="color:#a6e22e">out&lt;/span>.&lt;span style="color:#a6e22e">println&lt;/span> (&lt;span style="color:#e6db74">&amp;#34;主题：&amp;#34;&lt;/span>&lt;span style="color:#f92672">+&lt;/span>metadata.&lt;span style="color:#a6e22e">topic&lt;/span> () &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#e6db74">&amp;#34;分区：&amp;#34;&lt;/span>&lt;span style="color:#f92672">+&lt;/span> metadata.&lt;span style="color:#a6e22e">partition&lt;/span> ());
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> });
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Thread.&lt;span style="color:#a6e22e">sleep&lt;/span> (2);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 3 关闭资源&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> kafkaProducer.&lt;span style="color:#a6e22e">close&lt;/span> ();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;/details>
+&lt;/p>
+测试：&lt;br>
 1、在 hadoop102 上开启 Kafka 消费者。&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop103 kafka]$ bin/kafka-console-consumer.sh -bootstrap-server hadoop102:9092 --topic first
 &lt;/code>&lt;/pre>&lt;p>2、在 IDEA 中执行代码，观察 hadoop102 控制台中是否接收到消息。&lt;/p>
@@ -3236,37 +3419,52 @@ kafkaProducer.close ();
 &lt;pre tabindex="0">&lt;code>主题：first-&amp;gt; 分区：1
 主题：first-&amp;gt; 分区：1
 &lt;/code>&lt;/pre>&lt;p>3）案例二 &lt;br>
-没有指明 partition 值但有 key 的情况下，将 key 的 hash 值与 topic 的 partition 数进行取余得到 partition 值。&lt;/p>
-&lt;pre tabindex="0">&lt;code>public class CustomProducerCallback {
-public static void main (String [] args) throws InterruptedException {
-// 0 配置
-Properties properties = new Properties ();
-// 连接集群 bootstrap.servers
-properties.put (ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,&amp;#34;hadoop102:9092,hadoop103:9092&amp;#34;);
-// 指定对应的 key 和 value 的序列化类型 key.serializer
-// properties.put (ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,&amp;#34;org.apache.kafka.common.serialization.StringSerializer&amp;#34;);
-properties.put (ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName ());
-properties.put (ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,StringSerializer.class.getName ());
-// 1 创建 kafka 生产者对象
-// &amp;#34;&amp;#34; hello
-KafkaProducer&amp;lt;String, String&amp;gt; kafkaProducer = new KafkaProducer&amp;lt;&amp;gt;(properties);
-// 2 发送数据
-for (int i = 0; i &amp;lt; 500; i++) {
-kafkaProducer.send (new ProducerRecord&amp;lt;&amp;gt;(&amp;#34;first&amp;#34;, &amp;#34;atguigu&amp;#34; + i), new Callback () {
-@Override
-public void onCompletion (RecordMetadata metadata, Exception exception) {
-if (exception == null){
-System.out.println (&amp;#34;主题：&amp;#34;+metadata.topic () + &amp;#34;分区：&amp;#34;+ metadata.partition ());
-}
-}
-});
-Thread.sleep (2);
-}
-// 3 关闭资源
-kafkaProducer.close ();
-}
-}
-&lt;/code>&lt;/pre>&lt;p>测试：&lt;br>
+没有指明 partition 值但有 key 的情况下，将 key 的 hash 值与 topic 的 partition 数进行取余得到 partition 值。
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>CustomProducerCallback&lt;/code>&lt;/summary>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">CustomProducerCallback&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">static&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span> (String &lt;span style="color:#f92672">[]&lt;/span> args) &lt;span style="color:#66d9ef">throws&lt;/span> InterruptedException {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 0 配置&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Properties properties &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> Properties ();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 连接集群 bootstrap.servers&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> properties.&lt;span style="color:#a6e22e">put&lt;/span> (ProducerConfig.&lt;span style="color:#a6e22e">BOOTSTRAP_SERVERS_CONFIG&lt;/span>,&lt;span style="color:#e6db74">&amp;#34;hadoop102:9092,hadoop103:9092&amp;#34;&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 指定对应的 key 和 value 的序列化类型 key.serializer&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// properties.put (ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,&amp;#34;org.apache.kafka.common.serialization.StringSerializer&amp;#34;);&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> properties.&lt;span style="color:#a6e22e">put&lt;/span> (ProducerConfig.&lt;span style="color:#a6e22e">KEY_SERIALIZER_CLASS_CONFIG&lt;/span>, StringSerializer.&lt;span style="color:#a6e22e">class&lt;/span>.&lt;span style="color:#a6e22e">getName&lt;/span> ());
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> properties.&lt;span style="color:#a6e22e">put&lt;/span> (ProducerConfig.&lt;span style="color:#a6e22e">VALUE_SERIALIZER_CLASS_CONFIG&lt;/span>,StringSerializer.&lt;span style="color:#a6e22e">class&lt;/span>.&lt;span style="color:#a6e22e">getName&lt;/span> ());
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 1 创建 kafka 生产者对象&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// &amp;#34;&amp;#34; hello&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> KafkaProducer&lt;span style="color:#f92672">&amp;lt;&lt;/span>String, String&lt;span style="color:#f92672">&amp;gt;&lt;/span> kafkaProducer &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> KafkaProducer&lt;span style="color:#f92672">&amp;lt;&amp;gt;&lt;/span>(properties);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 2 发送数据&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">for&lt;/span> (&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0; i &lt;span style="color:#f92672">&amp;lt;&lt;/span> 500; i&lt;span style="color:#f92672">++&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> kafkaProducer.&lt;span style="color:#a6e22e">send&lt;/span> (&lt;span style="color:#66d9ef">new&lt;/span> ProducerRecord&lt;span style="color:#f92672">&amp;lt;&amp;gt;&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;first&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;atguigu&amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> i), &lt;span style="color:#66d9ef">new&lt;/span> Callback () {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">onCompletion&lt;/span> (RecordMetadata metadata, Exception exception) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> (exception &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>){
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> System.&lt;span style="color:#a6e22e">out&lt;/span>.&lt;span style="color:#a6e22e">println&lt;/span> (&lt;span style="color:#e6db74">&amp;#34;主题：&amp;#34;&lt;/span>&lt;span style="color:#f92672">+&lt;/span>metadata.&lt;span style="color:#a6e22e">topic&lt;/span> () &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#e6db74">&amp;#34;分区：&amp;#34;&lt;/span>&lt;span style="color:#f92672">+&lt;/span> metadata.&lt;span style="color:#a6e22e">partition&lt;/span> ());
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> });
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Thread.&lt;span style="color:#a6e22e">sleep&lt;/span> (2);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 3 关闭资源&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> kafkaProducer.&lt;span style="color:#a6e22e">close&lt;/span> ();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;/details>
+&lt;/p>
+测试：&lt;br>
 1、key=&amp;ldquo;a&amp;rdquo; 时，在控制台查看结果。&lt;/p>
 &lt;pre tabindex="0">&lt;code>主题：first-&amp;gt; 分区：1
 主题：first-&amp;gt; 分区：1
@@ -3281,42 +3479,54 @@ kafkaProducer.close ();
 例如我们实现一个分区器实现，发送过来的数据中如果包含 atguigu，就发往 0 号分区，不包含 atguigu，就发往 1 号分区。&lt;/p>
 &lt;p>2）实现步骤&lt;br>
 （1）定义类实现 Partitioner 接口。&lt;br>
-（2）重写 partition () 方法。&lt;/p>
-&lt;pre tabindex="0">&lt;code>/**
-* 1. 实现接口 Partitioner
-* 2. 实现 3 个方法:partition,close,configure
-* 3. 编写 partition 方法，返回分区号
-*/
-public class MyPartitioner implements Partitioner {
-/**
-* @param topic 主题
-* @param key 消息的 key
-* @param keyBytes 消息的 key 序列化后的字节数组
-* @param value 消息的 value
-* @param valueBytes 消息的 value 序列化后的字节数组
-* @param cluster 集群元数据可以查看分区信息
-* @return
-*/
-@Override
-public int partition (String topic, Object key, byte [] keyBytes, Object value, byte [] valueBytes, Cluster cluster) {
-// 获取数据 atguigu hello
-String msgValues = value.toString ();
-int partition;
-if (msgValues.contains (&amp;#34;atguigu&amp;#34;)) {
-partition = 0;
-} else {
-partition = 1;
-}
-return partition;
-}
-@Override
-public void close () {
-}
-@Override
-public void configure (Map&amp;lt;String, ?&amp;gt; configs) {
-}
-}
-&lt;/code>&lt;/pre>&lt;p>（3）使用分区器的方法，在生产者的配置中添加分区器参数。&lt;/p>
+（2）重写 partition () 方法。
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>MyPartitioner&lt;/code>&lt;/summary>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">/**
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> * 1. 实现接口 Partitioner
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> * 2. 实现 3 个方法:partition,close,configure
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> * 3. 编写 partition 方法，返回分区号
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> */&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">MyPartitioner&lt;/span> &lt;span style="color:#66d9ef">implements&lt;/span> Partitioner {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">/**
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> * @param topic 主题
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> * @param key 消息的 key
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> * @param keyBytes 消息的 key 序列化后的字节数组
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> * @param value 消息的 value
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> * @param valueBytes 消息的 value 序列化后的字节数组
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> * @param cluster 集群元数据可以查看分区信息
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> * @return
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"> */&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">partition&lt;/span> (String topic, Object key, &lt;span style="color:#66d9ef">byte&lt;/span> &lt;span style="color:#f92672">[]&lt;/span> keyBytes, Object value, &lt;span style="color:#66d9ef">byte&lt;/span> &lt;span style="color:#f92672">[]&lt;/span> valueBytes, Cluster cluster) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// 获取数据 atguigu hello&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> String msgValues &lt;span style="color:#f92672">=&lt;/span> value.&lt;span style="color:#a6e22e">toString&lt;/span> ();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">int&lt;/span> partition;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> (msgValues.&lt;span style="color:#a6e22e">contains&lt;/span> (&lt;span style="color:#e6db74">&amp;#34;atguigu&amp;#34;&lt;/span>)) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> partition &lt;span style="color:#f92672">=&lt;/span> 0;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> } &lt;span style="color:#66d9ef">else&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> partition &lt;span style="color:#f92672">=&lt;/span> 1;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> partition;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">close&lt;/span> () {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">configure&lt;/span> (Map&lt;span style="color:#f92672">&amp;lt;&lt;/span>String, &lt;span style="color:#f92672">?&amp;gt;&lt;/span> configs) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;/details>
+&lt;/p>
+（3）使用分区器的方法，在生产者的配置中添加分区器参数。&lt;/p>
 &lt;pre tabindex="0">&lt;code>// 关联自定义分区器
 properties.put (ProducerConfig.PARTITIONER_CLASS_CONFIG,&amp;#34;com.atguigu.kafka.producer.MyPartitioner&amp;#34;);
 &lt;/code>&lt;/pre>&lt;p>（4）测试
@@ -3331,7 +3541,9 @@ properties.put (ProducerConfig.PARTITIONER_CLASS_CONFIG,&amp;#34;com.atguigu.kaf
 &lt;li>&lt;code>compression.type&lt;/code>：压缩 snappy。&lt;/li>
 &lt;li>&lt;code>RecordAccumulator&lt;/code>：缓冲区大小，修改为 64m。&lt;/li>
 &lt;/ul>
-&lt;p>示例：&lt;/p>
+&lt;p>&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>CustomProducerParameters&lt;/code>&lt;/summary>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">CustomProducerParameters&lt;/span> {
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">static&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span> (String &lt;span style="color:#f92672">[]&lt;/span> args) {
@@ -3371,7 +3583,10 @@ properties.put (ProducerConfig.PARTITIONER_CLASS_CONFIG,&amp;#34;com.atguigu.kaf
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> kafkaProducer.&lt;span style="color:#a6e22e">close&lt;/span> ();
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>测试：&lt;br>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;/details>
+&lt;/p>
+测试：&lt;br>
 1、在 hadoop102 上开启 Kafka 消费者。&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop103 kafka]$ bin/kafka-console-consumer.sh -bootstrap-server hadoop102:9092 --topic first
 &lt;/code>&lt;/pre>&lt;p>2、在 IDEA 中执行代码，观察 hadoop102 控制台中是否接收到消息。&lt;/p>
@@ -3411,7 +3626,10 @@ Leader 维护了一个动态的 &lt;code>in-sync replica set（ISR）&lt;/code>�
 &lt;p>数据重复分析：&lt;br>
 acks: -1（all）：生产者发送过来的数据，Leader 和 ISR 队列里面的所有节点收齐数据后应答。
 &lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E7%94%9F%E4%BA%A7%E8%80%85/2023662824.png">&lt;/p>
-&lt;h3 id="63代码配置">6.3、代码配置&lt;/h3>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">CustomProducerAcks&lt;/span> {
+&lt;h3 id="63代码配置">6.3、代码配置&lt;/h3>&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>CustomProducerAcks&lt;/code>&lt;/summary>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">CustomProducerAcks&lt;/span> {
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">static&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span> (String &lt;span style="color:#f92672">[]&lt;/span> args) {
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
@@ -3445,13 +3663,18 @@ acks: -1（all）：生产者发送过来的数据，Leader 和 ISR 队列里面
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> kafkaProducer.&lt;span style="color:#a6e22e">close&lt;/span> ();
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="七生产经验----数据去重">七、生产经验 &amp;ndash; 数据去重&lt;/h2>&lt;h3 id="71数据传递语义">7.1、数据传递语义&lt;/h3>&lt;p>至少一次（AtLeast Once）= ACK 级别设置为 - 1 + 分区副本大于等于 2 + ISR 里应答的最小副本数量大于等于 2。&lt;br>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;/details>
+&lt;/p>
+&lt;h2 id="七生产经验----数据去重">七、生产经验 &amp;ndash; 数据去重&lt;/h2>&lt;h3 id="71数据传递语义">7.1、数据传递语义&lt;/h3>&lt;p>至少一次（AtLeast Once）= ACK 级别设置为 - 1 + 分区副本大于等于 2 + ISR 里应答的最小副本数量大于等于 2。&lt;br>
 最多一次（AtMostOnce）= ACK 级别设置为 0。&lt;/p>
-&lt;p>总结： &lt;br>
-&lt;code>At Least Once&lt;/code> 可以保证数据不丢失，但是不能保证数据不重复；&lt;br>
-&lt;code>At Most Once&lt;/code> 可以保证数据不重复，但是不能保证数据不丢失。&lt;br>
-&lt;code>精确一次（Exactly Once）&lt;/code>：对于一些非常重要的信息，比如和钱相关的数据，要求数据既不能重复也不丢失。&lt;br>
-Kafka 0.11 版本以后，引入了一项重大特性：&lt;code>幂等性&lt;/code> 和 &lt;code>事务&lt;/code>。&lt;/p>
+&lt;p>总结：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>At Least Once&lt;/code> 可以保证数据不丢失，但是不能保证数据不重复；&lt;/li>
+&lt;li>&lt;code>At Most Once&lt;/code> 可以保证数据不重复，但是不能保证数据不丢失。&lt;/li>
+&lt;li>&lt;code>精确一次（Exactly Once）&lt;/code>：对于一些非常重要的信息，比如和钱相关的数据，要求数据既不能重复也不丢失。 &lt;br>
+Kafka 0.11 版本以后，引入了一项重大特性：&lt;code>幂等性&lt;/code> 和 &lt;code>事务&lt;/code>。&lt;/li>
+&lt;/ul>
 &lt;h3 id="72幂等性">7.2、幂等性&lt;/h3>&lt;h4 id="721幂等性原理">7.2.1、幂等性原理&lt;/h4>&lt;p>幂等性就是指 Producer 不论向 Broker 发送多少次重复数据，Broker 端都只会持久化一条，保证了不重复。 &lt;code>精确一次（Exactly Once） = 幂等性 + 至少一次 (ack=-1 + 分区副本数 &amp;gt;=2 + ISR 最小副本数量 &amp;gt;=2)&lt;/code> 。&lt;/p>
 &lt;blockquote>
 &lt;p>重复数据的判断标准：具有 &lt;code>&amp;lt; PID, Partition, SeqNumber &amp;gt;&lt;/code> 相同主键的消息提交时，Broker 只会持久化一条。其 中 PID 是 Kafka 每次重启都会分配一个新的；Partition 表示分区号；Sequence Number 是单调自增的。&lt;/p>
@@ -3487,16 +3710,21 @@ kafkaProducer.abortTransaction ();
 &lt;/code>&lt;/pre>&lt;h2 id="八生产经验----数据有序">八、生产经验 &amp;ndash; 数据有序&lt;/h2>&lt;p>&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E7%94%9F%E4%BA%A7%E8%80%85/626550217.png">&lt;/p>
 &lt;h2 id="九生产经验----数据乱序">九、生产经验 &amp;ndash; 数据乱序&lt;/h2>&lt;p>&lt;code>max.in.flight.requests.per.connection&lt;/code> 表示每个连接上最大的未完成请求数。具体来说，它限制了一个生产者在与代理节点（broker）建立的连接上能够有多少个未完成的请求。&lt;br>
 将其设置为 1 意味着生产者在向代理节点发送请求时，必须等待之前的请求完成（即收到响应）后才能发送下一个请求。这可以确保请求按顺序进行处理，并且避免了一次性发送过多的请求，从而提高了系统的稳定性和可靠性。&lt;/p>
-&lt;p>1）kafka 在 1.x 版本之前保证数据单分区有序，条件如下：&lt;br>
-&lt;code>max.in.flight.requests.per.connection=1&lt;/code>（不需要考虑是否开启幂等性）。&lt;br>
-2）kafka 在 1.x 及以后版本保证数据单分区有序，条件如下：&lt;br>
-（1）未开启幂等性&lt;br>
-&lt;code>max.in.flight.requests.per.connection&lt;/code> 需要设置为 1。&lt;br>
-（2）开启幂等性&lt;br>
+&lt;ul>
+&lt;li>1）kafka 在 1.x 版本之前保证数据单分区有序，条件如下：&lt;br>
+&lt;code>max.in.flight.requests.per.connection=1&lt;/code>（不需要考虑是否开启幂等性）。&lt;/li>
+&lt;li>2）kafka 在 1.x 及以后版本保证数据单分区有序，条件如下：
+&lt;ul>
+&lt;li>（1）未开启幂等性&lt;br>
+&lt;code>max.in.flight.requests.per.connection&lt;/code> 需要设置为 1。&lt;/li>
+&lt;li>（2）开启幂等性&lt;br>
 &lt;code>max.in.flight.requests.per.connection&lt;/code> 需要设置小于等于 5。&lt;br>
 原因说明：因为在 kafka1.x 以后，启用幂等后，kafka 服务端会缓存 producer 发来的最近 5 个 request 的元数据， 故无论如何，都可以保证最近 5 个 request 的数据都是有序的。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E7%94%9F%E4%BA%A7%E8%80%85/4288147756.png">&lt;/p></description></item><item><title>Kafka | 概述 &amp; 安装部署</title><link>https://hidlestone.github.io/blog/bigdata/kafka/01-kafka-%E6%A6%82%E8%BF%B0%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/</link><pubDate>Sun, 06 Mar 2022 19:01:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/01-kafka-%E6%A6%82%E8%BF%B0%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/</guid><description>&lt;h2 id="一概述">一、概述&lt;/h2>&lt;h3 id="11定义">1.1、定义&lt;/h3>&lt;p>Kafka 传统定义：Kafka 是一个分布式的基于发布/订阅模式的消息队列 Message Queue，主要应用于大数据实时处理领域。&lt;br>
-Kafka 最新定义：Kafka 是一个开源的分布式事件流平台 Event Streaming Platform，被数千家公司用于高性能数据管道、流分析、数据集成和关键任务应用。&lt;br>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E7%94%9F%E4%BA%A7%E8%80%85/4288147756.png">&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul></description></item><item><title>Kafka | 概述 &amp; 安装部署</title><link>https://hidlestone.github.io/blog/bigdata/kafka/01-kafka-%E6%A6%82%E8%BF%B0%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/</link><pubDate>Fri, 06 May 2022 19:01:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/01-kafka-%E6%A6%82%E8%BF%B0%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/</guid><description>&lt;h2 id="一概述">一、概述&lt;/h2>&lt;h3 id="11定义">1.1、定义&lt;/h3>&lt;p>Kafka 传统定义：Kafka 是一个分布式的基于&lt;code>发布/订阅&lt;/code>模式的消息队列 Message Queue，主要应用于大数据实时处理领域。&lt;br>
+Kafka 最新定义：Kafka 是一个开源的分布式事件流平台 &lt;code>Event Streaming Platform&lt;/code>，被数千家公司用于高性能数据管道、流分析、数据集成和关键任务应用。&lt;br>
 &lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%A6%82%E8%BF%B0&amp;%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/3656352973.png">&lt;/p>
 &lt;h3 id="12消息队列">1.2、消息队列&lt;/h3>&lt;p>目前企业中比较常见的消息队列产品主要有：&lt;code>Kafka&lt;/code>、&lt;code>ActiveMQ&lt;/code>、&lt;code>RabbitMQ&lt;/code>、&lt;code>RocketMQ&lt;/code> 等。 &lt;br>
 在大数据场景主要采用 Kafka 作为消息队列。在 JavaEE 开发中主要采用 &lt;code>ActiveMQ&lt;/code>、&lt;code>RabbitMQ&lt;/code>、&lt;code>RocketMQ&lt;/code>。&lt;/p>
@@ -3524,7 +3752,7 @@ Kafka 最新定义：Kafka 是一个开源的分布式事件流平台 Event Stre
 &lt;p>&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%A6%82%E8%BF%B0&amp;%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/3722388713.png">&lt;br>
 （1）&lt;code>Producer&lt;/code>：消息生产者，就是向 Kafka broker 发消息的客户端。&lt;br>
 （2）&lt;code>Consumer&lt;/code>：消息消费者，向 Kafka broker 取消息的客户端。&lt;br>
-（3）&lt;code>Consumer Group（CG）&lt;/code>： 消费者组，由多个 consumer 组成。消费者组内每个消费者负责消费不同分区的数据，一个分区只能由一个组内消费者消费；消费者组之间互不影响。所有的消费者都属于某个消费者组，即 &lt;code>消费者组是逻辑上的一个订阅者&lt;/code>。&lt;br>
+（3）&lt;code>Consumer Group（CG）&lt;/code>： 消费者组，由多个 consumer 组成。消费者组内每个消费者负责消费不同分区的数据，一个分区只能由一个组内消费者消费(为了保证数据的处理顺序和防止重复消费)；消费者组之间互不影响。所有的消费者都属于某个消费者组，即 &lt;code>消费者组是逻辑上的一个订阅者&lt;/code>。&lt;br>
 （4）&lt;code>Broker&lt;/code>：一台 Kafka 服务器就是一个 broker。一个集群由多个 broker 组成。一个 broker 可以容纳多个 topic。&lt;br>
 （5）&lt;code>Topic&lt;/code>：可以理解为一个队列，生产者和消费者面向的都是一个 topic。&lt;br>
 （6）&lt;code>Partition&lt;/code>：为了实现扩展性，一个非常大的 topic 可以分布到多个 broker（即服务器）上，一个 topic 可以分为多个 partition，每个 partition 是一个有序的队列。&lt;br>
@@ -3539,10 +3767,10 @@ kafka kafka kafka
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 software]$ tar -zxvf kafka_2.12-3.0.0.tgz -C /opt/module/
 &lt;/code>&lt;/pre>&lt;p>2）修改解压后的文件名称&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 module]$ mv kafka_2.12-3.0.0/kafka
-&lt;/code>&lt;/pre>&lt;p>3）进入到 &lt;code>/opt/module/kafka&lt;/code> 目录，修改配置文件&lt;/p>
-&lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ cd config/
-[atguigu@hadoop102 config]$ vim server.properties
-&lt;/code>&lt;/pre>&lt;p>输入以下内容：&lt;/p>
+&lt;/code>&lt;/pre>&lt;p>3）进入到 &lt;code>/opt/module/kafka&lt;/code> 目录，修改配置文件 &lt;code>config/server.properties&lt;/code>
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>server.properties&lt;/code>&lt;/summary>
 &lt;pre tabindex="0">&lt;code>#broker 的全局唯一编号，不能重复，只能是数字。
 broker.id=0
 # 处理网络请求的线程数量
@@ -3571,7 +3799,10 @@ log.segment.bytes=1073741824
 log.retention.check.interval.ms=300000
 # 配置连接 Zookeeper 集群地址（在 zk 根目录下创建 /kafka，方便管理）
 zookeeper.connect=hadoop102:2181,hadoop103:2181,hadoop104:2181/kafka
-&lt;/code>&lt;/pre>&lt;p>4）分发安装包&lt;/p>
+&lt;/code>&lt;/pre>
+&lt;/details>
+&lt;/p>
+4）分发安装包&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 module]$ xsync kafka/
 &lt;/code>&lt;/pre>&lt;p>5）分别在 hadoop103 和 hadoop104 上修改配置文件 &lt;code>/opt/module/kafka/config/server.properties&lt;/code> 中的 &lt;code>broker.id=1&lt;/code>、&lt;code>broker.id=2&lt;/code>。 &lt;br>
 注：&lt;code>broker.id&lt;/code> 不得重复，整个集群中唯一。&lt;/p>
@@ -3607,9 +3838,10 @@ export PATH=$PATH:$KAFKA_HOME/bin
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ bin/kafka-server-stop.sh
 [atguigu@hadoop103 kafka]$ bin/kafka-server-stop.sh
 [atguigu@hadoop104 kafka]$ bin/kafka-server-stop.sh
-&lt;/code>&lt;/pre>&lt;h4 id="213集群启停脚本">2.1.3、集群启停脚本&lt;/h4>&lt;p>1）在 &lt;code>/home/atguigu/bin&lt;/code> 目录下创建文件 &lt;code>kf.sh&lt;/code> 脚本文件&lt;/p>
-&lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 bin]$ vim kf.sh
-&lt;/code>&lt;/pre>&lt;p>脚本如下：&lt;/p>
+&lt;/code>&lt;/pre>&lt;h4 id="213集群启停脚本">2.1.3、集群启停脚本&lt;/h4>&lt;p>1）在 &lt;code>/home/atguigu/bin&lt;/code> 目录下创建文件 &lt;code>kf.sh&lt;/code> 脚本文件
+&lt;p>
+&lt;details class="toggle">
+&lt;summary markdown="span">点击查看完整的 &lt;code>kf.sh&lt;/code>&lt;/summary>
 &lt;pre tabindex="0">&lt;code>#! /bin/bash
 case $1 in
 &amp;#34;start&amp;#34;){
@@ -3627,12 +3859,15 @@ ssh $i &amp;#34;/opt/module/kafka/bin/kafka-server-stop.sh&amp;#34;
 done
 };;
 esac
-&lt;/code>&lt;/pre>&lt;p>2）添加执行权限
-&lt;code>chmod +x kf.sh&lt;/code>
-3）启动集群命令
-&lt;code>kf.sh start&lt;/code>
-4）停止集群命令
-&lt;code>kf.sh stop&lt;/code>
+&lt;/code>&lt;/pre>
+&lt;/details>
+&lt;/p>
+2）添加执行权限&lt;br>
+&lt;code>chmod +x kf.sh&lt;/code>&lt;br>
+3）启动集群命令&lt;br>
+&lt;code>kf.sh start&lt;/code>&lt;br>
+4）停止集群命令&lt;br>
+&lt;code>kf.sh stop&lt;/code>&lt;br>
 注意：停止 Kafka 集群时，一定要等 Kafka 所有节点进程全部停止后再停止 Zookeeper 集群。因为 Zookeeper 集群当中记录着 Kafka 集群相关信息，Zookeeper 集群一旦先停止，Kafka 集群就没有办法再获取停止进程的信息，只能手动杀死 Kafka 进程了。&lt;/p>
 &lt;h3 id="22kafka-命令行操作">2.2、Kafka 命令行操作&lt;/h3>&lt;p>Kafka 基础架构：&lt;br>
 &lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%A6%82%E8%BF%B0&amp;%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/2281993352.png">&lt;/p>
