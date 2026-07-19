@@ -53,7 +53,10 @@ sudo cp /tmp/docker-machine/usr/local/bin/docker-machine
 &lt;p>Reference
 &lt;a href="https://blog.csdn.net/L08130421/article/details/141155326">Docker三剑客之Docker Machine&lt;/a>&lt;/p></description></item><item><title>Docker | Swarm</title><link>https://hidlestone.github.io/blog/infrastructure/docker/13-docker-swarm/</link><pubDate>Sun, 27 Feb 2022 23:13:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/docker/13-docker-swarm/</guid><description>&lt;h2 id="一前言">一、前言&lt;/h2>&lt;p>Swarm 是 Docker 公司推出的用来管理 docker 集群的平台，几乎全部用 GO 语言来完成的开发的，代码开源：&lt;a href="https://github.com/docker/swarm">https://github.com/docker/swarm&lt;/a>&lt;/p>
 &lt;p>Docker Swarm 和 Docker Compose 一样，都是 Docker 官方容器编排项目，但不同的是，Docker Compose 是一个在单个服务器或主机上创建多个容器的工具，而 Docker Swarm 则可以在多个服务器或主机上创建容器集群服务，对于微服务的部署，显然 Docker Swarm 会更加适合。从 Docker 1.12.0 版本开始，Docker Swarm 已经包含在 Docker 引擎中（docker swarm），并且已经内置了服务发现工具，就不需要像之前一样，再配置 Etcd 或者 Consul 来进行服务发现配置了。
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20Swarm/3624095101.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20Swarm/3624095101.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>上图可以看出，Swarm 是典型的 &lt;code>master-slave&lt;/code> 结构，通过发现服务来选举 manager。manager 是中心管理节点，各个 node 上运行 agent 接受 manager 的统一管理，集群会自动通过 &lt;code>Raft 协议&lt;/code>分布式选举出 manager 节点，无需额外的发现服务支持，避免了单点的瓶颈问题，同时也内置了 DNS 的负载均衡和对外部负载均衡机制的集成支持。&lt;/p>
 &lt;h2 id="二docker-swarm-工作原理">二、Docker Swarm 工作原理&lt;/h2>&lt;h3 id="21docker-engine-client">2.1、Docker Engine client&lt;/h3>&lt;p>通过 &lt;code>docker service create&lt;/code> 命令去创建一个服务。&lt;/p>
 &lt;h3 id="22swarm-manager">2.2、swarm manager&lt;/h3>&lt;ul>
@@ -68,7 +71,10 @@ sudo cp /tmp/docker-machine/usr/local/bin/docker-machine
 &lt;li>&lt;code>worker&lt;/code> 连接到调度程序以检查分配的任务。&lt;/li>
 &lt;li>&lt;code>executor&lt;/code> 执行分配给工作节点的任务。&lt;/li>
 &lt;/ul>
-&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20Swarm/3694658679.png">&lt;/p>
+&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20Swarm/3694658679.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h2 id="三swarm-重要概念">三、Swarm 重要概念&lt;/h2>&lt;ul>
 &lt;li>&lt;code>Swarm&lt;/code> 集群的管理和编排是使用嵌入 docker 引擎的 SwarmKit，可以在 docker 初始化时启动 swarm 模式或者加入已存在的 swarm。&lt;/li>
 &lt;li>&lt;code>Node&lt;/code> 每一个 docker engin 都是一个 node（节点），分为 manager 和 worker。Manager 节点还执行维护所需群集状态所需的编排和集群管理功能。Work 节点接收并执行从管理器节点分派的任务。&lt;/li>
@@ -492,7 +498,11 @@ external: true # 告诉 Docker，这个网络已经存在了，别自己瞎建
 &lt;li>4、每一次下载和上传都产生操作记录，生成日志，保存至 database 中。&lt;/li>
 &lt;li>5、database 记录保存镜像的元信息及用户与组的身份信息，通过验证授权才能允许相关操作。&lt;/li>
 &lt;/ul>
-&lt;p>&lt;img alt="harbor-01.png" src="https://hidlestone.github.io/images/infrastructure/docker/Harbor/1798215401.png">&lt;/p>
+&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Harbor/1798215401.png" alt="harbor-01.png" loading="lazy" />
+&lt;figcaption>harbor-01.png&lt;/figcaption>
+&lt;/figure>
+&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>Proxy&lt;/code>: 是一个 nginx 的前端代理，Harbor 的 Registry、UI、Token 服务等组件，都处在 nginx 反向代理后边。 该代理将来自浏览器、docker clients 的请求转发到后端不同的服务上。&lt;/li>
 &lt;li>&lt;code>Registry&lt;/code>: 负责储存 Docker 镜像，并处理 Docker push/pull 命令。由于要对用户进行访问控制，即不同用户对 Docker 镜像 有不同的读写权限，Registry 会指向一个 Token 服务，强制用户的每次 Docker pull/push 请求都要携带一个合法的 Token， Registry 会通过公钥对 Token 进行解密验证。 Core services: Harbor 的核心功能，
@@ -528,7 +538,10 @@ port: 80
 harbor_admin_password: Harbor12345 -- 指定密码
 &lt;/code>&lt;/pre>&lt;h3 id="24安装-harbor">2.4、安装 Harbor&lt;/h3>&lt;pre tabindex="0">&lt;code>./install.sh
 &lt;/code>&lt;/pre>&lt;h3 id="25登录-harbor-的-web-平台">2.5、登录 harbor 的 web 平台&lt;/h3>&lt;p>默认用户名：&lt;code>admin&lt;/code>，默认密码：&lt;code>Harbor12345&lt;/code>&lt;/p>
-&lt;h3 id="26登录成功界面">2.6、登录成功界面&lt;/h3>&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Harbor/681585756.png">&lt;/p>
+&lt;h3 id="26登录成功界面">2.6、登录成功界面&lt;/h3>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Harbor/681585756.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h3 id="27推送镜像至-harbor">2.7、推送镜像至 Harbor&lt;/h3>&lt;pre tabindex="0">&lt;code>docker login -u admin -p Harbor12345 http://127.0.0.1
 或者：
 docker login 192.168.10.130
@@ -569,7 +582,10 @@ ddb92363b45d fervent_lederberg 0.17% 287.5MiB / 3.842GiB 7.31% 3.6kB / 2.06kB 0B
 &lt;/code>&lt;/pre>&lt;p>通过 &lt;code>docker stats&lt;/code> 命令可以很方便的看到当前宿主机上所有容器的 CPU，内存以及网络流量等数据，一般小公司够用了。
 但是，&lt;code>docker stats&lt;/code> 统计结果只能是当前宿主机的全部容器，数据资料是实时的，没有地方存储、没有健康指标过线预警等功能。&lt;/p>
 &lt;h2 id="二cig-简介">二、CIG 简介&lt;/h2>&lt;p>容器监控 3 剑客&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%B9%E5%99%A8%E7%9B%91%E6%8E%A7%20CIG/3576258278.jpg">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%b9%e5%99%a8%e7%9b%91%e6%8e%a7%20CIG/3576258278.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 &lt;code>CAdvisor&lt;/code> 监控收集 + &lt;code>InfluxDB&lt;/code> 存储数据 + &lt;code>Granfana&lt;/code> 展示图表。&lt;/p>
 &lt;h3 id="21cadvisor">2.1、CAdvisor&lt;/h3>&lt;p>&lt;code>CAdvisor&lt;/code> 是一个容器资源监控工具，包括容器的内存，CPU，网络 IO，磁盘 IO 等监控，同时提供了一个 WEB 页面用于查看容器的实时运行状态。CAdvisor 默认存储 2 分钟的数据，而且只是针对单物理机。不过，CAdvisor 提供了很多数据集成接口，支持 InfluxDB，Redis，Kafka，Elasticsearch 等集成，可以加上对应配置将监控数据发往这些数据库存储起来。&lt;/p>
 &lt;p>&lt;code>CAdvisor&lt;/code> 功能主要有两点：&lt;/p>
@@ -657,30 +673,72 @@ environment:
 &lt;/details>
 &lt;/p>
 &lt;h4 id="3启动-docker-compose-文件">3、启动 &lt;code>docker-compose&lt;/code> 文件&lt;/h4>&lt;pre tabindex="0">&lt;code>docker-compose up
-&lt;/code>&lt;/pre>&lt;h4 id="4查看三个服务容器是否启动">4、查看三个服务容器是否启动&lt;/h4>&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%B9%E5%99%A8%E7%9B%91%E6%8E%A7%20CIG/1342935357.jpg">&lt;/p>
+&lt;/code>&lt;/pre>&lt;h4 id="4查看三个服务容器是否启动">4、查看三个服务容器是否启动&lt;/h4>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%b9%e5%99%a8%e7%9b%91%e6%8e%a7%20CIG/1342935357.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h4 id="5测试">5、测试&lt;/h4>&lt;ul>
 &lt;li>浏览 &lt;code>cAdvisor&lt;/code> 收集服务，&lt;code>http://ip:8080/&lt;/code>。 &lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%B9%E5%99%A8%E7%9B%91%E6%8E%A7%20CIG/1633355165.jpg">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%b9%e5%99%a8%e7%9b%91%e6%8e%a7%20CIG/1633355165.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 第一次访问慢，请稍等。cadvisor 也有基础的图形展现功能，这里主要用它来作数据采集。&lt;/li>
 &lt;li>浏览 &lt;code>influxdb&lt;/code> 存储服务，&lt;code>http://ip:8083/&lt;/code>。&lt;/li>
 &lt;li>浏览 &lt;code>grafana&lt;/code> 展现服务，&lt;code>http://ip:3000&lt;/code>。默认帐户密码 &lt;code>admin/admin&lt;/code>。 &lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%B9%E5%99%A8%E7%9B%91%E6%8E%A7%20CIG/4014913148.jpg">&lt;/li>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%b9%e5%99%a8%e7%9b%91%e6%8e%a7%20CIG/4014913148.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/li>
 &lt;/ul>
 &lt;h4 id="6配置步骤">6、配置步骤&lt;/h4>&lt;p>配置数据源&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%B9%E5%99%A8%E7%9B%91%E6%8E%A7%20CIG/3706966930.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%b9%e5%99%a8%e7%9b%91%e6%8e%a7%20CIG/3706966930.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>选择 influxdb 数据源&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%B9%E5%99%A8%E7%9B%91%E6%8E%A7%20CIG/2952994184.jpg">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%b9%e5%99%a8%e7%9b%91%e6%8e%a7%20CIG/2952994184.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 配置细节&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%B9%E5%99%A8%E7%9B%91%E6%8E%A7%20CIG/3788072247.jpg">&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%B9%E5%99%A8%E7%9B%91%E6%8E%A7%20CIG/1378638154.jpg"> &lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%B9%E5%99%A8%E7%9B%91%E6%8E%A7%20CIG/2766007677.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%b9%e5%99%a8%e7%9b%91%e6%8e%a7%20CIG/3788072247.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%b9%e5%99%a8%e7%9b%91%e6%8e%a7%20CIG/1378638154.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%b9%e5%99%a8%e7%9b%91%e6%8e%a7%20CIG/2766007677.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>配置面板 panel &lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%B9%E5%99%A8%E7%9B%91%E6%8E%A7%20CIG/594156760.jpg"> &lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%B9%E5%99%A8%E7%9B%91%E6%8E%A7%20CIG/3316145426.jpg"> &lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%B9%E5%99%A8%E7%9B%91%E6%8E%A7%20CIG/3500714460.jpg"> &lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%B9%E5%99%A8%E7%9B%91%E6%8E%A7%20CIG/330778532.jpg"> &lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%B9%E5%99%A8%E7%9B%91%E6%8E%A7%20CIG/1421693262.jpg"> &lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%B9%E5%99%A8%E7%9B%91%E6%8E%A7%20CIG/786679880.jpg"> &lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%b9%e5%99%a8%e7%9b%91%e6%8e%a7%20CIG/594156760.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%b9%e5%99%a8%e7%9b%91%e6%8e%a7%20CIG/3316145426.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%b9%e5%99%a8%e7%9b%91%e6%8e%a7%20CIG/3500714460.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%b9%e5%99%a8%e7%9b%91%e6%8e%a7%20CIG/330778532.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%b9%e5%99%a8%e7%9b%91%e6%8e%a7%20CIG/1421693262.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%b9%e5%99%a8%e7%9b%91%e6%8e%a7%20CIG/786679880.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 到这里 &lt;code>cAdvisor + InfluxDB + Grafana&lt;/code> 容器监控系统就部署完成了。&lt;/p></description></item><item><title>Docker | Portainer 轻量级可视化工具</title><link>https://hidlestone.github.io/blog/infrastructure/docker/10-docker-%E8%BD%BB%E9%87%8F%E7%BA%A7%E5%8F%AF%E8%A7%86%E5%8C%96%E5%B7%A5%E5%85%B7-portainer/</link><pubDate>Sun, 27 Feb 2022 23:10:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/docker/10-docker-%E8%BD%BB%E9%87%8F%E7%BA%A7%E5%8F%AF%E8%A7%86%E5%8C%96%E5%B7%A5%E5%85%B7-portainer/</guid><description>&lt;h2 id="一简介">一、简介&lt;/h2>&lt;p>Portainer 是一款轻量级的应用，它提供了图形化界面，用于方便地管理 Docker 环境，包括单机环境和集群环境。&lt;/p>
 &lt;h2 id="二安装">二、安装&lt;/h2>&lt;p>&lt;a href="https://www.portainer.io/">portainer.io&lt;/a>
 &lt;a href="https://docs.portainer.io/v/ce-2.9/start/install/server/docker/linux">Portainer Documentation&lt;/a>&lt;/p>
@@ -693,11 +751,20 @@ environment:
 这个选项创建一个名为 portainer_data 的 Docker 卷，并将其挂载到容器的 /data 目录。这个卷用于持久化 Portainer 的数据，以便在容器重启或重新创建时保留数据。&lt;/p>
 &lt;p>第一次登录需创建 admin，访问地址：&lt;code>xxx.xxx.xxx.xxx:9000&lt;/code>。&lt;br>
 用户名，直接用默认 admin，密码记得 8 位，随便写。&lt;/p>
-&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E8%BD%BB%E9%87%8F%E7%BA%A7%E5%8F%AF%E8%A7%86%E5%8C%96%E5%B7%A5%E5%85%B7%20Portainer/619802300.jpg">&lt;br>
+&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e8%bd%bb%e9%87%8f%e7%ba%a7%e5%8f%af%e8%a7%86%e5%8c%96%e5%b7%a5%e5%85%b7%20Portainer/619802300.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 设置 admin 用户和密码后首次登陆。
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E8%BD%BB%E9%87%8F%E7%BA%A7%E5%8F%AF%E8%A7%86%E5%8C%96%E5%B7%A5%E5%85%B7%20Portainer/2964959930.jpg">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e8%bd%bb%e9%87%8f%e7%ba%a7%e5%8f%af%e8%a7%86%e5%8c%96%e5%b7%a5%e5%85%b7%20Portainer/2964959930.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 选择 local 选项卡后本地 docker 详细信息展示。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E8%BD%BB%E9%87%8F%E7%BA%A7%E5%8F%AF%E8%A7%86%E5%8C%96%E5%B7%A5%E5%85%B7%20Portainer/3068450295.jpg">&lt;/p></description></item><item><title>Docker | Compose 容器编排</title><link>https://hidlestone.github.io/blog/infrastructure/docker/09-docker-compose-%E5%AE%B9%E5%99%A8%E7%BC%96%E6%8E%92/</link><pubDate>Sun, 27 Feb 2022 23:09:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/docker/09-docker-compose-%E5%AE%B9%E5%99%A8%E7%BC%96%E6%8E%92/</guid><description>&lt;h2 id="一简介">一、简介&lt;/h2>&lt;p>&lt;code>Compose&lt;/code> 是 Docker 公司推出的一个工具软件，可以管理多个 Docker 容器组成一个应用。需要定义一个 YAML 格式的配置文件 &lt;code>docker-compose.yml&lt;/code>，写好多个容器之间的调用关系。然后，只要一个命令，就能同时启动 / 关闭这些容器。
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e8%bd%bb%e9%87%8f%e7%ba%a7%e5%8f%af%e8%a7%86%e5%8c%96%e5%b7%a5%e5%85%b7%20Portainer/3068450295.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p></description></item><item><title>Docker | Compose 容器编排</title><link>https://hidlestone.github.io/blog/infrastructure/docker/09-docker-compose-%E5%AE%B9%E5%99%A8%E7%BC%96%E6%8E%92/</link><pubDate>Sun, 27 Feb 2022 23:09:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/docker/09-docker-compose-%E5%AE%B9%E5%99%A8%E7%BC%96%E6%8E%92/</guid><description>&lt;h2 id="一简介">一、简介&lt;/h2>&lt;p>&lt;code>Compose&lt;/code> 是 Docker 公司推出的一个工具软件，可以管理多个 Docker 容器组成一个应用。需要定义一个 YAML 格式的配置文件 &lt;code>docker-compose.yml&lt;/code>，写好多个容器之间的调用关系。然后，只要一个命令，就能同时启动 / 关闭这些容器。
 &lt;code>Docker-Compose&lt;/code> 是 Docker 官方的开源项目，负责实现对 Docker 容器集群的快速编排。&lt;/p>
 &lt;h2 id="二作用">二、作用&lt;/h2>&lt;p>docker 建议我们每一个容器中只运行一个服务，因为 docker 容器本身占用资源极少，所以最好是将每个服务单独的分割开来，但是这样我们又面临了一个问题？&lt;/p>
 &lt;p>如果我需要同时部署好多个服务，难道要每个服务单独写 Dockerfile 然后在构建镜像，构建容器。所以 docker 官方给我们提供了 &lt;code>docker-compose&lt;/code> 多服务部署的工具。&lt;/p>
@@ -797,7 +864,10 @@ PRIMARY KEY (`id`)
 &lt;/code>&lt;/pre>&lt;p>微服务工程：&lt;/p>
 &lt;pre tabindex="0">&lt;code>docker run -d -p 6001:6001 docker_boot:1.6
 &lt;/code>&lt;/pre>&lt;p>上面三个容器实例依次顺序启动成功：
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker-Compose%20%E5%AE%B9%E5%99%A8%E7%BC%96%E6%8E%92/1729976799.jpg">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker-Compose%20%e5%ae%b9%e5%99%a8%e7%bc%96%e6%8e%92/1729976799.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 swagger 测试：&lt;br>
 &lt;code>http://localhost: 你的微服务端口 /swagger-ui.html#/&lt;/code>&lt;/p>
 &lt;p>上面成功了，有哪些问题？
@@ -861,24 +931,45 @@ test_net:
 &lt;pre tabindex="0">&lt;code>docker compose up
 或者执行
 docker compose up -d
-&lt;/code>&lt;/pre>&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker-Compose%20%E5%AE%B9%E5%99%A8%E7%BC%96%E6%8E%92/2538182860.jpg">&lt;br>
+&lt;/code>&lt;/pre>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker-Compose%20%e5%ae%b9%e5%99%a8%e7%bc%96%e6%8e%92/2538182860.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 关停：
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker-Compose%20%E5%AE%B9%E5%99%A8%E7%BC%96%E6%8E%92/3516383447.jpg">&lt;/p></description></item><item><title>Docker | 网络</title><link>https://hidlestone.github.io/blog/infrastructure/docker/08-docker-%E7%BD%91%E7%BB%9C/</link><pubDate>Sun, 27 Feb 2022 23:08:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/docker/08-docker-%E7%BD%91%E7%BB%9C/</guid><description>&lt;h2 id="一简介">一、简介&lt;/h2>&lt;p>docker 不启动，默认网络情况。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/1824859053.jpg">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker-Compose%20%e5%ae%b9%e5%99%a8%e7%bc%96%e6%8e%92/3516383447.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p></description></item><item><title>Docker | 网络</title><link>https://hidlestone.github.io/blog/infrastructure/docker/08-docker-%E7%BD%91%E7%BB%9C/</link><pubDate>Sun, 27 Feb 2022 23:08:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/docker/08-docker-%E7%BD%91%E7%BB%9C/</guid><description>&lt;h2 id="一简介">一、简介&lt;/h2>&lt;p>docker 不启动，默认网络情况。&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/1824859053.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 即：&lt;code>ens33&lt;/code>、&lt;code>lo&lt;/code>、&lt;code>virbr0&lt;/code>&lt;/p>
 &lt;p>在 CentOS7 的安装过程中如果有选择相关虚拟化的的服务安装系统后，启动网卡时会发现有一个以网桥连接的私网地址的 &lt;code>virbr0&lt;/code> 网卡 (virbr0 网卡：它还有一个固定的默认 IP 地址 &lt;code>192.168.122.1&lt;/code>)，是做虚拟机网桥的使用的，其作用是为连接其上的虚机网卡提供 NAT 访问外网的功能。
 Linux 安装，勾选安装系统的时候附带了 libvirt 服务才会生成的一个东西，如果不需要可以直接将 libvirtd 服务卸载，&lt;code>yum remove libvirt-libs.x86_64&lt;/code>。&lt;/p>
 &lt;p>docker 启动后，网络情况。&lt;br>
 会产生一个名为 &lt;code>docker0&lt;/code> 的虚拟网桥&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/921770136.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/921770136.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>查看 docker 网络模式命令。&lt;br>
 默认创建 3 大网络模式&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/2101321611.jpg">&lt;/p>
-&lt;h2 id="二常用基本命令">二、常用基本命令&lt;/h2>&lt;h3 id="21all-命令">2.1、All 命令&lt;/h3>&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/3758314190.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/2101321611.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
+&lt;h2 id="二常用基本命令">二、常用基本命令&lt;/h2>&lt;h3 id="21all-命令">2.1、All 命令&lt;/h3>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/3758314190.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h3 id="22查看网络">2.2、查看网络&lt;/h3>&lt;pre tabindex="0">&lt;code>docker network ls
 &lt;/code>&lt;/pre>&lt;h3 id="23查看网络源数据">2.3、查看网络源数据&lt;/h3>&lt;pre tabindex="0">&lt;code>docker network inspect XXX 网络名字
 &lt;/code>&lt;/pre>&lt;h3 id="24删除网络">2.4、删除网络&lt;/h3>&lt;pre tabindex="0">&lt;code>docker network rm XXX 网络名字
-&lt;/code>&lt;/pre>&lt;h3 id="25案例">2.5、案例&lt;/h3>&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/1505119769.jpg">&lt;/p>
+&lt;/code>&lt;/pre>&lt;h3 id="25案例">2.5、案例&lt;/h3>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/1505119769.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h2 id="三作用">三、作用&lt;/h2>&lt;p>容器间的互联和通信以及端口映射。&lt;br>
 容器 IP 变动时候可以通过服务名直接网络通信而不受到影响。&lt;/p>
 &lt;h2 id="四网络模式">四、网络模式&lt;/h2>&lt;h3 id="41总体介绍">4.1、总体介绍&lt;/h3>&lt;p>网络模式：&lt;/p>
@@ -915,11 +1006,20 @@ Linux 安装，勾选安装系统的时候附带了 libvirt 服务才会生成�
 &lt;li>&lt;code>container 模式&lt;/code>：使用 &lt;code>--network container:NAME&lt;/code> 或者容器 ID 指定。&lt;/li>
 &lt;/ul>
 &lt;h3 id="42容器实例内默认网络-ip-生产规则">4.2、容器实例内默认网络 IP 生产规则&lt;/h3>&lt;p>1、先启动两个 ubuntu 容器实例。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/1910686891.jpg"> &lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/1910686891.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 2、&lt;code>docker inspect 容器 ID or 容器名字&lt;/code>。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/3818718692.jpg">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/3818718692.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 3、关闭 u2 实例，新建 u3，查看 ip 变化 &lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/3022158824.jpg">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/3022158824.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 结论：&lt;br>
 &lt;code>docker 容器内部的 ip 是有可能会发生改变的&lt;/code>。&lt;/p>
 &lt;h3 id="43网络模式示例">4.3、网络模式示例&lt;/h3>&lt;h4 id="431bridge">4.3.1、&lt;code>bridge&lt;/code>&lt;/h4>&lt;p>Docker 服务默认会创建一个 &lt;code>docker0&lt;/code> 网桥（其上有一个 docker0 内部接口），该桥接网络的名称为 docker0，它在内核层连通了其他的物理或虚拟网卡，这就将所有容器和本地主机都放到同一个物理网络。Docker 默认指定了 docker0 接口的 IP 地址和子网掩码，让主机和容器之间可以通过网桥相互通信。
@@ -943,12 +1043,18 @@ docker0: flags=4163&amp;lt;UP,BROADCAST,RUNNING,MULTICAST&amp;gt; mtu 1500
 &lt;/li>
 &lt;/ul>
 &lt;p>通过上述，将宿主机上的所有容器都连接到这个内部网络上，两个容器在同一个网络下，会从这个网关下各自拿到分配的 ip，此时两个容器的网络是互通&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/1264678073.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/1264678073.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>启动两个服务：&lt;/p>
 &lt;pre tabindex="0">&lt;code>docker run -d -p 8081:8080 --name tomcat81 billygoo/tomcat8-jdk8
 docker run -d -p 8082:8080 --name tomcat82 billygoo/tomcat8-jdk8
 &lt;/code>&lt;/pre>&lt;p>两两匹配验证
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/3229838077.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/3229838077.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h4 id="432host">4.3.2、&lt;code>host&lt;/code>&lt;/h4>&lt;p>直接使用宿主机的 IP 地址与外界进行通信，不再需要额外进行 NAT 转换。&lt;/p>
 &lt;p>说明：&lt;br>
 容器将不会获得一个独立的 &lt;code>Network Namespace&lt;/code>，而是和宿主机共用一个 &lt;code>Network Namespace&lt;/code>。容器将不会虚拟出自己的网卡而是使用宿主机的 IP 和端口。&lt;/p>
@@ -963,7 +1069,10 @@ docker 启动时指定 &lt;code>--network=host&lt;/code> 或 &lt;code>-net=host&
 正确：&lt;/p>
 &lt;pre tabindex="0">&lt;code>docker run -d --network host --name tomcat83 billygoo/tomcat8-jdk8
 &lt;/code>&lt;/pre>&lt;p>无之前的配对显示了，看容器实例内部 &lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/1599773350.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/1599773350.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>没有设置 &lt;code>-p&lt;/code> 的端口映射了，如何访问启动的 tomcat83？&lt;/p>
 &lt;pre tabindex="0">&lt;code>http://宿主机IP:8080/
 &lt;/code>&lt;/pre>&lt;p>此时容器的 IP 借用主机的，所以容器共享宿主机网络 IP，这样的好处是外部主机与容器可以直接通信。&lt;/p>
@@ -973,17 +1082,29 @@ docker 启动时指定 &lt;code>--network=host&lt;/code> 或 &lt;code>-net=host&
 &lt;p>案例：&lt;/p>
 &lt;pre tabindex="0">&lt;code>docker run -d -p 8084:8080 --network none --name tomcat84 billygoo/tomcat8-jdk8
 &lt;/code>&lt;/pre>&lt;p>进入容器内部查看：
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/2547431209.jpg">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/2547431209.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 在容器外部查看：
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/4211143643.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/4211143643.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h4 id="434container">4.3.4、&lt;code>container&lt;/code>&lt;/h4>&lt;p>container ⽹络模式。&lt;br>
 新建的容器和已经存在的一个容器共享一个网络 ip 配置而不是和宿主机共享。新创建的容器不会创建自己的网卡，配置自己的 IP，而是和一个指定的容器共享 IP、端口范围等。同样，两个容器除了网络方面，其他的如文件系统、进程列表等还是隔离的。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/483100137.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/483100137.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>案例 1：&lt;/p>
 &lt;pre tabindex="0">&lt;code>docker run -d -p 8085:8080 --name tomcat85 billygoo/tomcat8-jdk8
 docker run -d -p 8086:8080 --network container:tomcat85 --name tomcat86 billygoo/tomcat8-jdk8
 &lt;/code>&lt;/pre>&lt;p>运行结果：&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/3605554082.jpg">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/3605554082.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 相当于 tomcat86 和 tomcat85 公用同一个 ip 同一个端口，导致端口冲突本案例用 tomcat 演示不合适。&lt;/p>
 &lt;p>案例 2：&lt;br>
 Alpine 操作系统是一个面向安全的轻型 Linux 发行版&lt;br>
@@ -991,22 +1112,37 @@ Alpine Linux 是一款独立的、非商业的通用 Linux 发行版，专为追
 &lt;pre tabindex="0">&lt;code>docker run -it --name alpine1 alpine /bin/sh
 docker run -it --network container:alpine1 --name alpine2 alpine /bin/sh
 &lt;/code>&lt;/pre>&lt;p>运行结果，验证共用搭桥：&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/3776100457.jpg"> &lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/3776100457.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 假如此时关闭 alpine1，再看看 alpine2。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/4162568164.jpg">
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/4162568164.jpg" alt="" loading="lazy" />
+&lt;/figure>
 alpine2 容器会继续运行，但它的网络功能会瞬间“瘫痪”。&lt;/p>
 &lt;h4 id="435自定义网络">4.3.5、自定义网络&lt;/h4>&lt;p>过时的 link：&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/3112361330.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/3112361330.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>案例：&lt;/p>
 &lt;pre tabindex="0">&lt;code>docker run -d -p 8081:8080 --name tomcat81 billygoo/tomcat8-jdk8
 docker run -d -p 8082:8080 --name tomcat82 billygoo/tomcat8-jdk8
 &lt;/code>&lt;/pre>&lt;p>上述成功启动并用 &lt;code>docker exec&lt;/code> 进入各自容器实例内部。&lt;/p>
 &lt;p>问题：&lt;br>
 按照 IP 地址 ping 是 OK 的。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/1732828548.jpg">
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/4072580468.jpg">
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/1732828548.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/4072580468.jpg" alt="" loading="lazy" />
+&lt;/figure>
 按照服务名 ping 结果？&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/2769550834.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/2769550834.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>自定义桥接网络，自定义网络默认使用的是桥接网络 bridge。&lt;br>
 新建自定义网络：&lt;/p>
 &lt;pre tabindex="0">&lt;code>docker network create test_network
@@ -1014,8 +1150,14 @@ docker run -d -p 8082:8080 --name tomcat82 billygoo/tomcat8-jdk8
 &lt;pre tabindex="0">&lt;code>docker run -d -p 8081:8080 --network test_network --name tomcat81 billygoo/tomcat8-jdk8
 docker run -d -p 8082:8080 --network test_network --name tomcat82 billygoo/tomcat8-jdk8
 &lt;/code>&lt;/pre>&lt;p>互相 ping 测试&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/1720291311.jpg">&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/2749157932.jpg">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/1720291311.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/2749157932.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 问题结论：&lt;br>
 &lt;code>自定义网络本身就维护好了主机名和 ip 的对应关系（ip 和域名都能通）&lt;/code>。&lt;/p>
 &lt;h5 id="docker-内部-dns-解析机制">Docker 内部 DNS 解析机制&lt;/h5>&lt;p>默认的 bridge 网络为了兼容性，没有内置 DNS 服务；而自定义网络强制开启了 Docker 内置的 DNS 维护功能。&lt;/p>
@@ -1083,9 +1225,18 @@ docker run -d -p 8082:8080 --network test_network --name tomcat82 billygoo/tomca
 &lt;li>7、Libcontainer 是一项独立的容器管理包，Network driver 以及 Exec driver 都是通过 Libcontainer 来实现具体对容器进行的操作。&lt;/li>
 &lt;/ul>
 &lt;p>整体架构：&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/2670355715.jpg">&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/2670355716.png">&lt;/p></description></item><item><title>Docker | DockerFile 解析</title><link>https://hidlestone.github.io/blog/infrastructure/docker/07-dockerfile-%E8%A7%A3%E6%9E%90/</link><pubDate>Sun, 27 Feb 2022 23:07:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/docker/07-dockerfile-%E8%A7%A3%E6%9E%90/</guid><description>&lt;h2 id="一简介">一、简介&lt;/h2>&lt;p>&lt;code>Dockerfile&lt;/code>是用来构建 Docker 镜像的文本文件，是由一条条构建镜像所需的指令和参数构成的脚本。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/DockerFile%20%E8%A7%A3%E6%9E%90/3550616957.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/2670355715.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/2670355716.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p></description></item><item><title>Docker | DockerFile 解析</title><link>https://hidlestone.github.io/blog/infrastructure/docker/07-dockerfile-%E8%A7%A3%E6%9E%90/</link><pubDate>Sun, 27 Feb 2022 23:07:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/docker/07-dockerfile-%E8%A7%A3%E6%9E%90/</guid><description>&lt;h2 id="一简介">一、简介&lt;/h2>&lt;p>&lt;code>Dockerfile&lt;/code>是用来构建 Docker 镜像的文本文件，是由一条条构建镜像所需的指令和参数构成的脚本。&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/DockerFile%20%e8%a7%a3%e6%9e%90/3550616957.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>官网：&lt;a href="https://docs.docker.com/engine/reference/builder/">https://docs.docker.com/engine/reference/builder/&lt;/a>&lt;br>
 构建三步骤：&lt;/p>
 &lt;ul>
@@ -1113,7 +1264,10 @@ docker run -d -p 8082:8080 --network test_network --name tomcat82 billygoo/tomca
 &lt;code>Docker 镜像&lt;/code> 是软件的交付品。&lt;br>
 &lt;code>Docker 容器&lt;/code> 则可以认为是软件镜像的运行态，也即依照镜像运行的容器实例。&lt;br>
 Dockerfile面向开发，Docker 镜像成为交付标准，Docker 容器则涉及部署与运维，三者缺一不可，合力充当 Docker体系的基石。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/DockerFile%20%E8%A7%A3%E6%9E%90/412574392.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/DockerFile%20%e8%a7%a3%e6%9e%90/412574392.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;ul>
 &lt;li>1、&lt;strong>Dockerfile&lt;/strong>，需要定义一个 Dockerfile，Dockerfile 定义了进程需要的一切东西。Dockerfile 涉及的内容包括执行代码或者是文件、环境变量、依赖包、运行时环境、动态链接库、操作系统的发行版、服务进程和内核进程(当应用进程需要和系统服务和内核进程打交道，这时需要考虑如何设计 namespace 的权限控制)等等;&lt;/li>
 &lt;li>2、&lt;strong>Docker 镜像&lt;/strong>，在用 Dockerfile 定义一个文件之后，&lt;code>docker build&lt;/code> 时会产生一个 Docker 镜像，当运行 Docker 镜像时会真正开始提供服务;&lt;/li>
@@ -1234,7 +1388,10 @@ Docker命令 docker run nginx:test docker run nginx:test -c /etc/nginx/new.conf
 &lt;h2 id="四dockerfile-示例">四、Dockerfile 示例&lt;/h2>&lt;h3 id="41要求">4.1、要求&lt;/h3>&lt;p>Centos7 镜像具备 &lt;code>vim + ifconfig + jdk8&lt;/code>&lt;/p>
 &lt;p>JDK 的下载镜像地址&lt;br>
 官网：&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/DockerFile%20%E8%A7%A3%E6%9E%90/1653083738.jpg">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/DockerFile%20%e8%a7%a3%e6%9e%90/1653083738.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 下载地址：&lt;/p>
 &lt;pre tabindex="0">&lt;code>https://www.oracle.com/java/technologies/downloads/#java8
 https://mirrors.yangxingzhen.com/jdk/
@@ -1568,7 +1725,10 @@ docker run -v my-volume:/container/data my-image
 &lt;ul>
 &lt;li>绑定挂载 (Bind Mounts)：你在命令里写死 &lt;code>docker run -v /Users/root/data:/app/data&lt;/code>。换台 Linux 服务器，路径可能变成了 /root/data，脚本就失效了。&lt;/li>
 &lt;li>Docker 卷 (Volumes)：你只需要写 &lt;code>docker run -v my_data:/app/data&lt;/code>。无论在 Windows、Mac 还是 Linux 上，Docker 都会自动找到自己管理的存储区并创建 my_data。命令本身在任何地方都能直接跑。&lt;/li>
-&lt;/ul></description></item><item><title>阿里云镜像服务&amp;本地私有库 Registry</title><link>https://hidlestone.github.io/blog/infrastructure/docker/05-%E9%98%BF%E9%87%8C%E4%BA%91%E9%95%9C%E5%83%8F%E6%9C%8D%E5%8A%A1%E6%9C%AC%E5%9C%B0%E7%A7%81%E6%9C%89%E5%BA%93-registry/</link><pubDate>Sun, 27 Feb 2022 23:05:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/docker/05-%E9%98%BF%E9%87%8C%E4%BA%91%E9%95%9C%E5%83%8F%E6%9C%8D%E5%8A%A1%E6%9C%AC%E5%9C%B0%E7%A7%81%E6%9C%89%E5%BA%93-registry/</guid><description>&lt;h2 id="一本地镜像发布到阿里云流程">一、本地镜像发布到阿里云流程&lt;/h2>&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/%E9%98%BF%E9%87%8C%E4%BA%91%E9%95%9C%E5%83%8F%E6%9C%8D%E5%8A%A1&amp;%E6%9C%AC%E5%9C%B0%E7%A7%81%E6%9C%89%E5%BA%93%20Registry/2756577802.jpg">&lt;/p>
+&lt;/ul></description></item><item><title>阿里云镜像服务&amp;本地私有库 Registry</title><link>https://hidlestone.github.io/blog/infrastructure/docker/05-%E9%98%BF%E9%87%8C%E4%BA%91%E9%95%9C%E5%83%8F%E6%9C%8D%E5%8A%A1%E6%9C%AC%E5%9C%B0%E7%A7%81%E6%9C%89%E5%BA%93-registry/</link><pubDate>Sun, 27 Feb 2022 23:05:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/docker/05-%E9%98%BF%E9%87%8C%E4%BA%91%E9%95%9C%E5%83%8F%E6%9C%8D%E5%8A%A1%E6%9C%AC%E5%9C%B0%E7%A7%81%E6%9C%89%E5%BA%93-registry/</guid><description>&lt;h2 id="一本地镜像发布到阿里云流程">一、本地镜像发布到阿里云流程&lt;/h2>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/%e9%98%bf%e9%87%8c%e4%ba%91%e9%95%9c%e5%83%8f%e6%9c%8d%e5%8a%a1&amp;amp;%e6%9c%ac%e5%9c%b0%e7%a7%81%e6%9c%89%e5%ba%93%20Registry/2756577802.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h2 id="二镜像的生成方法">二、镜像的生成方法&lt;/h2>&lt;p>基于当前容器创建一个新的镜像：&lt;/p>
 &lt;pre tabindex="0">&lt;code>docker commit [OPTIONS] 容器ID [REPOSITORY[:TAG]]
 &lt;/code>&lt;/pre>&lt;p>OPTIONS 说明：&lt;br>
@@ -1580,7 +1740,10 @@ docker run -v my-volume:/container/data my-image
 3）命名空间&lt;br>
 4）仓库名称&lt;br>
 5）进入管理界面获得脚本&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/%E9%98%BF%E9%87%8C%E4%BA%91%E9%95%9C%E5%83%8F%E6%9C%8D%E5%8A%A1&amp;%E6%9C%AC%E5%9C%B0%E7%A7%81%E6%9C%89%E5%BA%93%20Registry/3463384843.jpg">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/%e9%98%bf%e9%87%8c%e4%ba%91%e9%95%9c%e5%83%8f%e6%9c%8d%e5%8a%a1&amp;amp;%e6%9c%ac%e5%9c%b0%e7%a7%81%e6%9c%89%e5%ba%93%20Registry/3463384843.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 （1）登录阿里云&lt;code>Docker Registry&lt;/code>&lt;/p>
 &lt;pre tabindex="0">&lt;code>docker login --username=zhuangpf registry.cn-hangzhou.aliyuncs.com
 &lt;/code>&lt;/pre>&lt;p>用于登录的用户名为阿里云账号全名，密码为开通服务时设置的密码。&lt;br>
@@ -1672,8 +1835,14 @@ a359528d6d8c: Pushed
 &lt;ul>
 &lt;li>&lt;code>bootfs(boot file system)&lt;/code>：主要包含 bootloader 和 kernel, bootloader 主要是引导加载 kernel, Linux 刚启动时会加载 bootfs 文件系统，在 Docker 镜像的最底层是引导文件系统 bootfs。这一层与我们典型的 Linux/Unix 系统是一样的，包含 boot 加载器和内核。当 boot 加载完成之后整个内核就都在内存中了，此时内存的使用权已由 bootfs 转交给内核，此时系统也会卸载 bootfs。&lt;/li>
 &lt;li>&lt;code>rootfs (root file system)&lt;/code> ，在 bootfs 之上。包含的就是典型 Linux 系统中的 &lt;code>/dev, /proc, /bin, /etc&lt;/code> 等标准目录和文件。rootfs 就是各种不同的操作系统发行版，比如 Ubuntu，Centos 等等。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E9%95%9C%E5%83%8F/3388607302.jpg">&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E9%95%9C%E5%83%8F/2279718470.jpg">&lt;/li>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e9%95%9c%e5%83%8f/3388607302.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e9%95%9c%e5%83%8f/2279718470.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/li>
 &lt;/ul>
 &lt;p>对于一个精简的 OS，rootfs 可以很小，只需要包括最基本的命令、工具和程序库就可以了，因为底层直接用 Host 的 kernel，自己只需要提供 rootfs 就行了。由此可见对于不同的 linux 发行版, bootfs 基本是一致的, rootfs 会有差别, 因此不同的发行版可以公用 bootfs。&lt;/p>
 &lt;h3 id="15为什么-docker-镜像要采用这种分层结构">1.5、为什么 Docker 镜像要采用这种分层结构&lt;/h3>&lt;p>镜像分层最大的一个好处就是共享资源，方便复制迁移，就是为了复用。&lt;br>
@@ -1681,7 +1850,10 @@ a359528d6d8c: Pushed
 &lt;h2 id="二重点理解">二、重点理解&lt;/h2>&lt;p>Docker 镜像层都是只读的，容器层是可写的，当容器启动时，一个新的可写层被加载到镜像的顶部。这一层通常被称作“容器层”，“容器层”之下的都叫“镜像层”。
 当容器启动时，一个新的可写层被加载到镜像的顶部。这一层通常被称作“容器层”，“容器层”之下的都叫“镜像层”。
 所有对容器的改动，无论添加、删除、还是修改文件都只会发生在容器层中。只有容器层是可写的，容器层下面的所有镜像层都是只读的。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E9%95%9C%E5%83%8F/2594669161.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e9%95%9c%e5%83%8f/2594669161.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h2 id="三docker-镜像-commit-操作">三、Docker 镜像 commit 操作&lt;/h2>&lt;p>&lt;code>docker commit&lt;/code> 提交容器副本使之成为一个新的镜像。&lt;/p>
 &lt;pre tabindex="0">&lt;code>docker commit -m=&amp;#34;提交的描述信息&amp;#34; -a=&amp;#34;作者&amp;#34; 容器ID 要创建的目标镜像名:[标签名]
 &lt;/code>&lt;/pre>&lt;p>演示 ubuntu 安装 vim：&lt;br>
@@ -1701,7 +1873,10 @@ zhuangpf/myubuntu 1.0 fc1d6e70130d About a minute ago 181MB
 ubuntu latest ba6acccedd29 14 months ago 72.8MB
 &lt;/code>&lt;/pre>&lt;p>Docker 中的镜像分层，支持通过扩展现有镜像，创建新的镜像。类似 Java 继承于一个 Base 基础类，自己再按需扩展。&lt;br>
 新镜像是从 base 镜像一层一层叠加生成的。每安装一个软件，就在现有镜像的基础上增加一层。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E9%95%9C%E5%83%8F/1046187269.jpg">&lt;/p></description></item><item><title>Docker | 常用命令</title><link>https://hidlestone.github.io/blog/infrastructure/docker/03-docker-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link><pubDate>Sun, 27 Feb 2022 23:03:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/docker/03-docker-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</guid><description>&lt;h2 id="一帮助启动类命令">一、帮助启动类命令&lt;/h2>&lt;ul>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e9%95%9c%e5%83%8f/1046187269.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p></description></item><item><title>Docker | 常用命令</title><link>https://hidlestone.github.io/blog/infrastructure/docker/03-docker-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link><pubDate>Sun, 27 Feb 2022 23:03:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/docker/03-docker-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</guid><description>&lt;h2 id="一帮助启动类命令">一、帮助启动类命令&lt;/h2>&lt;ul>
 &lt;li>启动 docker：&lt;code>systemctl start docker&lt;/code>&lt;/li>
 &lt;li>停止 docker：&lt;code>systemctl stop docker&lt;/code>&lt;/li>
 &lt;li>重启 docker：&lt;code>systemctl restart docker&lt;/code>&lt;/li>
@@ -1794,7 +1969,10 @@ Build Cache 0 0 0B 0B
 &lt;p>&lt;code>成因&lt;/code>：通常是因为重新构建了同名同标签的镜像（如 docker build），导致旧镜像的名字被新镜像“夺走”，旧镜像就变成了无名字、无标签的状态。&lt;br>
 &lt;code>清理&lt;/code>：这类镜像通常不再需要，且占用磁盘空间。你可以使用以下命令一键清理：&lt;code>docker image prune&lt;/code>&lt;/p>
 &lt;h2 id="三容器命令">三、容器命令&lt;/h2>&lt;p>有镜像才能创建容器， 这是根本前提 (下载一个 CentOS 或者 ubuntu 镜像演示)。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/598616315.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%b8%b8%e7%94%a8%e5%91%bd%e4%bb%a4/598616315.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;pre tabindex="0">&lt;code>docker pull centos
 docker pull ubuntu
 &lt;/code>&lt;/pre>&lt;h3 id="31新建--启动容器">3.1、新建 + 启动容器&lt;/h3>&lt;p>&lt;code>docker run [OPTIONS] IMAGE [COMMAND] [ARG...]&lt;/code>&lt;/p>
@@ -1892,7 +2070,9 @@ cat 文件名.tar | docker import - 镜像用户/镜像名:版本号
 &lt;li>&lt;strong>命令格式：&lt;/strong> &lt;code>cat 文件名.tar | docker import - 镜像用户/镜像名:版本号&lt;/code>&lt;/li>
 &lt;li>&lt;strong>特点：&lt;/strong> 它会创建一个全新的镜像层。因为它是从文件系统重新构建的，所以它比原始镜像更加“精简”，但无法回溯之前的构建历史。&lt;/li>
 &lt;/ul>
-&lt;h2 id="四总结">四、总结&lt;/h2>&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/3636699627.jpg">
+&lt;h2 id="四总结">四、总结&lt;/h2>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%b8%b8%e7%94%a8%e5%91%bd%e4%bb%a4/3636699627.jpg" alt="" loading="lazy" />
+&lt;/figure>
 &lt;p>
 &lt;details class="toggle">
 &lt;summary markdown="span">常用命令&lt;/summary>
@@ -1965,7 +2145,10 @@ uname -r
 &lt;/ul>
 &lt;p>仓库分为公开仓库 &lt;code>Public&lt;/code> 和私有仓库 &lt;code>Private&lt;/code> 两种形式。&lt;br>
 最大的公开仓库是 &lt;code>Docker Hub (https://hub.docker.com/)&lt;/code>，存放了数量庞大的镜像供用户下载。国内的公开仓库包括阿里云 、网易云等。&lt;/p>
-&lt;h2 id="三docker-平台架构图解-架构版">三、Docker 平台架构图解 (架构版)&lt;/h2>&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%89%E8%A3%85/4246491765.png">&lt;br>
+&lt;h2 id="三docker-平台架构图解-架构版">三、Docker 平台架构图解 (架构版)&lt;/h2>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%89%e8%a3%85/4246491765.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 Docker 是一个 C/S 模式的架构，后端是一个松耦合架构，众多模块各司其职。&lt;/p>
 &lt;p>Docker 运行的基本流程为：&lt;/p>
 &lt;ul>
@@ -1977,7 +2160,10 @@ Docker 是一个 C/S 模式的架构，后端是一个松耦合架构，众多�
 &lt;li>6、当需要限制 Docker 容器运行资源或执行用户指令等操作时，则通过 &lt;strong>Exec driver&lt;/strong> 来完成。&lt;/li>
 &lt;li>7、&lt;strong>Libcontainer&lt;/strong> 是一项独立的容器管理包，Network driver 以及 Exec driver 都是通过 Libcontainer 来实现具体对容器进行的操作。&lt;/li>
 &lt;/ul>
-&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%89%E8%A3%85/22591369.jpg">&lt;/p>
+&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%89%e8%a3%85/22591369.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h2 id="四安装步骤">四、安装步骤&lt;/h2>&lt;p>&lt;a href="https://docs.docker.com/engine/install/centos/">https://docs.docker.com/engine/install/centos/&lt;/a>&lt;br>
 1、确定你是 CentOS7 及以上版本&lt;/p>
 &lt;pre tabindex="0">&lt;code>cat /etc/redhat-release
@@ -1995,7 +2181,10 @@ docker-engine
 yum -y install gcc-c++
 &lt;/code>&lt;/pre>&lt;p>4、安装需要的软件包&lt;br>
 官网要求：&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%89%E8%A3%85/186588626.jpg">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%89%e8%a3%85/186588626.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 执行命令：&lt;/p>
 &lt;pre tabindex="0">&lt;code>yum install -y yum-utils
 &lt;/code>&lt;/pre>&lt;p>5、设置 stable 镜像仓库
@@ -2044,7 +2233,10 @@ docker-init:
 Version: 0.19.0
 GitCommit: de40ad0
 &lt;/code>&lt;/pre>&lt;p>10、卸载&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%89%E8%A3%85/2447014747.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%89%e8%a3%85/2447014747.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;pre tabindex="0">&lt;code>systemctl stop docker
 yum remove docker-ce docker-ce-cli containerd.io
 rm -rf /var/lib/docker
@@ -2065,9 +2257,15 @@ rm -rf /var/lib/containerd
 systemctl restart docker
 &lt;/code>&lt;/pre>&lt;h2 id="五helloworld">五、helloworld&lt;/h2>&lt;p>启动 Docker 后台容器 (测试运行 hello-world)。&lt;/p>
 &lt;pre tabindex="0">&lt;code>docker run hello-world
-&lt;/code>&lt;/pre>&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%89%E8%A3%85/3838997287.jpg">&lt;br>
+&lt;/code>&lt;/pre>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%89%e8%a3%85/3838997287.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 输出这段提示以后，hello world 就会停止运行，容器自动终止。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%89%E8%A3%85/1842755082.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%89%e8%a3%85/1842755082.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h2 id="六底层原理">六、底层原理&lt;/h2>&lt;p>为什么 Docker 会比 VM 虚拟机快。&lt;/p>
 &lt;ul>
 &lt;li>docker 有着比虚拟机更少的抽象层。&lt;br>
@@ -2075,7 +2273,10 @@ systemctl restart docker
 &lt;li>docker 利用的是宿主机的内核，而不需要加载操作系统 OS 内核。&lt;br>
 当新建一个容器时，docker 不需要和虚拟机一样重新加载一个操作系统内核。进而避免引寻、加载操作系统内核返回等比较费时费资源的过程，当新建一个虚拟机时，虚拟机软件需要加载 OS，返回新建过程是分钟级别的。而 docker 由于直接利用宿主机的操作系统，则省略了返回过程，因此新建一个 docker 容器只需要几秒钟。&lt;/li>
 &lt;/ul>
-&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%89%E8%A3%85/1572097481.jpg">&lt;/p>
+&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%89%e8%a3%85/1572097481.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;table>
 &lt;thead>
 &lt;tr>
@@ -2118,17 +2319,32 @@ systemctl restart docker
 &lt;/tbody>
 &lt;/table></description></item><item><title>Docker | 简介</title><link>https://hidlestone.github.io/blog/infrastructure/docker/01-docker-%E7%AE%80%E4%BB%8B/</link><pubDate>Sun, 27 Feb 2022 23:00:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/docker/01-docker-%E7%AE%80%E4%BB%8B/</guid><description>&lt;h2 id="一关于">一、关于&lt;/h2>&lt;p>Docker 之所以发展如此迅速，也是因为它对此给出了一个标准化的解决方案&amp;ndash;系统平滑移植，容器虚拟化技术。&lt;br>
 环境配置相当麻烦，换一台机器，就要重来一次，费力费时。很多人想到，能不能从根本上解决问题，软件可以带环境安装？也就是说，安装的时候，把原始环境一模一样地复制过来。开发人员利用 Docker 可以消除协作编码时“在我的机器上可正常工作”的问题。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%AE%80%E4%BB%8B/1155373116.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%ae%80%e4%bb%8b/1155373116.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>Docker 是基于 Go 语言实现的云开源项目。&lt;br>
 Docker 的主要目标是&lt;code>Build，Ship and Run Any App, Anywhere&lt;/code>，也就是通过对应用组件的&lt;code>封装、分发、部署、运行等生命周期的管理&lt;/code>，使用户的 APP（可以是一个WEB应用或数据库应用等等）及其运行环境能够做到&lt;code>一次镜像，处处运行&lt;/code>。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%AE%80%E4%BB%8B/425610884.jpg">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%ae%80%e4%bb%8b/425610884.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 Linux 容器技术的出现就解决了这样一个问题，而 Docker 就是在它的基础上发展过来的。将应用打成镜像，通过镜像成为运行在 Docker容器上面的实例，而 Docker 容器在任何操作系统上都是一致的，这就实现了跨平台、跨服务器。只需要一次配置好环境，换到别的机子上就可以一键部署好，大大简化了操作。
 解决了运行环境和配置问题的软件容器， 方便做持续集成并有助于整体发布的容器虚拟化技术。&lt;/p>
-&lt;h2 id="二容器与虚拟机比较">二、容器与虚拟机比较&lt;/h2>&lt;h3 id="容器发展简史">容器发展简史&lt;/h3>&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%AE%80%E4%BB%8B/1735375672.jpg">&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%AE%80%E4%BB%8B/3610569023.jpg">&lt;/p>
+&lt;h2 id="二容器与虚拟机比较">二、容器与虚拟机比较&lt;/h2>&lt;h3 id="容器发展简史">容器发展简史&lt;/h3>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%ae%80%e4%bb%8b/1735375672.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%ae%80%e4%bb%8b/3610569023.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h3 id="21传统虚拟机技术">2.1、传统虚拟机技术&lt;/h3>&lt;p>虚拟机&lt;code>virtual machine&lt;/code>就是带环境安装的一种解决方案。&lt;br>
 它可以在一种操作系统里面运行另一种操作系统，比如在 Windows10 系统里面运行 Linux 系统 CentOS7。应用程序对此毫无感知，因为虚拟机看上去跟真实系统一模一样，而对于底层系统来说，虚拟机就是一个普通文件，不需要了就删掉，对其他部分毫无影响。这类虚拟机完美的运行了另一套系统，能够使应用程序，操作系统和硬件三者之间的逻辑不变。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%AE%80%E4%BB%8B/2651452399.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%ae%80%e4%bb%8b/2651452399.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>虚拟机的缺点：&lt;/p>
 &lt;ul>
 &lt;li>资源占用多&lt;/li>
@@ -2139,7 +2355,10 @@ Linux 容器技术的出现就解决了这样一个问题，而 Docker 就是在
 Linux 容器(Linux Containers，缩写为 LXC)&lt;br>
 Linux 容器是与系统其他部分隔离开的一系列进程，从另一个镜像运行，并由该镜像提供支持进程所需的全部文件。容器提供的镜像包含了应用的所有依赖项，因而在从开发到测试再到生产的整个过程中，它都具有可移植性和一致性。&lt;br>
 Linux 容器不是模拟一个完整的操作系统而是对进程进行隔离。有了容器，就可以将软件运行所需的所有资源打包到一个隔离的容器中。容器与虚拟机不同，不需要捆绑一整套操作系统，只需要软件工作所需的库资源和设置。系统因此而变得高效轻量并保证部署在任何环境中的软件都能始终如一地运行。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%AE%80%E4%BB%8B/1472803634.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%ae%80%e4%bb%8b/1472803634.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h3 id="23对比">2.3、对比&lt;/h3>&lt;p>比较了 Docker 和传统虚拟化方式的不同之处：&lt;/p>
 &lt;ul>
 &lt;li>传统虚拟机技术是虚拟出一套硬件后，在其上运行一个完整操作系统，在该系统上再运行所需应用进程；&lt;/li>

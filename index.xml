@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>PeifengZhuang</title><link>https://hidlestone.github.io/</link><description>Recent content on PeifengZhuang created by</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>qiaoxiazhimin@gmail.com (PeifengZhuang)</managingEditor><webMaster>qiaoxiazhimin@gmail.com (PeifengZhuang)</webMaster><copyright>2026 PeifengZhuang All rights reserved</copyright><lastBuildDate>Thu, 16 Jul 2026 15:13:00 +0000</lastBuildDate><atom:link href="https://hidlestone.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>如何 30 分钟搭建一套完整独立博客</title><link>https://hidlestone.github.io/blog/artifact/%E5%A6%82%E4%BD%95-30-%E5%88%86%E9%92%9F%E6%90%AD%E5%BB%BA%E4%B8%80%E5%A5%97%E5%AE%8C%E6%95%B4%E7%8B%AC%E7%AB%8B%E5%8D%9A%E5%AE%A2/</link><pubDate>Wed, 01 Apr 2026 20:00:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/artifact/%E5%A6%82%E4%BD%95-30-%E5%88%86%E9%92%9F%E6%90%AD%E5%BB%BA%E4%B8%80%E5%A5%97%E5%AE%8C%E6%95%B4%E7%8B%AC%E7%AB%8B%E5%8D%9A%E5%AE%A2/</guid><description>&lt;p>本文是关于如何搭建免费的独立博客系列的第二篇，包括如何使用本博客主题 &lt;code>hugo-ladder&lt;/code>，如何集成评论和统计功能等。如果后续打算使用该主题来搭建和运营博客，建议跟随本篇文章来搭建。&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>PeifengZhuang</title><link>https://hidlestone.github.io/</link><description>Recent content on PeifengZhuang created by</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>qiaoxiazhimin@gmail.com (PeifengZhuang)</managingEditor><webMaster>qiaoxiazhimin@gmail.com (PeifengZhuang)</webMaster><copyright>2026 PeifengZhuang All rights reserved</copyright><lastBuildDate>Fri, 17 Jul 2026 10:00:00 +0000</lastBuildDate><atom:link href="https://hidlestone.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>如何 30 分钟搭建一套完整独立博客</title><link>https://hidlestone.github.io/blog/artifact/%E5%A6%82%E4%BD%95-30-%E5%88%86%E9%92%9F%E6%90%AD%E5%BB%BA%E4%B8%80%E5%A5%97%E5%AE%8C%E6%95%B4%E7%8B%AC%E7%AB%8B%E5%8D%9A%E5%AE%A2/</link><pubDate>Wed, 01 Apr 2026 20:00:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/artifact/%E5%A6%82%E4%BD%95-30-%E5%88%86%E9%92%9F%E6%90%AD%E5%BB%BA%E4%B8%80%E5%A5%97%E5%AE%8C%E6%95%B4%E7%8B%AC%E7%AB%8B%E5%8D%9A%E5%AE%A2/</guid><description>&lt;p>本文是关于如何搭建免费的独立博客系列的第二篇，包括如何使用本博客主题 &lt;code>hugo-ladder&lt;/code>，如何集成评论和统计功能等。如果后续打算使用该主题来搭建和运营博客，建议跟随本篇文章来搭建。&lt;/p>
 &lt;h2 id="一hugo">一、Hugo&lt;/h2>&lt;h3 id="11技术选型">1.1、技术选型&lt;/h3>&lt;p>今天的大多数网站分为两类&amp;ndash;动态网站和静态网站。动态网站是基于服务器的，它的内容是变化的，可以根据用户返回不同的内容。例如根据不同用户的喜好进行推荐，根据地区进行内容语言区分。页面依靠内容管理系统（CMS）或数据库进行渲染，并可以随着需求的增长而不断增加复杂性。而缺点的话也很明显，首先你需要一笔不菲的服务器费用来支持带宽和并发，如果服务是面向全球的，还需要考虑多地部署来提升访问速度。&lt;/p>
 &lt;p>还有一种就是我们选择的静态网站，使用 static site generators (SSG) 技术，会向所有用户显示相同的内容。使用服务器端的渲染来提供HTML、CSS和Javascript文件。静态网站的优势包括速度、安全和SEO。还易于维护，并具有高度可扩展性。由于静态网站生成器（SSG）在CDN上存储一个已经编译好的页面，它们的加载速度要快得多。&lt;/p>
 &lt;p>我们可以选择免费托管到 CDN 或者平台 &lt;a href="https://netlify.com/">Netlify&lt;/a>、&lt;a href="https://www.heroku.com/">Heroku&lt;/a>、&lt;a href="https://www.godaddy.com/">GoDaddy&lt;/a>、&lt;a href="https://www.dreamhost.com/">DreamHost&lt;/a>、&lt;a href="https://pages.github.com/">GitHub Pages&lt;/a>、&lt;a href="https://about.gitlab.com/features/pages/">GitLab Pages&lt;/a>、&lt;a href="https://surge.sh/">Surge&lt;/a>、&lt;a href="https://firebase.google.com/docs/hosting/">Firebase&lt;/a>、&lt;a href="https://cloud.google.com/storage/">Google Cloud Storage&lt;/a>、&lt;a href="https://aws.amazon.com/s3/">Amazon S3&lt;/a>、&lt;a href="https://www.rackspace.com/cloud/files">Rackspace&lt;/a>、&lt;a href="https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-static-website">Azure&lt;/a>和 &lt;a href="https://aws.amazon.com/cloudfront/">CloudFront&lt;/a> 上。&lt;/p>
@@ -225,7 +225,10 @@ display: block;
 &lt;h3 id="81创建-github-账号">8.1、创建 GitHub 账号&lt;/h3>&lt;p>在搭建自己的博客前，我们需要先注册一个 &lt;a href="https://github.com/">GitHub&lt;/a> 账号，这个账号的账户名非常重要，它是后面我们博客的域名地址。&lt;/p>
 &lt;p>例如我们创建的账号名称是 hidlestone，那么我们最终的博客地址就是 &lt;a href="https://hidlestone.github.io">https://hidlestone.github.io&lt;/a>。&lt;/p>
 &lt;h3 id="82创建-github-pages-仓库">8.2、创建 GitHub Pages 仓库&lt;/h3>&lt;p>完整的教程可以查看 &lt;a href="https://pages.github.com/">官方教程&lt;/a>，简单来讲就是 &lt;a href="https://github.com/new">创建一个新的 repository&lt;/a>，名字为 &lt;code>username.github.io&lt;/code>。&lt;/p>
-&lt;p>&lt;img src="https://hidlestone.github.io/images/artifact/%E5%A6%82%E4%BD%95%2030%20%E5%88%86%E9%92%9F%E6%90%AD%E5%BB%BA%E4%B8%80%E5%A5%97%E5%AE%8C%E6%95%B4%E7%8B%AC%E7%AB%8B%E5%8D%9A%E5%AE%A2/01.png">&lt;/p>
+&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/artifact/%e5%a6%82%e4%bd%95%2030%20%e5%88%86%e9%92%9f%e6%90%ad%e5%bb%ba%e4%b8%80%e5%a5%97%e5%ae%8c%e6%95%b4%e7%8b%ac%e7%ab%8b%e5%8d%9a%e5%ae%a2/01.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h3 id="83actions">8.3、Actions&lt;/h3>&lt;p>&lt;code>Actions&lt;/code> 方式用两种，一种是直接推送到 &lt;a href="https://pages.github.com/">GitHub Pages&lt;/a> ，还有一种是在另外的代码仓库上构建生成静态页面代码的方式。&lt;/p>
 &lt;p>需要创建新的文件夹 &lt;code>.github/workflows&lt;/code> ，添加新的文件 &lt;code>deploy&lt;/code> 文件。&lt;/p>
 &lt;p>
@@ -277,13 +280,23 @@ display: block;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git push origin main
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>确保我们推送成功后，我们会在 &lt;code>Actions&lt;/code> 中自动的将代码 build 成 GitHub Pages 需要的文件，可以检查 &lt;code>workflow&lt;/code> 是否成功运行。&lt;/p>
 &lt;p>如果 &lt;code>Actions&lt;/code> 运行成功的话，我们会有一个新的分支叫做 &lt;code>gh-pages&lt;/code>。这时候我们去仓库的设置中心 &lt;code>Settings&lt;/code> ，选择 &lt;code>Pages&lt;/code> ，之后将 &lt;code>Build and deployment&lt;/code> -&amp;gt; &lt;code>Source&lt;/code> 选择 &lt;code>Deploy from a branch&lt;/code>。后面的 &lt;code>Branch&lt;/code> 选择 &lt;code>gh-pages&lt;/code> 即可配置成功。&lt;/p>
-&lt;p>&lt;img alt="nsrExo" src="https://hidlestone.github.io/images/artifact/%E5%A6%82%E4%BD%95%2030%20%E5%88%86%E9%92%9F%E6%90%AD%E5%BB%BA%E4%B8%80%E5%A5%97%E5%AE%8C%E6%95%B4%E7%8B%AC%E7%AB%8B%E5%8D%9A%E5%AE%A2/02.png">&lt;/p>
+&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/artifact/%e5%a6%82%e4%bd%95%2030%20%e5%88%86%e9%92%9f%e6%90%ad%e5%bb%ba%e4%b8%80%e5%a5%97%e5%ae%8c%e6%95%b4%e7%8b%ac%e7%ab%8b%e5%8d%9a%e5%ae%a2/02.png" alt="nsrExo" loading="lazy" />
+&lt;figcaption>nsrExo&lt;/figcaption>
+&lt;/figure>
+&lt;/p>
 &lt;p>这个时候，选择上方的 &lt;code>Visit site&lt;/code> 或者手动输入 &lt;code>https://username.github.io&lt;/code> 即可访问成功！ 🎉🎉🎉&lt;/p></description></item><item><title>如何免费搭建的 umami</title><link>https://hidlestone.github.io/blog/artifact/%E5%A6%82%E4%BD%95%E5%85%8D%E8%B4%B9%E6%90%AD%E5%BB%BA%E7%9A%84-umami/</link><pubDate>Wed, 01 Apr 2026 19:00:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/artifact/%E5%A6%82%E4%BD%95%E5%85%8D%E8%B4%B9%E6%90%AD%E5%BB%BA%E7%9A%84-umami/</guid><description>&lt;p>本篇文章介绍如何零成本给博客或者网站集成 &lt;a href="https://umami.is/">umami&lt;/a> 统计功能。数据库用的是 &lt;a href="https://app.supabase.com/">supabase&lt;/a> 提供的有限额的 &lt;a href="https://supabase.com/docs/guides/database">postgres&lt;/a>，不过免费提供的 500M 对于 &lt;a href="https://umami.is/">umami&lt;/a> 来讲已经足够了。&lt;/p>
 &lt;p>托管 &lt;a href="https://umami.is/">umami&lt;/a> 服务用的是 &lt;a href="https://vercel.com/">vercel&lt;/a>。得益于现在的云厂商优秀的服务能力，你可以在 10 分钟内集成好 &lt;em>umami&lt;/em>。可以点击 &lt;a href="https://umami-ochre-nu.vercel.app/share/o3zAba1V/guangzhengli">数据统计看板&lt;/a> 查看最终效果。&lt;/p>
 &lt;h2 id="创建数据库">创建数据库&lt;/h2>&lt;p>数据库用的是 &lt;a href="https://app.supabase.com/">supabase&lt;/a> 提供的有限额的 &lt;a href="https://supabase.com/docs/guides/database">postgres&lt;/a> 数据库，创建一个 supabase 账号，新建一个项目，输入 Datebase password 即可创建数据库服务。&lt;/p>
-&lt;p>&lt;img src="https://hidlestone.github.io/images/artifact/%E5%A6%82%E4%BD%95%E5%85%8D%E8%B4%B9%E6%90%AD%E5%BB%BA%E7%9A%84%20umami/01.png">&lt;/p>
+&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/artifact/%e5%a6%82%e4%bd%95%e5%85%8d%e8%b4%b9%e6%90%ad%e5%bb%ba%e7%9a%84%20umami/01.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>创建可能会话费几分钟时间，创建完成后只需要拿到 &lt;code>DATABASE_URL&lt;/code> 即可。&lt;/p>
-&lt;p>&lt;img src="https://hidlestone.github.io/images/artifact/%E5%A6%82%E4%BD%95%E5%85%8D%E8%B4%B9%E6%90%AD%E5%BB%BA%E7%9A%84%20umami/02.png">&lt;/p>
+&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/artifact/%e5%a6%82%e4%bd%95%e5%85%8d%e8%b4%b9%e6%90%ad%e5%bb%ba%e7%9a%84%20umami/02.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h2 id="托管-umami">托管 umami&lt;/h2>&lt;p>托管 &lt;a href="https://umami.is/">umami&lt;/a> 服务用的是 &lt;a href="https://vercel.com/">vercel&lt;/a>。创建好数据库实例之后，可以通过 Vercel 一键部署 umami 服务了。访问 &lt;a href="https://umami.is/">umami 官方文档&lt;/a> 的 &lt;a href="https://umami.is/docs/running-on-vercel">Running on Vercel&lt;/a> 模块，有操作说明与一键部署脚本。&lt;/p>
 &lt;p>首先我们登录 GitHub 账号， &lt;code>fork&lt;/code> umami (&lt;a href="https://github.com/umami-software/umami">https://github.com/umami-software/umami&lt;/a>) 项目。&lt;/p>
 &lt;p>登录 &lt;a href="https://vercel.com/">vercel&lt;/a> ，创建一个的账号，建议使用 GitHub 账号注册登录，在 &lt;code>new project&lt;/code> 中选择 &lt;code>import&lt;/code> 你刚刚 &lt;code>fork&lt;/code> 的项目。&lt;/p>
@@ -294,20 +307,32 @@ display: block;
 &lt;/ul>
 &lt;p>最后在 Build 阶段， &lt;code>build command&lt;/code> 记得填写 &lt;code>yarn build &amp;amp;&amp;amp; yarn update-db&lt;/code>，这样的话会自动 migrate 数据库的表。无需自己手动导入。&lt;/p>
 &lt;p>如果部署进程卡在数据库初始化阶段，可能是因为 &lt;a href="https://vercel.com/">vercel&lt;/a> 无法访问 &lt;a href="https://app.supabase.com/">supabase&lt;/a> 的 IPV6 地址，改成 IPV4 的连接串。并自己手动初始化数据库。&lt;/p>
-&lt;p>&lt;img src="https://hidlestone.github.io/images/artifact/%E5%A6%82%E4%BD%95%E5%85%8D%E8%B4%B9%E6%90%AD%E5%BB%BA%E7%9A%84%20umami/03.png">&lt;/p>
+&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/artifact/%e5%a6%82%e4%bd%95%e5%85%8d%e8%b4%b9%e6%90%ad%e5%bb%ba%e7%9a%84%20umami/03.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h2 id="配置-umami">配置 umami&lt;/h2>&lt;p>在 vercel 部署完成 umami 后会得到一个 &lt;code>&amp;lt;deploy-id&amp;gt;.vercel.app&lt;/code> ，我们访问它，默认的账号密码是 &lt;strong>admin&lt;/strong> 和 &lt;strong>umami&lt;/strong>。&lt;/p>
 &lt;p>完成基础帐号配置后，点击侧边栏网站 Tab，点击添加网站。填写网站基本信息，可以勾选 &lt;code>enable share URL&lt;/code>，这样任何人都可以访问这个数据看板。&lt;/p>
 &lt;p>我们拿到对应的 &lt;code>data-website-id&lt;/code> 和 &lt;code>src&lt;/code> ，填入主题配置中的 &lt;code>params.analytics.umami.website_id&lt;/code> 和 &lt;code>params.analytics.umami.url&lt;/code> 即可。&lt;/p>
-&lt;p>&lt;img src="https://hidlestone.github.io/images/artifact/%E5%A6%82%E4%BD%95%E5%85%8D%E8%B4%B9%E6%90%AD%E5%BB%BA%E7%9A%84%20umami/04.png">&lt;/p>
+&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/artifact/%e5%a6%82%e4%bd%95%e5%85%8d%e8%b4%b9%e6%90%ad%e5%bb%ba%e7%9a%84%20umami/04.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>最终，我们可以得到本站数据统计看板的功能🎉🎉🎉&lt;/p></description></item><item><title>Kafka 幂等和事务</title><link>https://hidlestone.github.io/blog/bigdata/kafka/15-kafka-%E5%B9%82%E7%AD%89%E5%92%8C%E4%BA%8B%E5%8A%A1/</link><pubDate>Fri, 06 May 2022 19:15:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/15-kafka-%E5%B9%82%E7%AD%89%E5%92%8C%E4%BA%8B%E5%8A%A1/</guid><description>&lt;h2 id="一幂等性">一、幂等性&lt;/h2>&lt;h3 id="11exactly-once">1.1、Exactly-Once&lt;/h3>&lt;p>保证在消息重发的时候，消费者不会重复处理。即使在消费者收到重复消息的时候，重复处理，也要保证最终结果的一致性。&lt;br>
 所谓幂等性，数学概念就是：&lt;code>f(f(x)) = f(x)&lt;/code> 。f 函数表示对消息的处理。 &lt;br>
 比如，银行转账，如果失败，需要重试。不管重试多少次，都要保证最终结果一定是一致的。&lt;br>
 &lt;code>Exactly-Once&lt;/code>：即精准一次，来保证幂等性。Exactly once 是 Kafka 从版本 &lt;code>0.11&lt;/code> 之后提供的高级特性。&lt;/p>
 &lt;h3 id="12为什么需要幂等性">1.2、为什么需要幂等性&lt;/h3>&lt;p>在使用 Kafka 时，需要确保 &lt;code>Exactly-Once&lt;/code> 语义。分布式系统中，一些不可控因素有很多，比如网络、OOM、FullGC 等。在 Kafka Broker 确认 Ack 前，有可能出现网络异常、FullGC、OOM 等问题时导致 Ack 超时，Producer 会进行重复发送。注，在未达到最大重试次数前，会自动重试（非应用程序代码写的重试）。&lt;br>
 Kafka 在引入幂等性之前，Producer 向 Broker 发送消息，然后 Broker 将消息追加到消息流中后给 Producer 返回 Ack 信号值。实现流程如下： &lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E5%B9%82%E7%AD%89%E5%92%8C%E4%BA%8B%E5%8A%A1/3276783756.png"> &lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e5%b9%82%e7%ad%89%e5%92%8c%e4%ba%8b%e5%8a%a1/3276783756.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 生产中，会出现各种不确定的因素，比如在 Producer 在发送给 Broker 的时候出现网络异常。比如以下这种异常情况的出现：&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E5%B9%82%E7%AD%89%E5%92%8C%E4%BA%8B%E5%8A%A1/2328665017.png">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e5%b9%82%e7%ad%89%e5%92%8c%e4%ba%8b%e5%8a%a1/2328665017.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 上图这种情况，当 Producer 第一次发送消息给 Broker 时，Broker 将消息 (x2,y2) 追加到了消息流中，但是在返回 Ack 信号给 Producer 时失败了（比如网络异常） 。此时，Producer 端触发重试机制，将消息 (x2,y2) 重新发送给 Broker，Broker 接收到消息后，再次将该消息追加到消息流中，然后成功返回 Ack 信号给 Producer。这样下来，消息流中就被重复追加了两条相同的 (x2,y2) 的消息。&lt;br>
 因此需要保证幂等性保证即使多次发送也要让最终的结果一样。&lt;/p>
 &lt;h3 id="13如何实现幂等性">1.3、如何实现幂等性&lt;/h3>&lt;p>Kafka 在 0.11.0.0 之后加入的幂等性。他是通过添加唯一 ID，类似于数据库的主键，用于唯一标记一个消息。它在底层设计架构中引入了 &lt;code>ProducerID&lt;/code> 和 &lt;code>SequenceNumber&lt;/code>。&lt;/p>
@@ -316,7 +341,9 @@ Kafka 在引入幂等性之前，Producer 向 Broker 发送消息，然后 Broke
 &lt;li>&lt;code>SequenceNumber&lt;/code>：对于每个 ProducerID，Producer 发送数据的每个 Topic 和 Partition 都对应一个从 0 开始单调递增的 SequenceNumber 值。&lt;/li>
 &lt;/ul>
 &lt;p>同样，下图一种理想状态下的发送流程。实际情况下，会有很多不确定的因素，比如 Broker 在发送 Ack 信号给 Producer 时出现网络异常，导致发送失败。异常情况如下图所示： &lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E5%B9%82%E7%AD%89%E5%92%8C%E4%BA%8B%E5%8A%A1/2640225648.png">
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e5%b9%82%e7%ad%89%e5%92%8c%e4%ba%8b%e5%8a%a1/2640225648.png" alt="" loading="lazy" />
+&lt;/figure>
 &lt;em>当 Producer 发送消息 (x2,y2) 给 Broker 时，Broker 接收到消息并将其追加到消息流中。此时，Broker 返回 Ack 信号给 Producer 时，发生异常导致 Producer 接收 Ack 信号失败。对于 Producer 来说，会触发重试机制，将消息 (x2,y2) 再次发送，但是，由于引入了幂等性，在每条消息中附带了 PID（ProducerID）和 SequenceNumber。相同的 PID 和 SequenceNumber 发送给 Broker，而之前 Broker 缓存过之前发送的相同的消息，那么在消息流中的消息就只有一条 (x2,y2)，不会出现重复发送的情况。&lt;/em>&lt;/p>
 &lt;h3 id="14使用幂等">1.4、使用幂等&lt;/h3>&lt;p>通过如下配置使用幂等：&lt;/p>
 &lt;ul>
@@ -378,7 +405,10 @@ Transaction Log 的设计与 Offset Log 用于保存 Consumer 的 Offset 类似�
 对于 Producer 端事务，Kafka 以 Control Message 的形式引入一系列的 Transaction Marker。Consumer 即可通过该标记判定对应的消息被 Commit 了还是 Abort 了，然后结合该 Consumer 配置的隔离级别决定是否应该将该消息返回给应用程序。&lt;br>
 Kafka 事务的回滚，并不是删除已写入的数据，而是将写入数据的事务标记为 Rollback/Abort 从而在读数据时过滤该数据。&lt;/p>
 &lt;h3 id="24事务流程">2.4、事务流程&lt;/h3>&lt;p>事务原理流程如下：
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E5%B9%82%E7%AD%89%E5%92%8C%E4%BA%8B%E5%8A%A1/2400131821.png"> &lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e5%b9%82%e7%ad%89%e5%92%8c%e4%ba%8b%e5%8a%a1/2400131821.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 上图中的 Transaction Coordinator 运行在 Kafka 服务端，下面简称 TC 服务。&lt;br>
 __transaction_state 是 TC 服务持久化事务信息的 topic 名称，下面简称事务 topic。&lt;br>
 Producer 向 TC 服务发送的 commit 消息，下面简称事务提交消息。&lt;br>
@@ -398,7 +428,10 @@ TC 服务收到事务提交请求后，会先将提交信息先持久化到事�
 在一般的二阶段提交中，协调者需要收到所有参与者的响应后，才能判断此事务是否成功，最后才将结果返回给客户。那如果 TC 服务在发送响应给 Producer 后，还没来及向分区发送请求就挂掉了，那么 Kafka 是如何保证事务完成。因为每次事务的信息都会持久化，所以 TC 服务挂掉重新启动后，会先从 事务 topic 加载事务信息，如果发现只有事务提交信息，却没有后来的事务完成信息，说明存在事务结果信息没有提交到分区。&lt;/p>
 &lt;p>6、发送事务结果信息给分区&lt;br>
 后台线程会不停的从队列里，拉取请求并且发送到分区。当一个分区收到事务结果消息后，会将结果保存到分区里，并且返回成功响应到 TC 服务。当 TC 服务收到所有分区的成功响应后，会持久化一条事务完成的消息到事务 topic。至此，一个完整的事务流程就完成了。&lt;/p>
-&lt;h3 id="25事务原理">2.5、事务原理&lt;/h3>&lt;p>&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E5%B9%82%E7%AD%89%E5%92%8C%E4%BA%8B%E5%8A%A1/587810122.png">&lt;/p>
+&lt;h3 id="25事务原理">2.5、事务原理&lt;/h3>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e5%b9%82%e7%ad%89%e5%92%8c%e4%ba%8b%e5%8a%a1/587810122.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h4 id="251findcoordinatorrequest">2.5.1、FindCoordinatorRequest&lt;/h4>&lt;p>对应图中的 1。&lt;br>
 由于 Transaction Coordinator 是分配 PID 和管理事务的核心，因此 Producer 要做的第一件事情就是通过向任意一个 Broker 发送 FindCoordinator 请求找到 Transaction Coordinator 的位置。&lt;br>
 注意：只有应用程序为 Producer 配置了 Transaction ID 时才可使用事务特性，也才需要这一步。另外，由于事务性要求 Producer 开启幂等特性，因此通过将 transactional.id 设置为非空从而开启事务特性的同时也需要通过将 enable.idempotence 设置为 true 来开启幂等特性。&lt;br>
@@ -447,7 +480,10 @@ Kafka 事务特性通过 transaction-id 属性来解决僵尸实例问题。所�
 准备阶段 又称投票阶段。在这一阶段，协调者询问所有参与者是否准备好提交，参与者如果已经准备好提交则回复 Prepared，否则回复 Non-Prepared。&lt;br>
 提交阶段 又称执行阶段。协调者如果在上一阶段收到所有参与者回复的 Prepared，则在此阶段向所有参与者发送 commit 指令，所有参与者立即执行 commit 操作；否则协调者向所有参与者发送 rollback 指令，参与者立即执行 rollback 操作。&lt;br>
 两阶段提交中，协调者和参与方的交互过程如下图所示：&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E5%B9%82%E7%AD%89%E5%92%8C%E4%BA%8B%E5%8A%A1/1516075235.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e5%b9%82%e7%ad%89%e5%92%8c%e4%ba%8b%e5%8a%a1/1516075235.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h4 id="272kafka-两阶段提交对比">2.7.2、Kafka 两阶段提交对比&lt;/h4>&lt;p>Kafka 的事务机制与上述所介绍的两阶段提交机制看似相似，都分 PREPARE 阶段和最终 COMMIT 阶段，但又有很大不同。&lt;/p>
 &lt;ul>
 &lt;li>Kafka 事务机制中，PREPARE 时即要指明是 PREPARE_COMMIT 还是 PREPARE_ABORT，并且 只须在 Transaction Log 中标记即可 ，无须其它组件参与。而两阶段提交的 PREPARE 需要发送给所有的分布式事务参与方，并且事务参与方需要尽可能准备好，并根据准备情况返回 Prepared 或 Non-Prepared 状态给事务管理器。&lt;/li>
@@ -643,7 +679,10 @@ void abortTransaction () throws ProducerFencedException;
 &lt;li>开启了事务的消费者，如果配置读隔离级别为 read-committed, 在内部会使用存储在目标 topic-partition 中的事务控制消息，来过滤掉没有提交的消息，包括回滚的消息和尚未提交的消息，从而确保只读到已提交的事务的 message；&lt;/li>
 &lt;li>开启了事务的消费者，过滤消息时，KAFKA consumer 不需要跟 transactional coordinator 进行 rpc 交互，因为 topic 中存储的消息，包括正常的数据消息和控制消息，包含了足够的元数据信息来支持消息过滤；&lt;/li>
 &lt;li>当然 kakfa 的 producer 和 consumer 是解耦的，你也可以使用非 transactional consumer 来消费 transactional producer 生产的消息，此时目标 topic-partition 中的所有消息都会被返回，不会进行过滤，此时也就丢失了事务 ACID 的支持；&lt;/li>
-&lt;/ul></description></item><item><title>Kafka 分区副本重分配、数据迁移、副本扩缩容</title><link>https://hidlestone.github.io/blog/bigdata/kafka/14-kafka-%E5%88%86%E5%8C%BA%E5%89%AF%E6%9C%AC%E9%87%8D%E5%88%86%E9%85%8D%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB%E5%89%AF%E6%9C%AC%E6%89%A9%E7%BC%A9%E5%AE%B9/</link><pubDate>Fri, 06 May 2022 19:14:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/14-kafka-%E5%88%86%E5%8C%BA%E5%89%AF%E6%9C%AC%E9%87%8D%E5%88%86%E9%85%8D%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB%E5%89%AF%E6%9C%AC%E6%89%A9%E7%BC%A9%E5%AE%B9/</guid><description>&lt;p>&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E5%88%86%E5%8C%BA%E5%89%AF%E6%9C%AC%E9%87%8D%E5%88%86%E9%85%8D%E3%80%81%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB%E3%80%81%E5%89%AF%E6%9C%AC%E6%89%A9%E7%BC%A9%E5%AE%B9/1237282311.png">&lt;/p>
+&lt;/ul></description></item><item><title>Kafka 分区副本重分配、数据迁移、副本扩缩容</title><link>https://hidlestone.github.io/blog/bigdata/kafka/14-kafka-%E5%88%86%E5%8C%BA%E5%89%AF%E6%9C%AC%E9%87%8D%E5%88%86%E9%85%8D%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB%E5%89%AF%E6%9C%AC%E6%89%A9%E7%BC%A9%E5%AE%B9/</link><pubDate>Fri, 06 May 2022 19:14:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/14-kafka-%E5%88%86%E5%8C%BA%E5%89%AF%E6%9C%AC%E9%87%8D%E5%88%86%E9%85%8D%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB%E5%89%AF%E6%9C%AC%E6%89%A9%E7%BC%A9%E5%AE%B9/</guid><description>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e5%88%86%e5%8c%ba%e5%89%af%e6%9c%ac%e9%87%8d%e5%88%86%e9%85%8d%e3%80%81%e6%95%b0%e6%8d%ae%e8%bf%81%e7%a7%bb%e3%80%81%e5%89%af%e6%9c%ac%e6%89%a9%e7%bc%a9%e5%ae%b9/1237282311.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h2 id="一脚本的使用介绍">一、脚本的使用介绍&lt;/h2>&lt;p>该脚本是 kafka 提供用来重新分配分区的脚本工具；&lt;/p>
 &lt;h3 id="11生成推荐配置脚本">1.1、生成推荐配置脚本&lt;/h3>&lt;p>关键参数 &lt;code>--generate&lt;/code>。
 在进行分区副本重分配之前，最好是用下面方式获取一个合理的分配文件；
@@ -798,18 +837,27 @@ A comma separated list of directories under which to store log fileslog.dirs=kaf
 &lt;li>&lt;code>Broker&lt;/code>：一台 Kafka 服务器就是一个 Broker，一个 Kafka 集群由多个 Broker 组成。&lt;/li>
 &lt;li>&lt;code>Controller&lt;/code>：Kafka 集群中的其中一台 Broker，负责集群中的成员管理和 Topic 管理。&lt;/li>
 &lt;li>&lt;code>Zookeeper&lt;/code>：Kafka 集群通过外部的 Zookeeper 来协调管理节点角色，存储集群的元数据信息。不过在 Kafka 2.8 版本开始可以不用 Zookeeper 作为依赖组件了，官网把这种模式称为 KRaft 模式，Kafka 使用的内置共识机制进行集群选举并且将元数据信息保存在 Kafka 集群中。
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/1859747266.png">&lt;/li>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e9%9b%86%e7%be%a4%e9%83%a8%e7%bd%b2/1859747266.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/li>
 &lt;/ul>
 &lt;p>在 Kafka 中，副本（Replica） 分成两类：&lt;code>领导者副本（Leader Replica）&lt;/code>和&lt;code>追随者副本（Follower Replica）&lt;/code>。&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>Leader Replica&lt;/code>：每个分区在创建时都要选举一个副本，称为 Leader 副本，其余的副本称为 Follower 副本。&lt;/li>
 &lt;li>&lt;code>Follower Replica&lt;/code>：从 Leader 副本中实时同步数据，当 Leader 副本发生故障时，某个 Follower 副本会提升为 Leader。在 Kafka 中，Follower 副本是不对外提供服务的。也就是说，只有 Leader 副本才可以响应消费者和生产者的读写请求。
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/3942751132.png">&lt;/li>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e9%9b%86%e7%be%a4%e9%83%a8%e7%bd%b2/3942751132.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/li>
 &lt;li>&lt;code>Record&lt;/code>：Kafka 是消息引擎，这里的消息就是指 Kafka 处理的主要对象。&lt;/li>
 &lt;li>&lt;code>Topic&lt;/code>：主题是承载消息的逻辑容器，在实际使用中多用来区分具体的业务。&lt;/li>
 &lt;li>&lt;code>Consumer Offset&lt;/code>：消费者位移，表示消费者的消费进度，每个消费者都有自己的消费者位移。&lt;/li>
 &lt;li>&lt;code>Rebalance&lt;/code>：重平衡，消费者组内某个消费者实例挂掉后，其他消费者实例自动重新分配订阅主题分区的过程。Rebalance 是 Kafka 消费者端实现高可用的重要手段。
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/2976125112.png">&lt;/li>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e9%9b%86%e7%be%a4%e9%83%a8%e7%bd%b2/2976125112.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/li>
 &lt;/ul>
 &lt;h2 id="二集群容量预估">二、集群容量预估&lt;/h2>&lt;p>假设 Kafka 集群每日需要承载 10 亿条数据，每条数据的大小大概是 10 KB，一天的数据总量约等于 10 TB。
 为了数据的可靠性保证，我们设置 3 副本，每天的数据量为 10 * 3 = 30 TB。
@@ -846,7 +894,10 @@ ulimit -n 100000
 &lt;/code>&lt;/pre>&lt;h3 id="42线程数">4.2、线程数&lt;/h3>&lt;p>Kafka 中主要有以下几类线程：&lt;/p>
 &lt;ul>
 &lt;li>Kafka 在网络层采用的是 &lt;code>Reactor 模式&lt;/code>，是一种基于事件驱动的模式。其中有 3 种线程：
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2/1962620516.png%C2%B7">&lt;/li>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e9%9b%86%e7%be%a4%e9%83%a8%e7%bd%b2/1962620516.png%c2%b7" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/li>
 &lt;li>&lt;code>Acceptor 线程&lt;/code>：1 个接收线程，负责监听新的连接请求，同时注册 OP_ACCEPT 事件，将新的连接按照轮询的方式交给对应的 Processor 线程处理。&lt;/li>
 &lt;li>&lt;code>Processor 线程&lt;/code>：N 个 处理器线程，其中每个 Processor 都有自己的 selector，它会向 Acceptor 分配的 SocketChannel 注册相应的 OP_READ 事件，N 的大小由 num.networker.threads 参数决定。&lt;/li>
 &lt;li>&lt;code>KafkaRequestHandler 线程&lt;/code>：M 个 请求处理线程，职责是从 requestChannel 中的 requestQueue 取出 Request，处理以后再将 Response 添加到 requestChannel 中的 ResponseQueue 中。M 的大小由 num.io.threads 参数决定；&lt;/li>
@@ -1111,7 +1162,10 @@ kafka.eagle.password=123456
 &lt;/code>&lt;/pre>&lt;h3 id="615启动-kafka-eagle">6.1.5、启动 Kafka Eagle&lt;/h3>&lt;p>使用以下命令启动 Kafka Eagle：&lt;/p>
 &lt;pre tabindex="0">&lt;code>bin/ke.sh start
 &lt;/code>&lt;/pre>&lt;p>在浏览器输入 &lt;code>http://192.168.1.6:8048&lt;/code> 访问 Kafka Eagle 页面，用户名 admin，密码 123456。&lt;/p></description></item><item><title>Kafka 数据迁移</title><link>https://hidlestone.github.io/blog/bigdata/kafka/12-kafka-%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB/</link><pubDate>Fri, 06 May 2022 19:12:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/12-kafka-%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB/</guid><description>&lt;p>两种迁移场景，分别是：同集群数据迁移、跨集群数据迁移。
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB/236880281.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%95%b0%e6%8d%ae%e8%bf%81%e7%a7%bb/236880281.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h2 id="一同集群迁移">一、同集群迁移&lt;/h2>&lt;p>同集群之间数据迁移，比如在已有的集群中新增了一个 Broker 节点，此时需要将原来集群中已有的 Topic 的数据迁移部分到新的集群中，缓解集群压力。
 将新的节点添加到 Kafka 集群很简单，只需为它们分配一个唯一的 Broker ID，并在新服务器上启动 Kafka。但是，这些新服务器节点不会自动分配任何数据分区，因此除非将分区移动到新增的节点，否则在创建新 Topic 之前新节点不会执行任何操作。因此，通常在将新服务器节点添加到 Kafka 集群时，需要将一些现有数据迁移到这些新的节点。
 迁移数据的过程是手动启动的，执行过程是完全自动化的。在 Kafka 后台服务中，Kafka 将添加新服务器作为其正在迁移的分区的 Follower，并允许新增节点完全复制该分区中的现有数据。当新服务器节点完全复制此分区的内容并加入同步副本（ISR）时，其中一个现有副本将删除其分区的数据。
@@ -1132,10 +1186,19 @@ Kafka 系统提供了一个分区重新分配工具 &lt;code>kafka-reassign-part
 &lt;/code>&lt;/pre>&lt;p>准备好 JSON 文件，然后使用分区重新分配工具生成候选分配，命令如下：&lt;/p>
 &lt;pre tabindex="0">&lt;code>&amp;gt; bin/kafka-reassign-partitions.sh --zookeeper dn1:2181 --topics-to-move-json-file topics-to-move.json --broker-list &amp;#34;1,2&amp;#34; --generate
 &lt;/code>&lt;/pre>&lt;p>执行命名之前，Topic（ke01、ke02）的分区如下图所示：&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB/4179377907.png">&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB/3457048679.png">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%95%b0%e6%8d%ae%e8%bf%81%e7%a7%bb/4179377907.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%95%b0%e6%8d%ae%e8%bf%81%e7%a7%bb/3457048679.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 执行完成命令之后，控制台出现如下信息：&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB/3336786723.png">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%95%b0%e6%8d%ae%e8%bf%81%e7%a7%bb/3336786723.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 该工具生成一个候选分配，将所有分区从 Topic ke01，ke02 移动到 Broker1 和 Broker2。需求注意的是，此时分区移动尚未开始，它只是告诉你当前的分配和建议。保存当前分配，以防你想要回滚它。新的赋值应保存在 JSON 文件（例如 &lt;code>expand-cluster-reassignment.json&lt;/code>）中，以使用 &lt;code>--execute&lt;/code> 选项执行。JSON 文件如下：&lt;/p>
 &lt;pre tabindex="0">&lt;code>{&amp;#34;version&amp;#34;:1,&amp;#34;partitions&amp;#34;:[{&amp;#34;topic&amp;#34;:&amp;#34;ke02&amp;#34;,&amp;#34;partition&amp;#34;:0,&amp;#34;replicas&amp;#34;:[2]},{&amp;#34;topic&amp;#34;:&amp;#34;ke02&amp;#34;,&amp;#34;partition&amp;#34;:1,&amp;#34;replicas&amp;#34;:[1]},{&amp;#34;topic&amp;#34;:&amp;#34;ke02&amp;#34;,&amp;#34;partition&amp;#34;:2,&amp;#34;replicas&amp;#34;:[2]},{&amp;#34;topic&amp;#34;:&amp;#34;ke01&amp;#34;,&amp;#34;partition&amp;#34;:0,&amp;#34;replicas&amp;#34;:[2]},{&amp;#34;topic&amp;#34;:&amp;#34;ke01&amp;#34;,&amp;#34;partition&amp;#34;:1,&amp;#34;replicas&amp;#34;:[1]},{&amp;#34;topic&amp;#34;:&amp;#34;ke01&amp;#34;,&amp;#34;partition&amp;#34;:2,&amp;#34;replicas&amp;#34;:[2]}]}
 &lt;/code>&lt;/pre>&lt;p>执行命令如下所示：&lt;/p>
@@ -1143,10 +1206,17 @@ Kafka 系统提供了一个分区重新分配工具 &lt;code>kafka-reassign-part
 &lt;/code>&lt;/pre>&lt;p>最后，&lt;code>--verify&lt;/code> 选项可与该工具一起使用，以检查分区重新分配的状态。需要注意的是，相同的 &lt;code>expand-cluster-reassignment.json&lt;/code>（与 &lt;code>--execute&lt;/code> 选项一起使用）应与 &lt;code>--verify&lt;/code> 选项一起使用，执行命令如下：&lt;/p>
 &lt;pre tabindex="0">&lt;code>&amp;gt; ./kafka-reassign-partitions.sh --zookeeper dn1:2181 --reassignment-json-file expand-cluster-reassignment.json --verify
 &lt;/code>&lt;/pre>&lt;p>执行结果如下图所示：
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB/1335659446.png">
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%95%b0%e6%8d%ae%e8%bf%81%e7%a7%bb/1335659446.png" alt="" loading="lazy" />
+&lt;/figure>
 同时，可以通过 Kafka Eagle 工具来查看 Topic 的分区情况。
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB/2658924769.png">
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB/2188894859.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%95%b0%e6%8d%ae%e8%bf%81%e7%a7%bb/2658924769.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%95%b0%e6%8d%ae%e8%bf%81%e7%a7%bb/2188894859.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h2 id="二跨集群迁移">二、跨集群迁移&lt;/h2>&lt;p>这里跨集群迁移，指的是在 Kafka 多个集群之间复制数据 “镜像” 的过程，以避免与单个集群中的节点之间发生的复制混淆。 Kafka 附带了一个用于在 Kafka 集群之间镜像数据的工具。该工具从源集群使用并生成到目标集群。这种镜像的一个常见用例是在另一个数据中心提供副本。
 另外，你可以运行许多此类镜像进程以提高吞吐量和容错（如果一个进程终止，其他进程将占用额外负载）。将从源集群中的 Topic 读取数据，并将其写入目标集群中具有相同名称的主题。事实上，“镜像” 数据只不过是一个 Kafka 将消费者和生产者联系在了一起。
 源集群和目标集群是完全独立的实体，它们可以具有不同数量的分区，并且偏移量将不相同。出于这个原因，镜像集群并不是真正意图作为容错机制（因为消费者的位置会有所不同）; 为此，建议使用正常的集群内复制。但是，镜像进程将保留并使用消息 Key 进行分区，因此可以按 Key 保留顺序。
@@ -1647,15 +1717,27 @@ props.put (&amp;#34;sasl.jaas.config&amp;#34;, &amp;#34;org.apache.kafka.common.
 &lt;p>根据不同的系统下载对应的版本。&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ find ./libs/ -name *kafka_* | head -1 | grep -o &amp;#39;kafka[^ ]*&amp;#39;
 kafka_2.12-3.0.0.jar
-&lt;/code>&lt;/pre>&lt;h2 id="二简单使用">二、简单使用&lt;/h2>&lt;h3 id="21连接kafka">2.1、连接kafka&lt;/h3>&lt;p>&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Tool/361536086.png">&lt;br>
+&lt;/code>&lt;/pre>&lt;h2 id="二简单使用">二、简单使用&lt;/h2>&lt;h3 id="21连接kafka">2.1、连接kafka&lt;/h3>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Tool/361536086.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 设置完了，点击Test测试是否能连接，连接通了，然后点击Add，添加完成设置。出现如下界面。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Tool/3607069045.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Tool/3607069045.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h3 id="22简单使用">2.2、简单使用&lt;/h3>&lt;p>配置以字符串的形式显示kafka消息体，Tools -&amp;gt; Setting -&amp;gt; Topics，把Key、Message的Byte Array改成String，点ok。&lt;br>
 或者通过如下界面配置。 &lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Tool/1084560442.png">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Tool/1084560442.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 注释：更改完Content Types，要点击Update和Refresh按钮。 &lt;br>
 再次查看kafka的数据： &lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Tool/3919095670.png">&lt;/p></description></item><item><title>Kafka 有序性</title><link>https://hidlestone.github.io/blog/bigdata/kafka/07-kafka-%E6%9C%89%E5%BA%8F%E6%80%A7/</link><pubDate>Fri, 06 May 2022 19:07:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/07-kafka-%E6%9C%89%E5%BA%8F%E6%80%A7/</guid><description>&lt;p>如何保障kafka消费的顺序性，宗旨就是通过将消息绑定到定向的分区或者队列来保证顺序性，通过增加分区或者线程来提升消费能力。&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Tool/3919095670.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p></description></item><item><title>Kafka 有序性</title><link>https://hidlestone.github.io/blog/bigdata/kafka/07-kafka-%E6%9C%89%E5%BA%8F%E6%80%A7/</link><pubDate>Fri, 06 May 2022 19:07:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/07-kafka-%E6%9C%89%E5%BA%8F%E6%80%A7/</guid><description>&lt;p>如何保障kafka消费的顺序性，宗旨就是通过将消息绑定到定向的分区或者队列来保证顺序性，通过增加分区或者线程来提升消费能力。&lt;/p>
 &lt;h2 id="一生产者">一、生产者&lt;/h2>&lt;p>要保证生产者发消息发的是顺序性的消息，发消息的时候指定一下key相同的key会发送到一个分区中，而分区时有序的在发消息的时候多个操作（下单，支付）保证顺序的话，保证这些操作在一个topic下的同一个分区，发送的时候指定key相同的key会去到同一个分区中，&lt;code>kafkaTemplate.send（topic,partition,key,data）&lt;/code>有参数可以指定key。意思就是保证发消息的时候有序，发到同一个分区中，那么消费的时候也是有序的，因为分区可以理解为一个队列，消息先进先出。&lt;/p>
 &lt;p>当有消息被生产出来的时候，如果没有指定分区或者指定 key ，那么消费会按照【轮询】的方式均匀地分配到所有可用分区中，但不一定按照分区顺序来分配。 &lt;br>
 在 Kafka 中消费者可以订阅一个或多个主题，并被分配一个或多个分区。&lt;br>
@@ -1778,7 +1860,10 @@ topic: &amp;ldquo;topic_query_p3r1&amp;rdquo; 分配了三个partition分区。&
 &lt;/details>
 &lt;/p>
 &lt;/p>
-&lt;h4 id="4多线程顺序消费">4、多线程顺序消费&lt;/h4>&lt;p>&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%9C%89%E5%BA%8F%E6%80%A7/2638899096.png">&lt;/p>
+&lt;h4 id="4多线程顺序消费">4、多线程顺序消费&lt;/h4>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%9c%89%e5%ba%8f%e6%80%a7/2638899096.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>&lt;p>
 &lt;details class="toggle">
 &lt;summary markdown="span">点击查看完整的 &lt;code>ShunXuConsumerMoreThread&lt;/code>&lt;/summary>
@@ -2169,7 +2254,9 @@ fi
 5255 Jps
 1931 QuorumPeerMain
 &lt;/code>&lt;/pre>&lt;p>（2）根据 Kafka 进程号，查看 Kafka 的 GC 情况。
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E7%94%9F%E4%BA%A7%E8%B0%83%E4%BC%98/912335366.png">
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e7%94%9f%e4%ba%a7%e8%b0%83%e4%bc%98/912335366.png" alt="" loading="lazy" />
+&lt;/figure>
 &lt;p>
 &lt;details class="toggle">
 &lt;summary markdown="span">点击查看完整的 &lt;code>参数说明&lt;/code>&lt;/summary>
@@ -2257,7 +2344,10 @@ read-only: Requires a broker restart for update
 per-broker: May be updated dynamically for each broker
 cluster-wide: May be updated dynamically as a cluster-wide default.
 May also be updated as a per-broker value for testing.
-&lt;/code>&lt;/pre>&lt;h3 id="21kafka-生产者核心参数配置">2.1、Kafka 生产者核心参数配置&lt;/h3>&lt;p>&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E7%94%9F%E4%BA%A7%E8%B0%83%E4%BC%98/842571481.png">&lt;/p>
+&lt;/code>&lt;/pre>&lt;h3 id="21kafka-生产者核心参数配置">2.1、Kafka 生产者核心参数配置&lt;/h3>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e7%94%9f%e4%ba%a7%e8%b0%83%e4%bc%98/842571481.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>参数：&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>bootstrap.servers&lt;/code>
@@ -2331,7 +2421,10 @@ May also be updated as a per-broker value for testing.
 允许最多没有返回 ack 的次数，默认为 5，开启幂等性要保证该值是 1-5 的数字。&lt;/li>
 &lt;/ul>
 &lt;h2 id="三kafka-broker">三、Kafka Broker&lt;/h2>&lt;h3 id="31broker-核心参数配置">3.1、Broker 核心参数配置&lt;/h3>&lt;p>Kafka Broker 总体工作流程
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E7%94%9F%E4%BA%A7%E8%B0%83%E4%BC%98/102901192.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e7%94%9f%e4%ba%a7%e8%b0%83%e4%bc%98/102901192.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>参数：&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>replica.lag.time.max.ms&lt;/code>
@@ -2427,8 +2520,13 @@ Kafka 中数据保存的时间，毫秒级别，默认关闭。&lt;/li>
 &lt;/code>&lt;/pre>&lt;h2 id="四kafka-消费者">四、Kafka 消费者&lt;/h2>&lt;h3 id="41kafka-消费者核心参数配置">4.1、Kafka 消费者核心参数配置&lt;/h3>&lt;h4 id="消费者组初始化流程">消费者组初始化流程&lt;/h4>&lt;p>1、coordinator：辅助实现消费者组的初始化和分区的分配。
 coordinator 节点选择 = groupid 的 hashcode 值 % 50（ __consumer_offsets 的分区数量）
 例如：groupid 的 hashcode 值 = 1，1% 50 = 1，那么__consumer_offsets 主题的 1 号分区，在哪个 broker 上，就选择这个节点的 coordinator 作为这个消费者组的老大。消费者组下的所有的消费者提交 offset 的时候就往这个分区去提交 offset。
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E7%94%9F%E4%BA%A7%E8%B0%83%E4%BC%98/4037098503.png">&lt;/p>
-&lt;h4 id="消费者组详细消费流程">消费者组详细消费流程&lt;/h4>&lt;p>&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E7%94%9F%E4%BA%A7%E8%B0%83%E4%BC%98/1664722549.png">
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e7%94%9f%e4%ba%a7%e8%b0%83%e4%bc%98/4037098503.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
+&lt;h4 id="消费者组详细消费流程">消费者组详细消费流程&lt;/h4>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e7%94%9f%e4%ba%a7%e8%b0%83%e4%bc%98/1664722549.png" alt="" loading="lazy" />
+&lt;/figure>
 参数：&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>bootstrap.servers&lt;/code>
@@ -2534,7 +2632,10 @@ ISR 里应答的最小副本数量大于等于 2 （min.insync.replicas = 2）�
 &lt;ul>
 &lt;li>生产者压测：&lt;code>kafka-producer-perf-test.sh&lt;/code>&lt;/li>
 &lt;li>消费者压测：&lt;code>kafka-consumer-perf-test.sh&lt;/code>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E7%94%9F%E4%BA%A7%E8%B0%83%E4%BC%98/560983446.png">&lt;/li>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e7%94%9f%e4%ba%a7%e8%b0%83%e4%bc%98/560983446.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/li>
 &lt;/ul>
 &lt;h4 id="2kafka-producer-压力测试">2）Kafka Producer 压力测试&lt;/h4>&lt;p>（1）创建一个 test topic，设置为 3 个分区 3 个副本&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ bin/kafka-topics.sh --bootstrapserver hadoop102:9092 --create --replication-factor 3 --partitions 3 --topic test
@@ -2607,18 +2708,36 @@ consumer 采用从 broker 中主动拉取数据。 Kafka 采用这种方式。&l
 &lt;code>push（推）模式&lt;/code>：&lt;br>
 Kafka 没有采用这种方式，因为由 broker 决定消息发送速率，很难适应所有消费者的消费速率。例如推送的速度是 50m/s， Consumer1、Consumer2 就来不及处理消息。&lt;br>
 pull 模式不足之处是，如果 Kafka 没有数据，消费者可能会陷入循环中，一直返回空数据。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/1720587587.png">&lt;/p>
-&lt;h2 id="二kafka-消费者工作流程">二、Kafka 消费者工作流程&lt;/h2>&lt;h3 id="21消费者总体工作流程">2.1、消费者总体工作流程&lt;/h3>&lt;p>&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/4077556611.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%b6%88%e8%b4%b9%e8%80%85/1720587587.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
+&lt;h2 id="二kafka-消费者工作流程">二、Kafka 消费者工作流程&lt;/h2>&lt;h3 id="21消费者总体工作流程">2.1、消费者总体工作流程&lt;/h3>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%b6%88%e8%b4%b9%e8%80%85/4077556611.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h3 id="22消费者组原理">2.2、消费者组原理&lt;/h3>&lt;p>&lt;code>Consumer Group（CG）&lt;/code>：消费者组，由多个 consumer 组成。形成一个消费者组的条件，是所有消费者的 groupid 相同。&lt;br>
 消费者组内每个消费者负责消费不同分区的数据，一个分区只能由一个组内消费者消费。&lt;br>
 消费者组之间互不影响。所有的消费者都属于某个消费者组，即消费者组是逻辑上的一个订阅者。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/177403972.png">&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/1014989795.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%b6%88%e8%b4%b9%e8%80%85/177403972.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%b6%88%e8%b4%b9%e8%80%85/1014989795.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h4 id="消费者组初始化流程">消费者组初始化流程&lt;/h4>&lt;p>&lt;code>coordinator&lt;/code>：辅助实现消费者组的初始化和分区的分配。 &lt;br>
 &lt;code>coordinator 节点选择 = groupid 的 hashcode 值 % 50 ( __consumer_offsets 的分区数量)&lt;/code> &lt;br>
 例如： groupid 的 hashcode 值 = 1，1% 50 = 1，那么__consumer_offsets 主题的 1 号分区，在哪个 broker 上，就选择这个节点的 coordinator 作为这个消费者组的老大。消费者组下的所有的消费者提交 offset 的时候就往这个分区去提交 offset。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/91361225.png">&lt;/p>
-&lt;h4 id="消费者组详细消费流程">消费者组详细消费流程&lt;/h4>&lt;p>&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/282034895.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%b6%88%e8%b4%b9%e8%80%85/91361225.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
+&lt;h4 id="消费者组详细消费流程">消费者组详细消费流程&lt;/h4>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%b6%88%e8%b4%b9%e8%80%85/282034895.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h3 id="23消费者重要参数">2.3、消费者重要参数&lt;/h3>&lt;ul>
 &lt;li>&lt;code>bootstrap.servers&lt;/code>&lt;br>
 向 Kafka 集群建立初始连接用到的 host/port 列表。&lt;/li>
@@ -2658,7 +2777,10 @@ Kafka 消费者和 coordinator 之间的心跳时间，默认 3s。 该条目的
 &lt;/ul>
 &lt;h2 id="三消费者-api">三、消费者 API&lt;/h2>&lt;h3 id="31独立消费者案例订阅主题">3.1、独立消费者案例（订阅主题）&lt;/h3>&lt;p>1）需求：
 创建一个独立消费者，消费 first 主题中数据。
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/777644585.png">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%b6%88%e8%b4%b9%e8%80%85/777644585.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 注意：在消费者 API 代码中必须配置消费者组 id。命令行启动消费者不填写消费者组 id 会被自动填写随机的消费者组 id。&lt;/p>
 &lt;p>2）实现&lt;br>
 &lt;p>
@@ -2717,7 +2839,10 @@ Kafka 消费者和 coordinator 之间的心跳时间，默认 3s。 该条目的
 &lt;/code>&lt;/pre>&lt;p>（3）在 IDEA 控制台观察接收到的数据。&lt;/p>
 &lt;pre tabindex="0">&lt;code>ConsumerRecord (topic = first, partition = 1, leaderEpoch = 3, offset = 0, CreateTime = 1629160841112, serialized key size = -1, serialized value size = 5, headers = RecordHeaders (headers = [], isReadOnly = false), key = null, value = hello)
 &lt;/code>&lt;/pre>&lt;h3 id="32独立消费者案例订阅分区">3.2、独立消费者案例（订阅分区）&lt;/h3>&lt;p>1）需求：创建一个独立消费者，消费 first 主题 0 号分区的数据。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/308206710.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%b6%88%e8%b4%b9%e8%80%85/308206710.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>2）实现&lt;br>
 &lt;p>
 &lt;details class="toggle">
@@ -2770,7 +2895,10 @@ first 0 382
 &lt;pre tabindex="0">&lt;code>ConsumerRecord (topic = first, partition = 0, leaderEpoch = 14, offset = 381, CreateTime = 1636791331386, serialized key size = 1, serialized value size = 9, headers = RecordHeaders (headers = [], isReadOnly = false), key = null, value = atguigu 0)
 ConsumerRecord (topic = first, partition = 0, leaderEpoch = 14, offset = 382, CreateTime = 1636791331397, serialized key size = 1, serialized value size = 9, headers = RecordHeaders (headers = [], isReadOnly = false), key = null, value = atguigu 1)
 &lt;/code>&lt;/pre>&lt;h3 id="33消费者组案例">3.3、消费者组案例&lt;/h3>&lt;p>1）需求：测试同一个主题的分区数据，只能由一个消费者组中的一个消费。 &lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/143287775.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%b6%88%e8%b4%b9%e8%80%85/143287775.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>2）案例&lt;br>
 （1）复制一份基础消费者的代码，在 IDEA 中同时启动，即可启动同一个消费者组中的两个消费者。
 &lt;p>
@@ -2821,7 +2949,10 @@ ConsumerRecord (topic = first, partition = 0, leaderEpoch = 14, offset = 382, Cr
 （3）重新发送到一个全新的主题中，由于默认创建的主题分区数为 1，可以看到只能有一个消费者消费到数据。&lt;/p>
 &lt;h2 id="四生产经验---分区的分配以及再平衡">四、生产经验 - 分区的分配以及再平衡&lt;/h2>&lt;p>1、一个 consumer group 中有多个 consumer 组成，一个 topic 有多个 partition 组成，现在的问题是，到底由哪个 consumer 来消费哪个 partition 的数据。&lt;br>
 2、Kafka 有四种主流的分区分配策略：&lt;code>Range、RoundRobin、Sticky、CooperativeSticky&lt;/code>。 可以通过配置参数 &lt;code>partition.assignment.strategy&lt;/code>，修改分区的分配策略。默认策略是 Range + CooperativeSticky。Kafka 可以同时使用 多个分区分配策略。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/2817688480.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%b6%88%e8%b4%b9%e8%80%85/2817688480.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>参数：&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>heartbeat.interval.ms&lt;/code>
@@ -2833,16 +2964,25 @@ Kafka 消费者和 coordinator 之间连接超时时间，默认 45s。超过该
 &lt;li>&lt;code>partition.assignment.strategy&lt;/code>
 消费者分区分配策略，默认策略是 Range CooperativeSticky。Kafka 可以同时使用多个分区分配策略。可以选择的策略包括：Range、RoundRobin、Sticky、CooperativeSticky&lt;/li>
 &lt;/ul>
-&lt;h3 id="41range-以及再平衡">4.1、Range 以及再平衡&lt;/h3>&lt;h4 id="411range-分区策略原理">4.1.1、Range 分区策略原理&lt;/h4>&lt;p>&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/996812145.png">&lt;/p>
+&lt;h3 id="41range-以及再平衡">4.1、Range 以及再平衡&lt;/h3>&lt;h4 id="411range-分区策略原理">4.1.1、Range 分区策略原理&lt;/h4>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%b6%88%e8%b4%b9%e8%80%85/996812145.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h4 id="412range-分区分配策略案例">4.1.2、Range 分区分配策略案例&lt;/h4>&lt;p>（1）修改主题 first 为 7 个分区。&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ bin/kafka-topics.sh --bootstrap-server hadoop102:9092 --alter --topic first --partitions 7
 &lt;/code>&lt;/pre>&lt;p>注意：分区数可以增加，但是不能减少。 &lt;br>
 （2）复制 CustomConsumer 类，创建 CustomConsumer2。这样可以由三个消费者 CustomConsumer、CustomConsumer1、CustomConsumer2 组成消费者组，组名都为 “test”，同时启动 3 个消费者。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/660467643.png"> &lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%b6%88%e8%b4%b9%e8%80%85/660467643.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 （3）启动 CustomProducer 生产者，发送 500 条消息，随机发送到不同的分区。 &lt;br>
 说明：Kafka 默认的分区分配策略就是 Range + CooperativeSticky，所以不需要修改策略。 &lt;br>
 （4）观看 3 个消费者分别消费哪些分区的数据。 &lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/1487651134.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%b6%88%e8%b4%b9%e8%80%85/1487651134.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h4 id="413range-分区分配再平衡案例">4.1.3、Range 分区分配再平衡案例&lt;/h4>&lt;p>（1）停止掉 0 号消费者，快速重新发送消息观看结果（45s 以内，越快越好） 。&lt;br>
 1 号消费者：消费到 3、4 号分区数据。&lt;br>
 2 号消费者：消费到 5、6 号分区数据。&lt;br>
@@ -2852,7 +2992,10 @@ Kafka 消费者和 coordinator 之间连接超时时间，默认 45s。超过该
 1 号消费者：消费到 0、1、2、3 号分区数据。&lt;br>
 2 号消费者：消费到 4、5、6 号分区数据。&lt;br>
 说明：消费者 0 已经被踢出消费者组，所以重新按照 range 方式分配。&lt;/p>
-&lt;h3 id="42roundrobin-以及再平衡">4.2、RoundRobin 以及再平衡&lt;/h3>&lt;h4 id="421roundrobin-分区策略原理">4.2.1、RoundRobin 分区策略原理&lt;/h4>&lt;p>&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/4117786651.png">&lt;/p>
+&lt;h3 id="42roundrobin-以及再平衡">4.2、RoundRobin 以及再平衡&lt;/h3>&lt;h4 id="421roundrobin-分区策略原理">4.2.1、RoundRobin 分区策略原理&lt;/h4>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%b6%88%e8%b4%b9%e8%80%85/4117786651.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h4 id="422roundrobin-分区分配策略案例">4.2.2、RoundRobin 分区分配策略案例&lt;/h4>&lt;p>（1）依次在 CustomConsumer、CustomConsumer1、CustomConsumer2 三个消费者代码中修改分区分配策略为 RoundRobin。&lt;/p>
 &lt;pre tabindex="0">&lt;code>// 修改分区分配策略
 properties.put (ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFI G, &amp;#34;org.apache.kafka.clients.consumer.RoundRobinAssignor&amp;#34;);
@@ -2888,7 +3031,10 @@ properties.put (ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, startegys);
 1 号消费者：消费到 2、3、5 号分区数据。 &lt;br>
 2 号消费者：消费到 0、1、4、6 号分区数据。 &lt;br>
 说明：消费者 0 已经被踢出消费者组，所以重新按照粘性方式分配。&lt;/p>
-&lt;h2 id="五offset-位移">五、offset 位移&lt;/h2>&lt;h3 id="51offset-的默认维护位置">5.1、offset 的默认维护位置&lt;/h3>&lt;p>&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/1512253725.png">&lt;br>
+&lt;h2 id="五offset-位移">五、offset 位移&lt;/h2>&lt;h3 id="51offset-的默认维护位置">5.1、offset 的默认维护位置&lt;/h3>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%b6%88%e8%b4%b9%e8%80%85/1512253725.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 &lt;code>__consumer_offsets&lt;/code> 主题里面采用 key 和 value 的方式存储数据。key 是 &lt;code>group.id+topic + 分区号&lt;/code>，value 就是当前 offset 的值。每隔一段时间，kafka 内部会对这个 topic 进行 compact，也就是每个 group.id+topic + 分区号就保留最新数据。&lt;/p>
 &lt;p>1）消费 offset 案例 &lt;br>
 （0）思想：__consumer_offsets 为 Kafka 中的 topic，那就可以通过消费者进行消费。 &lt;br>
@@ -2909,7 +3055,10 @@ properties.put (ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, startegys);
 &lt;ul>
 &lt;li>&lt;code>enable.auto.commit&lt;/code>：是否开启自动提交 offset 功能，默认是 true。&lt;/li>
 &lt;li>&lt;code>auto.commit.interval.ms&lt;/code>：自动提交 offset 的时间间隔，默认是 5。
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/1072239815.png">&lt;/li>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%b6%88%e8%b4%b9%e8%80%85/1072239815.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/li>
 &lt;/ul>
 &lt;p>1）消费者自动提交 offset
 &lt;p>
@@ -2970,7 +3119,10 @@ properties.put (ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, startegys);
 &lt;ul>
 &lt;li>&lt;code>commitSync&lt;/code>（同步提交）：必须等待 offset 提交完毕，再去消费下一批数据。&lt;/li>
 &lt;li>&lt;code>commitAsync&lt;/code>（异步提交） ：发送完提交 offset 请求后，就开始消费下一批数据了。
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/508283598.png">&lt;/li>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%b6%88%e8%b4%b9%e8%80%85/508283598.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/li>
 &lt;/ul>
 &lt;p>1）同步提交 offset
 由于同步提交 offset 有失败重试机制，故更加可靠，但是由于一直等待提交结果，提交的效率比较低。以下为同步提交 offset 的示例。
@@ -3085,7 +3237,10 @@ properties.put (ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, startegys);
 （1）&lt;code>earliest&lt;/code>：自动将偏移量重置为最早的偏移量，&amp;ndash;from-beginning。
 （2）&lt;code>latest&lt;/code>（默认值）：自动将偏移量重置为最新偏移量。
 （3）&lt;code>none&lt;/code>：如果未找到消费者组的先前偏移量，则向消费者抛出异常。
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/1504842196.png"> &lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%b6%88%e8%b4%b9%e8%80%85/1504842196.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 （4）任意指定 offset 位移开始消费
 &lt;p>
 &lt;details class="toggle">
@@ -3226,12 +3381,23 @@ properties.put (ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, startegys);
 &lt;h4 id="556漏消费和重复消费">5.5.6、漏消费和重复消费&lt;/h4>&lt;p>&lt;strong>重复消费&lt;/strong>：已经消费了数据，但是 offset 没提交。&lt;br>
 &lt;strong>漏消费&lt;/strong>：先提交 offset 后消费，有可能会造成数据的漏消费。&lt;br>
 （1）场景 1：重复消费。自动提交 offset 引起。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/3850766115.png">
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%b6%88%e8%b4%b9%e8%80%85/3850766115.png" alt="" loading="lazy" />
+&lt;/figure>
 （2）场景 1：漏消费。设置 offset 为手动提交，当 offset 被提交时，数据还在内存中未落盘，此时刚好消费者线程被 kill 掉，那么 offset 已经提交，但是数据未处理，导致这部分内存中的数据丢失。
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/1721658696.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%b6%88%e8%b4%b9%e8%80%85/1721658696.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h2 id="六生产经验--消费者事务">六、生产经验 —— 消费者事务&lt;/h2>&lt;p>如果想完成 Consumer 端的精准一次性消费，那么需要 Kafka 消费端将消费过程和提交 offset 过程做原子绑定。此时我们需要将 Kafka 的 offset 保存到支持事务的自定义介质（比如 MySQL）。
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/934150236.png">&lt;/p>
-&lt;h2 id="七生产经验--数据积压消费者如何提高吞吐量">七、生产经验 —— 数据积压（消费者如何提高吞吐量）&lt;/h2>&lt;p>&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%B6%88%E8%B4%B9%E8%80%85/2262795034.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%b6%88%e8%b4%b9%e8%80%85/934150236.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
+&lt;h2 id="七生产经验--数据积压消费者如何提高吞吐量">七、生产经验 —— 数据积压（消费者如何提高吞吐量）&lt;/h2>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%b6%88%e8%b4%b9%e8%80%85/2262795034.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>fetch.max.bytes&lt;/code>
 默认 Default: 52428800（50 m）。消费者获取服务器端一批 消息最大的字节数。如果服务器端一批次的数据大于该值（50m）仍然可以拉取回来这批数据，因此，这不是一个绝 对最大值。一批次的大小受 message.max.bytes （broker config）or max.message.bytes （topic config）影响。&lt;/li>
@@ -3242,8 +3408,14 @@ properties.put (ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, startegys);
 （2）通过 &lt;code>ls&lt;/code> 命令可以查看 kafka 相关信息。 &lt;br>
 &lt;code>ls /kafka&lt;/code>&lt;/p>
 &lt;p>Zookeeper 中存储的 Kafka 信息： &lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/3633241200.png">&lt;/p>
-&lt;h3 id="12kafka-broker-总体工作流程">1.2、Kafka Broker 总体工作流程&lt;/h3>&lt;p>&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/2031347543.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/3633241200.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
+&lt;h3 id="12kafka-broker-总体工作流程">1.2、Kafka Broker 总体工作流程&lt;/h3>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/2031347543.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h4 id="121模拟-kafka-上下线zookeeper-中数据变化">1.2.1、模拟 Kafka 上下线，Zookeeper 中数据变化&lt;/h4>&lt;p>（1）查看 &lt;code>/kafka/brokers/ids&lt;/code> 路径上的节点。&lt;/p>
 &lt;pre tabindex="0">&lt;code>[zk: localhost:2181 (CONNECTED) 2] ls /kafka/brokers/ids
 [0, 1, 2]
@@ -3409,7 +3581,10 @@ Clearing topic-level throttles on topic first
 &lt;/ul>
 &lt;h3 id="32leader-选举流程">3.2、Leader 选举流程&lt;/h3>&lt;p>Kafka 集群中有一个 broker 的 Controller 会被选举为 Controller Leader，负责管理集群 broker 的上下线，所有 topic 的分区副本分配和 Leader 选举等工作。&lt;br>
 Controller 的信息同步工作是依赖于 Zookeeper 的。 &lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/3898614053.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/3898614053.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>（1）创建一个新的 topic，4 个分区，4 个副本&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ bin/kafka-topics.sh --bootstrap-server hadoop102:9092 --create --topic atguigu1 --partitions 4 --replication-factor 4 Created topic atguigu1.
 &lt;/code>&lt;/pre>&lt;p>（2）查看 Leader 分布情况&lt;/p>
@@ -3437,21 +3612,33 @@ Controller 的信息同步工作是依赖于 Zookeeper 的。 &lt;br>
 （2） 这个期间 Leader 和 Follower 继续接收数据。&lt;br>
 （3）待该 Follower 恢复后，Follower 会读取本地磁盘记录的 上次的 HW，并将 log 文件高于 HW 的部分截取掉，从 HW 开始向 Leader 进行同步。&lt;br>
 （4）等该 Follower 的 LEO 大于等于该 Partition 的 HW，即 Follower 追上 Leader 之后，就可以重新加入 ISR 了。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/1629247809.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/1629247809.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h4 id="332leader-故障">3.3.2、Leader 故障&lt;/h4>&lt;p>（1） Leader 发生故障之后，会从 ISR 中选出一个新的 Leader&lt;br>
 （2）为保证多个副本之间的数据一致性，其余的 Follower 会先 将各自的 log 文件高于 HW 的部分截掉，然后从新的 Leader 同步数据。&lt;br>
 注意：这只能保证副本之间的数据一致性，并不能保证数据不丢失或者不重复。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/2591807754.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/2591807754.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h3 id="34分区副本分配">3.4、分区副本分配&lt;/h3>&lt;p>如果 kafka 服务器只有 4 个节点，那么设置 kafka 的分区数大于服务器台数，在 kafka 底层如何分配存储副本呢？&lt;/p>
 &lt;h4 id="341创建-16-分区3-个副本">3.4.1、创建 16 分区，3 个副本&lt;/h4>&lt;p>（1）创建一个新的 topic，名称为 second。&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ bin/kafka-topics.sh --bootstrap-server hadoop102:9092 --create --partitions 16 --replication-factor 3 -topic second
 &lt;/code>&lt;/pre>&lt;p>（2）查看分区和副本情况。&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ bin/kafka-topics.sh --bootstrap-server hadoop102:9092 --describe --topic second
 &lt;/code>&lt;/pre>&lt;p>分区副本分配&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/80394213.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/80394213.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h3 id="35生产经验---手动调整分区副本存储">3.5、生产经验 - 手动调整分区副本存储&lt;/h3>&lt;p>在生产环境中，每台服务器的配置和性能不一致，但是 Kafka 只会根据自己的代码规则创建对应的分区副本，就会导致个别服务器存储压力较大。所有需要手动调整分区副本的存储。&lt;br>
 需求：创建一个新的 topic，4 个分区，两个副本，名称为 three。将该 topic 的所有副本都存储到 broker0 和 broker1 两台服务器上。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/819339345.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/819339345.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>手动调整分区副本存储的步骤如下：&lt;br>
 （1）创建一个新的 topic，名称为 three。&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ bin/kafka-topics.sh --bootstrap-server hadoop102:9092 --create --partitions 4 --replication-factor 2 -topic three
@@ -3491,14 +3678,20 @@ Controller 的信息同步工作是依赖于 Zookeeper 的。 &lt;br>
 &lt;/code>&lt;/pre>&lt;p>（6）查看分区副本存储情况。&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ bin/kafka-topics.sh --bootstrap-server hadoop102:9092 --describe --topic three
 &lt;/code>&lt;/pre>&lt;h3 id="36生产经验---leader-partition-负载平衡">3.6、生产经验 - Leader Partition 负载平衡&lt;/h3>&lt;p>正常情况下，Kafka 本身会自动把 Leader Partition 均匀分散在各个机器上，来保证每台机器的读写吞吐量都是均匀的。但是如果某 些 broker 宕机，会导致 Leader Partition 过于集中在其他少部分几台 broker 上，这会导致少数几台 broker 的读写请求压力过高，其他宕机的 broker 重启之后都是 follower partition，读写请求很低，造成集群负载不均衡。
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/2674222894.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/2674222894.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>auto.leader.rebalance.enable&lt;/code>，默认是 true。 自动 Leader Partition 平衡&lt;/li>
 &lt;li>&lt;code>leader.imbalance.per.broker.percentage&lt;/code>， 默认是 10%。每个 broker 允许的不平衡的 leader 的比率。如果每个 broker 超过了这个值，控制器会触发 leader 的平衡。&lt;/li>
 &lt;li>&lt;code>leader.imbalance.check.interval.seconds&lt;/code>， 默认值 300 秒。检查 leader 负载是否平衡的间隔时间。&lt;/li>
 &lt;/ul>
 &lt;p>下面拿一个主题举例说明，假设集群只有一个主题如下图所示：&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/1264121858.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/1264121858.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;blockquote>
 &lt;p>针对 broker0 节点，分区 2 的 AR 优先副本是 0 节点，但是 0 节点却不是 Leader 节点， 所以不平衡数加 1，AR 副本总数是 4 所以 broker0 节点不平衡率为 1/4&amp;gt;10%，需要再平衡。&lt;br>
 broker2 和 broker3 节点和 broker0 不平衡率一样，需要再平衡。 Broker1 的不平衡数为 0，不需要再平衡。&lt;/p>
@@ -3541,7 +3734,10 @@ broker2 和 broker3 节点和 broker0 不平衡率一样，需要再平衡。 Br
 （2）执行副本存储计划。&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ bin/kafka-reassign-partitions.sh -bootstrap-server hadoop102:9092 --reassignment-json-file increase-replication-factor.json --execute
 &lt;/code>&lt;/pre>&lt;h2 id="四文件存储">四、文件存储&lt;/h2>&lt;h3 id="41文件存储机制">4.1、文件存储机制&lt;/h3>&lt;h4 id="411topic-数据的存储机制">4.1.1、Topic 数据的存储机制&lt;/h4>&lt;p>Topic 是逻辑上的概念，而 partition 是物理上的概念，每个 partition 对应于一个 log 文件，该 log 文件中存储的就是 Producer 生产的数据。Producer 生产的数据会被不断追加到该 log 文件末端，为防止 log 文件过大导致数据定位效率低下，Kafka 采取了分片和索引机制， 将每个 partition 分为多个 segment。每个 segment 包括：“.index” 文件、“.log” 文件和“.timeindex” 等文件。这些文件位于一个文件夹下，该 文件夹的命名规则为：topic 名称 + 分区序号，例如：first-0。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/3298915681.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/3298915681.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h4 id="412思考topic-数据到底存储在什么位置">4.1.2、思考：Topic 数据到底存储在什么位置？&lt;/h4>&lt;p>（1）启动生产者，并发送消息。&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ bin/kafka-console-producer.sh -bootstrap-server hadoop102:9092 --topic first &amp;gt;hello world
 &lt;/code>&lt;/pre>&lt;p>（2）查看 hadoop102（或者 hadoop103、hadoop104）的 &lt;code>/opt/module/kafka/datas/first-1&lt;/code>（first-0、first-2）路径上的文件。&lt;/p>
@@ -3560,7 +3756,10 @@ partition.metadata
 Dumping ./00000000000000000000.index
 offset: 3 position: 152
 [atguigu@hadoop104 first-1]$ kafka-run-class.sh kafka.tools.DumpLogSegments --files ./00000000000000000000.log
-&lt;/code>&lt;/pre>&lt;h4 id="413index-文件和-log-文件详解">4.1.3、index 文件和 log 文件详解&lt;/h4>&lt;p>&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/1684492066.png"> &lt;br>
+&lt;/code>&lt;/pre>&lt;h4 id="413index-文件和-log-文件详解">4.1.3、index 文件和 log 文件详解&lt;/h4>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/1684492066.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 说明：日志存储参数配置&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>log.segment.bytes&lt;/code>&lt;br>
@@ -3584,23 +3783,35 @@ Kafka 中提供的日志清理策略有 &lt;code>delete&lt;/code> 和 &lt;code>c
 &lt;li>&lt;code>log.retention.bytes&lt;/code>，默认等于 - 1，表示无穷大。&lt;/li>
 &lt;/ul>
 &lt;p>思考：如果一个 segment 中有一部分数据过期，一部分没有过期，怎么处理？ &lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/4127735841.png"> &lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/4127735841.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 Kafka 的过期策略是以 segment 为单位，而不是以单条消息为单位。
 只有当一个 segment 文件内所有消息都过期，这个 segment 才会被删除。&lt;/p>
 &lt;h4 id="422compact-日志压缩">4.2.2、compact 日志压缩&lt;/h4>&lt;p>compact 日志压缩：对于相同 key 的不同 value 值，只保留最后一个版本。&lt;br>
 &lt;code>log.cleanup.policy = compact&lt;/code> 所有数据启用压缩策略&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/3215045633.png"> &lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/3215045633.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 压缩后的 offset 可能是不连续的，比如上图中没有 6，当从这些 offset 消费消息时，将会拿到比这个 offset 大 的 offset 对应的消息，实际上会拿到 offset 为 7 的消息，并从这个位置开始消费。&lt;br>
 这种策略只适合特殊场景，比如消息的 key 是用户 ID，value 是用户的资料，通过这种压缩策略，整个消息集里就保存了所有用户最新的资料。&lt;/p>
 &lt;h2 id="五高效读写数据">五、高效读写数据&lt;/h2>&lt;p>1）Kafka 本身是分布式集群，可以采用分区技术，并行度高。&lt;br>
 2）读数据采用稀疏索引，可以快速定位要消费的数据。&lt;br>
 3）顺序写磁盘。&lt;br>
 Kafka 的 producer 生产数据，要写入到 log 文件中，写的过程是一直追加到文件末端，为顺序写。官网有数据表明，同样的磁盘，顺序写能到 600M/s，而随机写只有 100K/s。这与磁盘的机械机构有关，顺序写之所以快，是因为其省去了大量磁头寻址的时间。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/182349388.png"> &lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/182349388.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 4）页缓存 + 零拷贝技术&lt;br>
 &lt;code>零拷贝&lt;/code>：Kafka 的数据加工处理操作交由 Kafka 生产者和 Kafka 消费者处理。Kafka Broker 应用层不关心存储的数据，所以就不用走应用层，传输效率高。&lt;br>
 &lt;code>PageCache 页缓存&lt;/code>：Kafka 重度依赖底层操作系统提供的 PageCache 功能。当上层有写操作时，操作系统只是将数据写入 PageCache。当读操作发生时，先从 PageCache 中查找，如果找不到，再去磁盘中读取。实际上 PageCache 是把尽可能多的空闲内存都当做了磁盘缓存来使用。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/2879498065.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20Broker/2879498065.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;ul>
 &lt;li>
 &lt;p>&lt;code>log.flush.interval.messages&lt;/code>&lt;br>
@@ -3612,7 +3823,10 @@ Kafka 的 producer 生产数据，要写入到 log 文件中，写的过程是�
 &lt;/li>
 &lt;/ul></description></item><item><title>Kafka | 生产者</title><link>https://hidlestone.github.io/blog/bigdata/kafka/02-kafka-%E7%94%9F%E4%BA%A7%E8%80%85/</link><pubDate>Fri, 06 May 2022 19:02:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/02-kafka-%E7%94%9F%E4%BA%A7%E8%80%85/</guid><description>&lt;h2 id="一生产者消息发送流程">一、生产者消息发送流程&lt;/h2>&lt;h3 id="11发送原理">1.1、发送原理&lt;/h3>&lt;p>在消息发送的过程中，涉及到了两个线程：&lt;code>main 线程&lt;/code> 和 &lt;code>Sender 线程&lt;/code>。在 main 线程中创建了一个双端队列 &lt;code>RecordAccumulator&lt;/code>。main 线程将消息发送给 RecordAccumulator，Sender 线程不断从 RecordAccumulator 中拉取消息发送到 Kafka Broker。&lt;/p>
 &lt;p>&lt;strong>发送流程&lt;/strong>：
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E7%94%9F%E4%BA%A7%E8%80%85/1382657116.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e7%94%9f%e4%ba%a7%e8%80%85/1382657116.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h3 id="12生产者重要参数列表">1.2、生产者重要参数列表&lt;/h3>&lt;ul>
 &lt;li>&lt;code>bootstrap.servers&lt;/code>
 生产者连接集群所需的 broker 地址清单。
@@ -3646,22 +3860,37 @@ RecordAccumulator 缓冲区总大小，默认 32m。&lt;/li>
 &lt;/ul>
 &lt;h2 id="二异步发送-api">二、异步发送 API&lt;/h2>&lt;h3 id="21普通异步发送">2.1、普通异步发送&lt;/h3>&lt;p>1）需求：创建 Kafka 生产者，采用异步的方式发送到 Kafka Broker。 &lt;br>
 异步发送流程：&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E7%94%9F%E4%BA%A7%E8%80%85/2247544987.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e7%94%9f%e4%ba%a7%e8%80%85/2247544987.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h3 id="22带回调函数的异步发送">2.2、带回调函数的异步发送&lt;/h3>&lt;p>回调函数会在 producer 收到 ack 时调用，为异步调用，该方法有两个参数，分别是元数据信息（RecordMetadata）和异常信息（Exception），如果 Exception 为 null，说明消息发送成功，如果 Exception 不为 null，说明消息发送失败。&lt;br>
 带回调函数的异步发送流程：&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E7%94%9F%E4%BA%A7%E8%80%85/439588139.png"> &lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e7%94%9f%e4%ba%a7%e8%80%85/439588139.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 注意：消息发送失败会自动重试，不需要我们在回调函数中手动重试。&lt;/p>
 &lt;h2 id="三同步发送-api">三、同步发送 API&lt;/h2>&lt;p>&lt;strong>同步发送流程&lt;/strong>：&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E7%94%9F%E4%BA%A7%E8%80%85/835792539.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e7%94%9f%e4%ba%a7%e8%80%85/835792539.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h2 id="四生产者分区">四、生产者分区&lt;/h2>&lt;h3 id="41分区好处">4.1、分区好处&lt;/h3>&lt;p>Kafka 分区好处：&lt;br>
 （1）&lt;code>便于合理使用存储资源&lt;/code>，每个 Partition 在一个 Broker 上存储，可以把海量的数据按照分区切割成一 块一块数据存储在多台 Broker 上。合理控制分区的任务，可以实现负载均衡的效果。&lt;br>
 （2）&lt;code>提高并行度&lt;/code>，生产者可以以分区为单位发送数据；消费者可以以分区为单位进行消费数据。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E7%94%9F%E4%BA%A7%E8%80%85/2313775633.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e7%94%9f%e4%ba%a7%e8%80%85/2313775633.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h3 id="42生产者发送消息的分区策略">4.2、生产者发送消息的分区策略&lt;/h3>&lt;p>1）默认的分区器 DefaultPartitioner。&lt;/p>
 &lt;pre tabindex="0">&lt;code>public class DefaultPartitioner implements Partitioner {
 &lt;/code>&lt;/pre>&lt;p>Kafka 原则：
 全局查找（ctrl +n）ProducerRecord 类，在类中可以看到如下构造方法：&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E7%94%9F%E4%BA%A7%E8%80%85/3446713633.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e7%94%9f%e4%ba%a7%e8%80%85/3446713633.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>2）案例一 &lt;br>
 将数据发往指定 partition 的情况下，例如，将所有数据发往分区 1 中。
 &lt;p>
@@ -3903,12 +4132,18 @@ properties.put (ProducerConfig.PARTITIONER_CLASS_CONFIG,&amp;#34;com.atguigu.kaf
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
-&lt;p>&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E7%94%9F%E4%BA%A7%E8%80%85/2184197234.png">&lt;/p>
+&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e7%94%9f%e4%ba%a7%e8%80%85/2184197234.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h3 id="62ack-应答原理">6.2、ack 应答原理&lt;/h3>&lt;ul>
 &lt;li>0：生产者发送过来的数据，不需要等数据落盘应答。&lt;/li>
 &lt;li>1：生产者发送过来的数据，Leader 收到数据后应答。&lt;/li>
 &lt;li>-1（all）：生产者发送过来的数据，Leader 和 ISR 队列里面 的所有节点收齐数据后应答。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E7%94%9F%E4%BA%A7%E8%80%85/1567755725.png">&lt;/li>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e7%94%9f%e4%ba%a7%e8%80%85/1567755725.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/li>
 &lt;/ul>
 &lt;p>思考：Leader 收到数据，所有 Follower 都开始同步数据，但有一个 Follower，因为某种故障，迟迟不能与 Leader 进行同步，那这个问题怎么解决呢？&lt;br>
 Leader 维护了一个动态的 &lt;code>in-sync replica set（ISR）&lt;/code>，意为和 Leader 保持同步的 Follower+Leader 集合 (leader：0，isr:0,1,2)。&lt;br>
@@ -3926,7 +4161,10 @@ Leader 维护了一个动态的 &lt;code>in-sync replica set（ISR）&lt;/code>�
 &lt;p>在生产环境中，acks=0 很少使用；acks=1，一般用于传输普通日志，允许丢个别数据；acks=-1，一般用于传输和钱相关的数据， 对可靠性要求比较高的场景。&lt;/p>
 &lt;p>数据重复分析：&lt;br>
 acks: -1（all）：生产者发送过来的数据，Leader 和 ISR 队列里面的所有节点收齐数据后应答。
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E7%94%9F%E4%BA%A7%E8%80%85/2023662824.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e7%94%9f%e4%ba%a7%e8%80%85/2023662824.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h3 id="63代码配置">6.3、代码配置&lt;/h3>&lt;p>
 &lt;details class="toggle">
 &lt;summary markdown="span">点击查看完整的 &lt;code>CustomProducerAcks&lt;/code>&lt;/summary>
@@ -3981,11 +4219,17 @@ Kafka 0.11 版本以后，引入了一项重大特性：&lt;code>幂等性&lt;/c
 &lt;p>重复数据的判断标准：具有 &lt;code>&amp;lt; PID, Partition, SeqNumber &amp;gt;&lt;/code> 相同主键的消息提交时，Broker 只会持久化一条。其 中 PID 是 Kafka 每次重启都会分配一个新的；Partition 表示分区号；Sequence Number 是单调自增的。&lt;/p>
 &lt;/blockquote>
 &lt;p>所以幂等性只能保证的是在单分区单会话内不重复。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E7%94%9F%E4%BA%A7%E8%80%85/4084148443.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e7%94%9f%e4%ba%a7%e8%80%85/4084148443.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h4 id="722如何使用幂等性">7.2.2、如何使用幂等性&lt;/h4>&lt;p>开启参数 &lt;code>enable.idempotence&lt;/code> 默认为 true，false 关闭。&lt;/p>
 &lt;h3 id="73生产者事务">7.3、生产者事务&lt;/h3>&lt;p>1）Kafka 事务原理&lt;br>
 说明：开启事务，必须开启幂等性。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E7%94%9F%E4%BA%A7%E8%80%85/3389866997.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e7%94%9f%e4%ba%a7%e8%80%85/3389866997.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>2）Kafka 的事务一共有如下 5 个 API&lt;/p>
 &lt;pre tabindex="0">&lt;code>// 1 初始化事务
 void initTransactions ();
@@ -4008,7 +4252,10 @@ kafkaProducer.beginTransaction ();
 kafkaProducer.commitTransaction ();
 // 终止事务
 kafkaProducer.abortTransaction ();
-&lt;/code>&lt;/pre>&lt;h2 id="八生产经验----数据有序">八、生产经验 &amp;ndash; 数据有序&lt;/h2>&lt;p>&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E7%94%9F%E4%BA%A7%E8%80%85/626550217.png">&lt;/p>
+&lt;/code>&lt;/pre>&lt;h2 id="八生产经验----数据有序">八、生产经验 &amp;ndash; 数据有序&lt;/h2>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e7%94%9f%e4%ba%a7%e8%80%85/626550217.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h2 id="九生产经验----数据乱序">九、生产经验 &amp;ndash; 数据乱序&lt;/h2>&lt;p>&lt;code>max.in.flight.requests.per.connection&lt;/code> 表示每个连接上最大的未完成请求数。具体来说，它限制了一个生产者在与代理节点（broker）建立的连接上能够有多少个未完成的请求。&lt;br>
 将其设置为 1 意味着生产者在向代理节点发送请求时，必须等待之前的请求完成（即收到响应）后才能发送下一个请求。这可以确保请求按顺序进行处理，并且避免了一次性发送过多的请求，从而提高了系统的稳定性和可靠性。&lt;/p>
 &lt;ul>
@@ -4021,36 +4268,60 @@ kafkaProducer.abortTransaction ();
 &lt;li>（2）开启幂等性&lt;br>
 &lt;code>max.in.flight.requests.per.connection&lt;/code> 需要设置小于等于 5。&lt;br>
 原因说明：因为在 kafka1.x 以后，启用幂等后，kafka 服务端会缓存 producer 发来的最近 5 个 request 的元数据， 故无论如何，都可以保证最近 5 个 request 的数据都是有序的。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E7%94%9F%E4%BA%A7%E8%80%85/4288147756.png">&lt;/li>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e7%94%9f%e4%ba%a7%e8%80%85/4288147756.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/li>
 &lt;/ul>
 &lt;/li>
 &lt;/ul></description></item><item><title>Kafka | 概述 &amp; 安装部署</title><link>https://hidlestone.github.io/blog/bigdata/kafka/01-kafka-%E6%A6%82%E8%BF%B0%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/</link><pubDate>Fri, 06 May 2022 19:01:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/bigdata/kafka/01-kafka-%E6%A6%82%E8%BF%B0%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/</guid><description>&lt;h2 id="一概述">一、概述&lt;/h2>&lt;h3 id="11定义">1.1、定义&lt;/h3>&lt;p>Kafka 传统定义：Kafka 是一个分布式的基于&lt;code>发布/订阅&lt;/code>模式的消息队列 Message Queue，主要应用于大数据实时处理领域。&lt;br>
 Kafka 最新定义：Kafka 是一个开源的分布式事件流平台 &lt;code>Event Streaming Platform&lt;/code>，被数千家公司用于高性能数据管道、流分析、数据集成和关键任务应用。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%A6%82%E8%BF%B0&amp;%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/3656352973.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%a6%82%e8%bf%b0&amp;amp;%e5%ae%89%e8%a3%85%e9%83%a8%e7%bd%b2/3656352973.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h3 id="12消息队列">1.2、消息队列&lt;/h3>&lt;p>目前企业中比较常见的消息队列产品主要有：&lt;code>Kafka&lt;/code>、&lt;code>ActiveMQ&lt;/code>、&lt;code>RabbitMQ&lt;/code>、&lt;code>RocketMQ&lt;/code> 等。 &lt;br>
 在大数据场景主要采用 Kafka 作为消息队列。在 JavaEE 开发中主要采用 &lt;code>ActiveMQ&lt;/code>、&lt;code>RabbitMQ&lt;/code>、&lt;code>RocketMQ&lt;/code>。&lt;/p>
 &lt;h4 id="121应用场景">1.2.1、应用场景&lt;/h4>&lt;p>传统的消息队列的主要应用场景包括：&lt;code>缓存/消峰、解耦和异步通信&lt;/code>。&lt;br>
 1、&lt;code>缓冲/消峰&lt;/code>：有助于控制和优化数据流经过系统的速度，解决生产消息和消费消息的处理速度不一致的情况。 &lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%A6%82%E8%BF%B0&amp;%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/3982478125.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%a6%82%e8%bf%b0&amp;amp;%e5%ae%89%e8%a3%85%e9%83%a8%e7%bd%b2/3982478125.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>2、&lt;code>解耦&lt;/code>：允许你独立的扩展或修改两边的处理过程，只要确保它们遵守同样的接口约束。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%A6%82%E8%BF%B0&amp;%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/1286439180.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%a6%82%e8%bf%b0&amp;amp;%e5%ae%89%e8%a3%85%e9%83%a8%e7%bd%b2/1286439180.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>3、&lt;code>异步通信&lt;/code>：允许用户把一个消息放入队列，但并不立即处理它，然后在需要的时候再去处理它们。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%A6%82%E8%BF%B0&amp;%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/1871889158.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%a6%82%e8%bf%b0&amp;amp;%e5%ae%89%e8%a3%85%e9%83%a8%e7%bd%b2/1871889158.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h4 id="122两种模式">1.2.2、两种模式&lt;/h4>&lt;p>1）&lt;code>点对点模式&lt;/code>&lt;br>
 消费者主动拉取数据，消息收到后清除消息。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%A6%82%E8%BF%B0&amp;%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/66538458.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%a6%82%e8%bf%b0&amp;amp;%e5%ae%89%e8%a3%85%e9%83%a8%e7%bd%b2/66538458.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>2）&lt;code>发布/订阅模式&lt;/code> &lt;br>
 可以有多个 topic 主题（浏览、点赞、收藏、评论等）。&lt;br>
 消费者消费数据之后，不删除数据。 &lt;br>
 每个消费者相互独立，都可以消费到数据。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%A6%82%E8%BF%B0&amp;%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/1777598861.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%a6%82%e8%bf%b0&amp;amp;%e5%ae%89%e8%a3%85%e9%83%a8%e7%bd%b2/1777598861.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h3 id="13kafka-基础架构">1.3、Kafka 基础架构&lt;/h3>&lt;ul>
 &lt;li>1、为方便扩展，并提高吞吐量，一个 &lt;code>topic&lt;/code> 分为多个 &lt;code>分区 partition&lt;/code>。&lt;/li>
 &lt;li>2、配合分区的设计，提出 &lt;code>消费者组 Consumer Group&lt;/code> 的概念，组内每个消费者并行消费。&lt;/li>
 &lt;li>3、为提高可用性，为每个 partition 增加若干&lt;code>副本 Replica&lt;/code>，类似 NameNode HA。&lt;/li>
 &lt;li>4、ZK 中记录谁是 leader，Kafka2.8.0 以后也可以配置不采用 ZK。&lt;/li>
 &lt;/ul>
-&lt;p>&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%A6%82%E8%BF%B0&amp;%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/3722388713.png">&lt;br>
+&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%a6%82%e8%bf%b0&amp;amp;%e5%ae%89%e8%a3%85%e9%83%a8%e7%bd%b2/3722388713.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 （1）&lt;code>Producer&lt;/code>：消息生产者，就是向 Kafka broker 发消息的客户端。&lt;br>
 （2）&lt;code>Consumer&lt;/code>：消息消费者，向 Kafka broker 取消息的客户端。&lt;br>
 （3）&lt;code>Consumer Group（CG）&lt;/code>： 消费者组，由多个 consumer 组成。消费者组内每个消费者负责消费不同分区的数据，一个分区只能由一个组内消费者消费(为了保证数据的处理顺序和防止重复消费)；消费者组之间互不影响。所有的消费者都属于某个消费者组，即 &lt;code>消费者组是逻辑上的一个订阅者&lt;/code>。&lt;br>
@@ -4171,7 +4442,10 @@ esac
 &lt;code>kf.sh stop&lt;/code>&lt;br>
 注意：停止 Kafka 集群时，一定要等 Kafka 所有节点进程全部停止后再停止 Zookeeper 集群。因为 Zookeeper 集群当中记录着 Kafka 集群相关信息，Zookeeper 集群一旦先停止，Kafka 集群就没有办法再获取停止进程的信息，只能手动杀死 Kafka 进程了。&lt;/p>
 &lt;h3 id="22kafka-命令行操作">2.2、Kafka 命令行操作&lt;/h3>&lt;p>Kafka 基础架构：&lt;br>
-&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%E6%A6%82%E8%BF%B0&amp;%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/2281993352.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/bigData/kafka/Kafka%20%e6%a6%82%e8%bf%b0&amp;amp;%e5%ae%89%e8%a3%85%e9%83%a8%e7%bd%b2/2281993352.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h4 id="221主题命令行操作">2.2.1、主题命令行操作&lt;/h4>&lt;p>1）查看操作主题命令参数&lt;/p>
 &lt;pre tabindex="0">&lt;code>[atguigu@hadoop102 kafka]$ bin/kafka-topics.sh
 &lt;/code>&lt;/pre>&lt;p>命令：&lt;/p>
@@ -4421,7 +4695,10 @@ Helm 有 3 个重要概念：&lt;/p>
 &lt;li>支持将 Chart 推送至 Docker 镜像仓库中。&lt;/li>
 &lt;li>使用 JSONSchema 验证 chart values。&lt;/li>
 &lt;li>其他。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-Helm/2512034303.png">&lt;/li>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a0%b8%e5%bf%83%e6%8a%80%e6%9c%af-Helm/2512034303.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/li>
 &lt;/ul>
 &lt;h3 id="23helm-客户端安装">2.3、Helm 客户端安装&lt;/h3>&lt;p>1、下载 Helm 安装包&lt;/p>
 &lt;pre tabindex="0">&lt;code>Helm 客户端下载地址：https://github.com/helm/helm/releases
@@ -4534,7 +4811,10 @@ $ helm install db1 --set persistence.storageClass=&amp;#34;managed-nfs-storage&a
 $ kubectl get secret --namespace default db-mysql -o jsonpath=&amp;#34;{.data.mysql-root-password}&amp;#34; | base64 --decode; echo #获取登陆密码
 dSt9QIYNGF
 &lt;/code>&lt;/pre>&lt;p>values yaml 与 set 使用：
-&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-Helm/3509004851.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a0%b8%e5%bf%83%e6%8a%80%e6%9c%af-Helm/3509004851.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;pre tabindex="0">&lt;code>$ helm pull azure/mysql --untar &amp;amp;&amp;amp; cat mysql/values.yml
 persistence:
 enabled: true
@@ -4625,7 +4905,10 @@ Successfully packaged chart and saved it to: /root/lesson/helm/mychart-0.1.0.tgz
 &lt;h2 id="二ingress-概述">二、Ingress 概述&lt;/h2>&lt;p>通常情况下，service 和 pod 的 IP 仅可在集群内部访问。集群外部的请求需要通过负载均衡转发到 service 在 Node 上暴露的 NodePort 上，然后再由 kube-proxy 将其转发给相关的 Pod。&lt;/p>
 &lt;p>Ingress 为 Kubernetes 集群中的服务提供了入口，可以提供负载均衡、SSL 终止和基于名称的虚拟主机，在生产环境中常用的 &lt;code>Ingress&lt;/code> 有 &lt;code>Treafik、Nginx、HAProxy、Istio&lt;/code> 等。在 Kubernetes v1.1 版中添加的 Ingress 用于从集群外部到集群内部 Service 的 HTTP 和 HTTPS 路由，流量从 Internet 到 Ingress 再到 Services 最后到 Pod 上，通常情况下，Ingress 部署在所有的 Node 节点上。Ingress 可以配置提供服务外部访问的 URL、负载均衡、终止 SSL，并提供基于域名的虚拟主机。但 Ingress 不会暴露任意端口或协议。&lt;/p>
 &lt;h2 id="三ingress-工作流程">三、Ingress 工作流程&lt;/h2>&lt;p>Ingress 公开了从集群外部到集群内服务的 HTTP 和 HTTPS 路由。 流量路由由 Ingress 资源上定义的规则控制。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-Ingress/1016205343.png">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a0%b8%e5%bf%83%e6%8a%80%e6%9c%af-Ingress/1016205343.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 可以将 Ingress 配置为服务提供外部可访问的 URL、负载均衡流量、终止 SSL/TLS，以及提供基于名称的虚拟主机等能力。 Ingress 控制器 通常负责通过负载均衡器来实现 Ingress，尽管它也可以配置边缘路由器或其他前端来帮助处理流量。&lt;/p>
 &lt;p>Ingress 不会公开任意端口或协议。 将 HTTP 和 HTTPS 以外的服务公开到 Internet 时，通常使用 &lt;code>Service.Type=NodePort&lt;/code> 或 &lt;code>Service.Type=LoadBalancer&lt;/code> 类型的服务。&lt;/p>
 &lt;h2 id="四ingress-控制器-官方维护">四、Ingress 控制器 (官方维护)&lt;/h2>&lt;h3 id="41官方维护-ingress-控制器">4.1、官方维护 Ingress 控制器&lt;/h3>&lt;p>为了让 Ingress 资源工作，集群必须有一个正在运行的 Ingress 控制器。&lt;/p>
@@ -4654,8 +4937,13 @@ Kubernetes 作为一个项目，目前支持和维护 &lt;code>AWS&lt;/code>， 
 &lt;li>&lt;code>Voyager&lt;/code> 是一个针对 HAProxy 的 Ingress 控制器。&lt;/li>
 &lt;/ul>
 &lt;h2 id="五安装-nginx-ingress">五、安装 Nginx-Ingress&lt;/h2>&lt;p>访问架构图：
-&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-Ingress/1702643112.png">
-&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-Ingress/1032191187.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a0%b8%e5%bf%83%e6%8a%80%e6%9c%af-Ingress/1702643112.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a0%b8%e5%bf%83%e6%8a%80%e6%9c%af-Ingress/1032191187.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h3 id="51helm-安装-ingress">5.1、helm 安装 Ingress&lt;/h3>&lt;pre tabindex="0">&lt;code># 1. 新建 ingress 存放目录
 [root@kubernetes-master-001 ~]# mkdir ingress &amp;amp;&amp;amp; cd ingress
 # 2. 添加官方 ingress-nginx 的 helm 仓库
@@ -5267,14 +5555,20 @@ HTTP Token 的认证是用一个很长的特殊编码方式的并且难以被模
 用户名 +：+ 密码 用 BASE64 算法进行编码后的字符串放在 HTTP Request 中的 Heather Authorization 域里发送给服务端，服务端收到后进行编码，获取用户名及密码。&lt;/li>
 &lt;li>&lt;code>最严格的 HTTPS 证书认证&lt;/code>：基于 CA 根证书签名的客户端身份认证方式。&lt;/li>
 &lt;/ul>
-&lt;h3 id="11https-证书认证">1.1、HTTPS 证书认证&lt;/h3>&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-%E8%AE%A4%E8%AF%81&amp;%E9%89%B4%E6%9D%83&amp;%E5%87%86%E5%85%A5%E6%8E%A7%E5%88%B6/1037187525.png">&lt;/p>
+&lt;h3 id="11https-证书认证">1.1、HTTPS 证书认证&lt;/h3>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a0%b8%e5%bf%83%e6%8a%80%e6%9c%af-%e8%ae%a4%e8%af%81&amp;amp;%e9%89%b4%e6%9d%83&amp;amp;%e5%87%86%e5%85%a5%e6%8e%a7%e5%88%b6/1037187525.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>HTTPS 加密：&lt;br>
 &lt;code>单向认证&lt;/code>：客户端认证服务器端。&lt;br>
 &lt;code>双向认证&lt;/code>：客户端与服务器端互相认证。&lt;/p>
 &lt;h3 id="12需要认证的节点">1.2、需要认证的节点&lt;/h3>&lt;p>两种类型：
 （1）Kubenetes 组件对 API Server 的访问：&lt;code>kubectl&lt;/code>、&lt;code>Controller Manager&lt;/code>、&lt;code>Scheduler&lt;/code>、&lt;code>kubelet&lt;/code>、&lt;code>kube-proxy&lt;/code>。&lt;br>
 （2）Kubernetes 管理的 Pod 对容器的访问：Pod（dashborad 也是以 Pod 形式运行）。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-%E8%AE%A4%E8%AF%81&amp;%E9%89%B4%E6%9D%83&amp;%E5%87%86%E5%85%A5%E6%8E%A7%E5%88%B6/3134167203.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a0%b8%e5%bf%83%e6%8a%80%e6%9c%af-%e8%ae%a4%e8%af%81&amp;amp;%e9%89%b4%e6%9d%83&amp;amp;%e5%87%86%e5%85%a5%e6%8e%a7%e5%88%b6/3134167203.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>安全性说明：&lt;br>
 （1）Controller Manager、Scheduler 与 API Server 在同一台机器，所以直接使用 API Server 的非安全端口访问，&lt;code>--insecure-bind-address=127.0.0.1&lt;/code> &lt;br>
 （2）kubectl、kubelet、kube-proxy 访问 API Server 就都需要证书进行 HTTPS 双向认证。&lt;/p>
@@ -5366,7 +5660,10 @@ kubectl get secret --all-namespaces
 kubectl describe secret -n kube-system default-token-5gm9r
 &lt;/code>&lt;/pre>&lt;p>默认情况下，每个 namespace 都会有一个 ServiceAccount，如果 Pod 在创建时没有指定 ServiceAccount，就会使用 Pod 所属的 namespace 的 ServiceAccount。
 默认挂载目录：&lt;code>/run/secrets/kubernetes.io/serviceaccount/&lt;/code>。
-&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-%E8%AE%A4%E8%AF%81&amp;%E9%89%B4%E6%9D%83&amp;%E5%87%86%E5%85%A5%E6%8E%A7%E5%88%B6/874575171.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a0%b8%e5%bf%83%e6%8a%80%e6%9c%af-%e8%ae%a4%e8%af%81&amp;amp;%e9%89%b4%e6%9d%83&amp;amp;%e5%87%86%e5%85%a5%e6%8e%a7%e5%88%b6/874575171.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h2 id="二鉴权">二、鉴权&lt;/h2>&lt;h3 id="21authorization">2.1、Authorization&lt;/h3>&lt;p>上面认证过程，只是确认通信的双方都确认了对方是可信的，可以相互通信。而鉴权是确定请求方有哪些资源的权限。API Server 目前支持以下几种授权策略 （通过 API Server 的启动参数 &lt;code>--authorization-mode&lt;/code> 设置）。&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>AlwaysDeny&lt;/code> 表示拒绝所有的请求，一般用于测试。&lt;/li>
@@ -5380,18 +5677,25 @@ kubectl describe secret -n kube-system default-token-5gm9r
 （2）整个 RBAC 完全由几个 API 对象完成，同其他 API 对象一样，可以用 kubectl 或 API 进行操作。&lt;br>
 （3）可以在运行时进行调整，无需重启 API Server。
 要使用 RBAC 授权模式，需要在 API Server 的启动参数中加上 &lt;code>--authorization-mode=RBAC&lt;/code>。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-%E8%AE%A4%E8%AF%81&amp;%E9%89%B4%E6%9D%83&amp;%E5%87%86%E5%85%A5%E6%8E%A7%E5%88%B6/3754788533.png">
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a0%b8%e5%bf%83%e6%8a%80%e6%9c%af-%e8%ae%a4%e8%af%81&amp;amp;%e9%89%b4%e6%9d%83&amp;amp;%e5%87%86%e5%85%a5%e6%8e%a7%e5%88%b6/3754788533.png" alt="" loading="lazy" />
+&lt;/figure>
 在集群里面又三个附着点：user（用户），group（组），SA（serviceaccount）（pod 访问 serviec 的一个认证），一个角色可以背绑定给多个用户，一个用户可以绑定多个角色，权限和角色也是多对多的关系。
 用户绑定角色的过程，这条线（关联）就是一个对象，这个对象叫 RoleBinding（角色绑定），RoleBinding 被创建时，这条线就被连上了，RoleBinding 被删除时，这条线就断了。
 集群角色绑定就是 ClusterBinding，也就是说，角色进行角色绑定，集群角色进行集群角色绑定。需要注意的是：集群角色被角色绑定而绑定。
-&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-%E8%AE%A4%E8%AF%81&amp;%E9%89%B4%E6%9D%83&amp;%E5%87%86%E5%85%A5%E6%8E%A7%E5%88%B6/1188201215.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a0%b8%e5%bf%83%e6%8a%80%e6%9c%af-%e8%ae%a4%e8%af%81&amp;amp;%e9%89%b4%e6%9d%83&amp;amp;%e5%87%86%e5%85%a5%e6%8e%a7%e5%88%b6/1188201215.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;ul>
 &lt;li>ROLE ROLEBINDING 角色被角色绑定&lt;/li>
 &lt;li>CLUSTERROLE CLUSTERROLEBINDING 集群角色被集群角色绑定&lt;/li>
 &lt;li>CLUSTERROLE ROLEBINDING 集群角色被角色绑定&lt;/li>
 &lt;/ul>
 &lt;h2 id="三rbac-原理和用法">三、RBAC 原理和用法&lt;/h2>&lt;h3 id="31rbac-的-api-资源对象说明">3.1、RBAC 的 API 资源对象说明&lt;/h3>&lt;p>RBAC 引入了 4 个新的顶级资源对象：&lt;code>Role&lt;/code>、&lt;code>ClusterRole&lt;/code>、&lt;code>RoleBinding&lt;/code>、 &lt;code>ClusterRoleBinding&lt;/code>。同其他 API 资源对象一样，用户可以使用 kubectl 或者 API 调用等方式操作这些资源对象。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-%E8%AE%A4%E8%AF%81&amp;%E9%89%B4%E6%9D%83&amp;%E5%87%86%E5%85%A5%E6%8E%A7%E5%88%B6/835544880.png">
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a0%b8%e5%bf%83%e6%8a%80%e6%9c%af-%e8%ae%a4%e8%af%81&amp;amp;%e9%89%b4%e6%9d%83&amp;amp;%e5%87%86%e5%85%a5%e6%8e%a7%e5%88%b6/835544880.png" alt="" loading="lazy" />
+&lt;/figure>
 需要注意的是 Kubenetes 并不会提供用户管理，那么 User、Group、ServiceAccount 指定的用户又是从哪里来的呢？ Kubenetes 组件（kubectl、kube-proxy）或是其他自定义的用户在向 CA 申请证书时，需要提供一个证书请求文件。&lt;/p>
 &lt;h4 id="cfssl-申请证书的工具">CFSSL 申请证书的工具&lt;/h4>&lt;p>coreos 公司开发的基于 Golang 语言编写的证书签发工具，这个工具允许我们通过 json 文件作为我们证书生成的模板，生成证书签发证书，是一个简化的证书生成工具。&lt;br>
 使用 &lt;code>cfssl gencert -ca=ca.crt -ca-key=ca.key -config=ca-config.json admin-csr.json | cfssljson -bare admin&lt;/code> 来生成证书。&lt;br>
@@ -5793,7 +6097,10 @@ Kubernetes 的资源分为两种属性。&lt;/p>
 &lt;h2 id="三k8s-调度器">三、k8s 调度器&lt;/h2>&lt;h3 id="31kube-scheduler">3.1、kube-scheduler&lt;/h3>&lt;p>&lt;code>kube-scheduler&lt;/code> 是 kubernetes 系统的核心组件之一，主要负责整个集群资源的调度功能，根据特定的调度算法和策略，将 Pod 调度到最优的工作节点上面去，从而更加合理、更加充分的利用集群的资源，这也是选择使用 kubernetes 一个非常重要的理由。&lt;/p>
 &lt;h3 id="32调度流程">3.2、调度流程&lt;/h3>&lt;p>默认情况下，kube-scheduler 提供的默认调度器能够满足我们绝大多数的要求，之前接触的示例也基本上用的 &lt;code>默认的策略&lt;/code>，都可以保证我们的 Pod 可以被分配到资源充足的节点上运行。但是在实际的线上项目中，可能我们自己会比 kubernetes 更加了解我们自己的应用，比如我们希望一个 Pod 只能运行在特定的几个节点上，或者这几个节点只能用来运行特定类型的应用，这就需要我们的调度器能够可控。&lt;/p>
 &lt;p>kube-scheduler 是 kubernetes 的调度器，它的主要作用就是根据特定的调度算法和调度策略将 Pod 调度到合适的 Node 节点上去，是一个独立的二进制程序，启动之后会一直监听 API Server，获取到 PodSpec.NodeName 为空的 Pod，对每个 Pod 都会创建一个 &lt;code>binding&lt;/code>。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-%E8%B0%83%E5%BA%A6%E5%99%A8/3145660024.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a0%b8%e5%bf%83%e6%8a%80%e6%9c%af-%e8%b0%83%e5%ba%a6%e5%99%a8/3145660024.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>调度主要分为以下几个部分：&lt;/p>
 &lt;ul>
 &lt;li>首先是预选过程，过滤掉不满足条件的节点，这个过程称为 Predicates。&lt;/li>
@@ -5804,7 +6111,10 @@ Kubernetes 的资源分为两种属性。&lt;/p>
 所以我们在部署应用的时候，如果发现有 Pod 一直处于 Pending 状态，那么就是没有满足调度条件的节点，这个时候可以去检查下节点资源是否可用。&lt;/p>
 &lt;h3 id="322priorities-阶段">3.2.2、Priorities 阶段&lt;/h3>&lt;p>&lt;code>Priorities 阶段&lt;/code> 即再次对节点进行筛选，如果有多个节点都满足条件的话，那么系统会按照节点的优先级 (priorites) 大小对节点进行排序，最后选择优先级最高的节点来部署 Pod 应用。&lt;br>
 下面是调度过程的简单示意图：&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-%E8%B0%83%E5%BA%A6%E5%99%A8/3633651019.png">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a0%b8%e5%bf%83%e6%8a%80%e6%9c%af-%e8%b0%83%e5%ba%a6%e5%99%a8/3633651019.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 更详细的流程是这样的：&lt;br>
 首先，客户端通过 API Server 的 REST API 或者 kubectl 工具创建 Pod 资源。
 API Server 收到用户请求后，存储相关数据到 etcd 数据库中。&lt;br>
@@ -6271,7 +6581,9 @@ K8s 核心组件通常都容忍此类污点&lt;/p>
 一个 Pod 对象无法被调度时，调度器会尝试抢占 (驱逐) 较低优先级的 Pod 对象，以便可以调度当前 Pod。&lt;/p>
 &lt;p>Pod 优选级和抢占机制默认处于禁用状态：&lt;br>
 启用：同时为 kube-apiserver、kube-scheduler、kubelet 程序的 &lt;code>--feature-gates&lt;/code> 添加 &lt;code>PodPriority=true&lt;/code>。&lt;br>
-使用：事先创建优先级类别，并在创建 Pod 资源时通过 priorityClassName 属性指定所属优选级类别。&lt;/p></description></item><item><title>kubernetes | init 容器 &amp; 探针 &amp; 钩子</title><link>https://hidlestone.github.io/blog/infrastructure/kubernetes/10-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-init%E5%AE%B9%E5%99%A8%E6%8E%A2%E9%92%88%E9%92%A9%E5%AD%90/</link><pubDate>Thu, 17 Mar 2022 22:10:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/kubernetes/10-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-init%E5%AE%B9%E5%99%A8%E6%8E%A2%E9%92%88%E9%92%A9%E5%AD%90/</guid><description>&lt;h2 id="一概述">一、概述&lt;/h2>&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-init%E5%AE%B9%E5%99%A8&amp;%E6%8E%A2%E9%92%88&amp;%E9%92%A9%E5%AD%90/177384667.png">
+使用：事先创建优先级类别，并在创建 Pod 资源时通过 priorityClassName 属性指定所属优选级类别。&lt;/p></description></item><item><title>kubernetes | init 容器 &amp; 探针 &amp; 钩子</title><link>https://hidlestone.github.io/blog/infrastructure/kubernetes/10-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-init%E5%AE%B9%E5%99%A8%E6%8E%A2%E9%92%88%E9%92%A9%E5%AD%90/</link><pubDate>Thu, 17 Mar 2022 22:10:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/kubernetes/10-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-init%E5%AE%B9%E5%99%A8%E6%8E%A2%E9%92%88%E9%92%A9%E5%AD%90/</guid><description>&lt;h2 id="一概述">一、概述&lt;/h2>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a0%b8%e5%bf%83%e6%8a%80%e6%9c%af-init%e5%ae%b9%e5%99%a8&amp;amp;%e6%8e%a2%e9%92%88&amp;amp;%e9%92%a9%e5%ad%90/177384667.png" alt="" loading="lazy" />
+&lt;/figure>
 1、当一个 pod 被创建的时候，会启动第一个容器 pause。&lt;br>
 作用：挂载可能存在的存储卷，初始化网络栈，后来僵尸进程的杀死。维护。&lt;br>
 2、pause 容器启动后，就会启动另一个部分，不是 mainC，而是 initC（初始化容器，initC &amp;gt;= 0）&lt;/p>
@@ -6582,16 +6894,28 @@ Hello from the preStop handler
 &lt;/code>&lt;/pre></description></item><item><title>kubernetes | Service</title><link>https://hidlestone.github.io/blog/infrastructure/kubernetes/09-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-service/</link><pubDate>Thu, 17 Mar 2022 22:09:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/kubernetes/09-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-service/</guid><description>&lt;h2 id="一service-概述">一、Service 概述&lt;/h2>&lt;p>Service 是 Kubernetes 最核心概念，通过创建 Service，可以为一组具有相同功能的容器应用提供一个统一的入口地址，并且将请求负载分发到后端的各个容器应用上。
 目前一致的 service 有两个要求：&lt;code>标签匹配，就绪&lt;/code>，如果不满足这两个，则无法匹配。&lt;/p>
 &lt;h2 id="二service-类型">二、service 类型&lt;/h2>&lt;h3 id="21clusterip">2.1、ClusterIp&lt;/h3>&lt;p>默认类型，自动分配一个仅 Cluster 内部可以访问的虚拟 IP。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-Service/2042009239.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a0%b8%e5%bf%83%e6%8a%80%e6%9c%af-Service/2042009239.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h3 id="22nodeport节点端口">2.2、NodePort（节点端口）&lt;/h3>&lt;p>在 ClusterIP 基础上为 Service 在每台机器上绑定一个端口，这样就可以通过 &lt;code>&amp;lt;NodeIP&amp;gt;: NodePort&lt;/code> 来访问该服务。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-Service/593126218.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a0%b8%e5%bf%83%e6%8a%80%e6%9c%af-Service/593126218.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h3 id="23loadbalancer">2.3、LoadBalancer&lt;/h3>&lt;p>在 NodePort 的基础上，借助 cloud provider 创建一个外部负载均衡器，并将请求转发到 &lt;code>&amp;lt;NodeIP&amp;gt;: NodePort&lt;/code>。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-Service/3299178964.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a0%b8%e5%bf%83%e6%8a%80%e6%9c%af-Service/3299178964.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h3 id="24externalnamedns-别名">2.4、ExternalName（DNS 别名）&lt;/h3>&lt;p>把集群外部的服务引入到集群内部来，在集群内部直接使用。没有任何类型代理被创建，这只有 kubernetes 1.7 或更高版本的 kube-dns 才支持。
 DNS 别名解析流程：
 我们要创建一个 ExternalName 的 service（domain），当创建完 domain 以后，我们就会得到一个域名，tomcat 只要去访问到这个域名，这个域名就会经过 coredns 解析，解析到一个结果上，这个结果可能是一个域名，也可能是一个 IP，这个域名或 IP 可能指向这个 db。
 当外部的 db 的 IP 发生变化时，只要修改 domain 的别名地址就好了，例如 db 数据库原来是 bbs.aaa.com，现在是 db.aaa.com，那么只需要将 domain 的别名地址写成 db.aaa.com 即可。
-&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-Service/798564682.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a0%b8%e5%bf%83%e6%8a%80%e6%9c%af-Service/798564682.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h2 id="三service-的定义">三、Service 的定义&lt;/h2>&lt;h3 id="yaml-格式的-service-定义文件">yaml 格式的 Service 定义文件。&lt;/h3>&lt;p>&lt;strong>用户/其他 Pod&lt;/strong> &amp;ndash;&amp;gt; &lt;code>nodePort&lt;/code> (外部访问)&amp;ndash;&amp;gt; &lt;code>port&lt;/code> (Service 集群内端口) &amp;ndash;&amp;gt; &lt;code>targetPort&lt;/code> (Pod 内部程序端口)&lt;/p>
 &lt;pre tabindex="0">&lt;code>apiVersion: v1
 kind: Service
@@ -6862,7 +7186,9 @@ kubectl get svc
 查看端口：部署后，你需要运行 &lt;code>kubectl get svc myapp-nodeport&lt;/code> 来查看系统到底分了哪个端口。&lt;/p>
 &lt;h3 id="43loadbalancer-创建">4.3、LoadBalancer 创建&lt;/h3>&lt;p>与 nodeport 的区别在于，loadbalancer 会自动在外部创建一个调度器将当前的 nodeport 端口进行流量访问，实现高可用，但是必须得借助云平台创建 LB 来向节点导流。
 loadBalancer 和 nodePort 其实是同一种方式。区别在于 loadBalancer 比 nodePort 多了一步，就是可以调用 cloud provider 去创建 LB 来向节点导流。
-&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-Service/2524805075.png">
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a0%b8%e5%bf%83%e6%8a%80%e6%9c%af-Service/2524805075.png" alt="" loading="lazy" />
+&lt;/figure>
 &lt;p>
 &lt;details class="toggle">
 &lt;summary markdown="span">点击查看完整的 &lt;code>loadbalancer.yml&lt;/code>&lt;/summary>
@@ -7490,7 +7816,10 @@ containers:
 image: roc/awangyang:v1
 imagePullSecrets:
 - name: myregistrykey
-&lt;/code>&lt;/pre>&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-Secret/984651113.png">&lt;/p></description></item><item><title>kubernetes | Volume &amp; PVC 和 PV</title><link>https://hidlestone.github.io/blog/infrastructure/kubernetes/05-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-volumepvc%E5%92%8Cpv/</link><pubDate>Thu, 17 Mar 2022 22:05:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/kubernetes/05-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-volumepvc%E5%92%8Cpv/</guid><description>&lt;h2 id="一volume">一、Volume&lt;/h2>&lt;h3 id="11volume-概述">1.1、Volume 概述&lt;/h3>&lt;p>Volume 是 Pod 中能够被多个容器访问的共享目录。Kubernetes 的 Volume 定义在 Pod 上， 它被一个 Pod 中的多个容器挂载到具体的文件目录下。Volume 与 Pod 的生命周期相同， 但与容器的生命周期不相关，当容器终止或重启时，Volume 中的数据也不会丢失。要使用 volume，pod 需要指定 volume 的类型和内容，和映射到容器的位置。&lt;/p>
+&lt;/code>&lt;/pre>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a0%b8%e5%bf%83%e6%8a%80%e6%9c%af-Secret/984651113.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p></description></item><item><title>kubernetes | Volume &amp; PVC 和 PV</title><link>https://hidlestone.github.io/blog/infrastructure/kubernetes/05-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-volumepvc%E5%92%8Cpv/</link><pubDate>Thu, 17 Mar 2022 22:05:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/kubernetes/05-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-volumepvc%E5%92%8Cpv/</guid><description>&lt;h2 id="一volume">一、Volume&lt;/h2>&lt;h3 id="11volume-概述">1.1、Volume 概述&lt;/h3>&lt;p>Volume 是 Pod 中能够被多个容器访问的共享目录。Kubernetes 的 Volume 定义在 Pod 上， 它被一个 Pod 中的多个容器挂载到具体的文件目录下。Volume 与 Pod 的生命周期相同， 但与容器的生命周期不相关，当容器终止或重启时，Volume 中的数据也不会丢失。要使用 volume，pod 需要指定 volume 的类型和内容，和映射到容器的位置。&lt;/p>
 &lt;p>Kubernetes 支持多种类型的 Volume，包括：&lt;code>emptyDir&lt;/code>、&lt;code>hostPath&lt;/code>、&lt;code>gcePersistentDisk&lt;/code>、 &lt;code>awsElasticBlockStore&lt;/code>、&lt;code>nfs&lt;/code>、&lt;code>iscsi&lt;/code>、&lt;code>ﬂocker&lt;/code>、&lt;code>glusterfs&lt;/code>、&lt;code>rbd&lt;/code>、&lt;code>cephfs&lt;/code>、&lt;code>gitRepo&lt;/code>、 &lt;code>secret&lt;/code>、&lt;code>persistentVolumeClaim&lt;/code>、&lt;code>downwardAPI&lt;/code>、&lt;code>azureFileVolume&lt;/code>、&lt;code>azureDisk&lt;/code>、 &lt;code>vsphereVolume&lt;/code>、&lt;code>Quobyte&lt;/code>、&lt;code>PortworxVolume&lt;/code>、&lt;code>ScaleIO&lt;/code>。&lt;/p>
 &lt;h3 id="12emptydir">1.2、EmptyDir&lt;/h3>&lt;p>emptyDir 类型的 volume 在 pod 分配到 node 上时被创建，kubernetes 会在 node 上自动分配一个目录，因此无需指定宿主机 node 上对应的目录文件。这个目录的初始内容为空，一旦这个 pod 离开了这个宿主机，EmptyDir 中的数据就会被永久删除。所以目前 EmptyDir 类型的 volume 主要用作临时空间，比如 Web 服务器写日志或者 tmp 文件需要的临时目录。&lt;br>
 多容器（Sidecar）共享存储案例。&lt;br>
@@ -8108,9 +8437,15 @@ kubectl get rc tomcat-rc
 &lt;/code>&lt;/pre>&lt;h4 id="124判断及修改副本数量">1.2.4、判断及修改副本数量&lt;/h4>&lt;p>判断当前副本数是否为 3 个，如果是，则更改为 1 个副本：&lt;/p>
 &lt;pre tabindex="0">&lt;code>kubectl scale rc tomcat-rc --current-replicas=3 --replicas=1
 &lt;/code>&lt;/pre>&lt;h2 id="二replica-set">二、Replica Set&lt;/h2>&lt;p>ReplicaSet 跟 ReplicationController 没有本质的不同，只是名字不一样，并且 ReplicaSet 支持集合式的 selector（ReplicationController 仅支持等式）。 Kubernetes 官方强烈建议避免直接使用 ReplicaSet，而应该通过 Deployment 来创建 RS 和 Pod。由于 ReplicaSet 是 ReplicationController 的代替物，因此用法基本相同，唯一的区别在于 ReplicaSet 支持集合式的 selector。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-Controller%E6%8E%A7%E5%88%B6%E5%99%A8&amp;Deployment/4038893783.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a0%b8%e5%bf%83%e6%8a%80%e6%9c%af-Controller%e6%8e%a7%e5%88%b6%e5%99%a8&amp;amp;Deployment/4038893783.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h2 id="三deployment">三、Deployment&lt;/h2>&lt;p>Deployment 是 Kubenetes v1.2 引入的新概念，引入的目的是为了更好的解决 Pod 的编排问题，Deployment 内部使用了 ReplicaSet 来实现。Deployment 的定义与 ReplicaSet 的定义很类似，除了 API 声明与 Kind 类型有所区别：
-&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-Controller%E6%8E%A7%E5%88%B6%E5%99%A8&amp;Deployment/2706492691.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a0%b8%e5%bf%83%e6%8a%80%e6%9c%af-Controller%e6%8e%a7%e5%88%b6%e5%99%a8&amp;amp;Deployment/2706492691.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;pre tabindex="0">&lt;code>apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -8203,14 +8538,29 @@ targetCPUUtilizationPercentage: 50 # 当 CPU 使用率超过 requests 的 50% �
 &lt;p>扩容通常很迅速（为了救命），但缩容会有延迟（默认等待 5 分钟）。这是为了防止“扩了删，删了又扩”的“颠簸”现象。&lt;br>
 可以运行这个命令实时观察 HPA 的决策过程：&lt;br>
 &lt;code>kubectl get hpa nginx-hpa -w&lt;/code>&lt;/p>
-&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-Controller%E6%8E%A7%E5%88%B6%E5%99%A8&amp;Deployment/3302754539.png">&lt;/p>
+&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a0%b8%e5%bf%83%e6%8a%80%e6%9c%af-Controller%e6%8e%a7%e5%88%b6%e5%99%a8&amp;amp;Deployment/3302754539.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>关于 service:&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-Controller%E6%8E%A7%E5%88%B6%E5%99%A8&amp;Deployment/1133268793.png">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a0%b8%e5%bf%83%e6%8a%80%e6%9c%af-Controller%e6%8e%a7%e5%88%b6%e5%99%a8&amp;amp;Deployment/1133268793.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 状态：&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-Controller%E6%8E%A7%E5%88%B6%E5%99%A8&amp;Deployment/4078393010.png">&lt;/p></description></item><item><title>kubernetes | Pod &amp; Label</title><link>https://hidlestone.github.io/blog/infrastructure/kubernetes/03-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-podlabel/</link><pubDate>Thu, 17 Mar 2022 22:03:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/kubernetes/03-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-podlabel/</guid><description>&lt;h2 id="一pod-概述">一、Pod 概述&lt;/h2>&lt;p>&lt;code>Pod 是 k8s 系统中可以创建和管理的最小单元&lt;/code>，是资源对象模型中由用户创建或部署的最小资源对象模型，也是在 k8s 上运行容器化应用的资源对象，其他的资源对象都是用来支撑或者扩展 Pod 对象功能的，比如控制器对象是用来管控 Pod 对象的，Service 或者 Ingress 资源对象是用来暴露 Pod 引用对象的，PersistentVolume 资源对象是用来为 Pod 提供存储等等，k8s 不会直接处理容器，而是 Pod，&lt;code>Pod 是由一个或多个 container 组成&lt;/code>。&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a0%b8%e5%bf%83%e6%8a%80%e6%9c%af-Controller%e6%8e%a7%e5%88%b6%e5%99%a8&amp;amp;Deployment/4078393010.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p></description></item><item><title>kubernetes | Pod &amp; Label</title><link>https://hidlestone.github.io/blog/infrastructure/kubernetes/03-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-podlabel/</link><pubDate>Thu, 17 Mar 2022 22:03:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/kubernetes/03-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-podlabel/</guid><description>&lt;h2 id="一pod-概述">一、Pod 概述&lt;/h2>&lt;p>&lt;code>Pod 是 k8s 系统中可以创建和管理的最小单元&lt;/code>，是资源对象模型中由用户创建或部署的最小资源对象模型，也是在 k8s 上运行容器化应用的资源对象，其他的资源对象都是用来支撑或者扩展 Pod 对象功能的，比如控制器对象是用来管控 Pod 对象的，Service 或者 Ingress 资源对象是用来暴露 Pod 引用对象的，PersistentVolume 资源对象是用来为 Pod 提供存储等等，k8s 不会直接处理容器，而是 Pod，&lt;code>Pod 是由一个或多个 container 组成&lt;/code>。&lt;/p>
 &lt;p>Pod 是 Kubernetes 的最重要概念，每一个 Pod 都有一个特殊的被称为 &lt;code>根容器&lt;/code> 的 Pause 容器。Pause 容器对应的镜像属于 Kubernetes 平台的一部分，除了 Pause 容器，每个 Pod 还包含一个或多个紧密相关的用户业务容器。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-Pod&amp;Label/1911238319.png">&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-Pod&amp;Label/602062897.png">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a0%b8%e5%bf%83%e6%8a%80%e6%9c%af-Pod&amp;amp;Label/1911238319.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a0%b8%e5%bf%83%e6%8a%80%e6%9c%af-Pod&amp;amp;Label/602062897.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 （1）Pod vs 应用&lt;br>
 每个 Pod 都是应用的一个实例，有专用的 IP。&lt;br>
 （2）Pod vs 容器&lt;br>
@@ -8522,13 +8872,25 @@ kubectl exec &amp;lt;pod-name&amp;gt; -n &amp;lt;namespace&amp;gt; -- ls /
 # 在特定容器中执行命令
 kubectl exec &amp;lt;pod-name&amp;gt; -n &amp;lt;namespace&amp;gt; -c &amp;lt;container-name&amp;gt; -- ls /
 &lt;/code>&lt;/pre>&lt;p>创建 Pod 流程：&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-Pod&amp;Label/1041099740.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a0%b8%e5%bf%83%e6%8a%80%e6%9c%af-Pod&amp;amp;Label/1041099740.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>影响 Pod 调度 (资源限制和节点选择器)：
-&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-Pod&amp;Label/108365096.png">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a0%b8%e5%bf%83%e6%8a%80%e6%9c%af-Pod&amp;amp;Label/108365096.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 节点亲和性：&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-Pod&amp;Label/1266257920.png">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a0%b8%e5%bf%83%e6%8a%80%e6%9c%af-Pod&amp;amp;Label/1266257920.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 污点和污点容忍：&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-Pod&amp;Label/4119898705.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a0%b8%e5%bf%83%e6%8a%80%e6%9c%af-Pod&amp;amp;Label/4119898705.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h2 id="九label">九、Label&lt;/h2>&lt;h3 id="91label-概述">9.1、Label 概述&lt;/h3>&lt;p>Label 是 Kubernetes 系统中另一个核心概念。一个 Label 是一个 &lt;code>key=value&lt;/code> 的键值对，其中 key 与 value 由用户自己指 定。Label 可以附加到各种资源对象上，如 &lt;code>Node、Pod、Service、RC&lt;/code>，一个资源对象可以定义任意数量的 Label， 同一个 Label 也可以被添加到任意数量的资源对象上，Label 通常在资源对象定义时确定，也可以在对象创建后动态 添加或删除。
 Label 的最常见的用法是使用 &lt;code>metadata.labels&lt;/code> 字段，来为对象添加 Label，通过 &lt;code>spec.selector&lt;/code> 来引用对象。&lt;/p>
 &lt;h3 id="92label-示例">9.2、Label 示例&lt;/h3>&lt;p>
@@ -8839,14 +9201,20 @@ GlusterFS&lt;br>
 (2) 有中心节点架构&lt;br>
 HDFS&lt;br>
 K8S&lt;/p>
-&lt;h4 id="124k8s-集群架构">1.2.4、k8s 集群架构&lt;/h4>&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A6%82%E8%BF%B0%E9%83%A8%E7%BD%B2/213807288.png">&lt;/p>
+&lt;h4 id="124k8s-集群架构">1.2.4、k8s 集群架构&lt;/h4>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a6%82%e8%bf%b0%e9%83%a8%e7%bd%b2/213807288.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h4 id="125k8s-集群架构节点角色功能">1.2.5、k8s 集群架构节点角色功能&lt;/h4>&lt;ul>
 &lt;li>&lt;strong>Master Node&lt;/strong> &lt;br>
 k8s 集群控制节点，对集群进行调度管理，接受集群外用户去集群操作请求；&lt;code>Master Node 由 API Server、Scheduler、ClusterState Store（ETCD 数据库）和 Controller MangerServer 所组成&lt;/code>。&lt;/li>
 &lt;li>&lt;strong>Worker Node&lt;/strong>&lt;br>
 集群工作节点，运行用户业务应用容器；&lt;br>
 &lt;code>Worker Node 包含 kubelet、kube proxy 和 ContainerRuntime&lt;/code>；&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A6%82%E8%BF%B0%E9%83%A8%E7%BD%B2/452154992.png">&lt;/li>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a6%82%e8%bf%b0%e9%83%a8%e7%bd%b2/452154992.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/li>
 &lt;/ul>
 &lt;h2 id="二kubernetes-集群搭建kubeadm-方式">二、kubernetes 集群搭建(kubeadm 方式)&lt;/h2>&lt;h3 id="21前置知识点">2.1、前置知识点&lt;/h3>&lt;p>目前生产部署 Kubernetes 集群主要有两种方式：&lt;/p>
 &lt;ul>
@@ -8873,7 +9241,10 @@ Kubeadm 降低部署门槛，但屏蔽了很多细节，遇到问题很难排查
 （3）部署容器网络插件&lt;br>
 （4）部署 Kubernetes Node，将节点加入 Kubernetes 集群中&lt;br>
 （5）部署 Dashboard Web 页面，可视化查看 Kubernetes 资源&lt;/p>
-&lt;h3 id="25准备环境">2.5、准备环境&lt;/h3>&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%E6%A6%82%E8%BF%B0%E9%83%A8%E7%BD%B2/2218278271.png">&lt;/p>
+&lt;h3 id="25准备环境">2.5、准备环境&lt;/h3>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a6%82%e8%bf%b0%e9%83%a8%e7%bd%b2/2218278271.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;pre tabindex="0">&lt;code>角色 IP
 k8smaster 192.168.10.146
 k8snode1 192.168.10.145
@@ -9156,7 +9527,10 @@ sudo cp /tmp/docker-machine/usr/local/bin/docker-machine
 &lt;p>Reference
 &lt;a href="https://blog.csdn.net/L08130421/article/details/141155326">Docker三剑客之Docker Machine&lt;/a>&lt;/p></description></item><item><title>Docker | Swarm</title><link>https://hidlestone.github.io/blog/infrastructure/docker/13-docker-swarm/</link><pubDate>Sun, 27 Feb 2022 23:13:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/docker/13-docker-swarm/</guid><description>&lt;h2 id="一前言">一、前言&lt;/h2>&lt;p>Swarm 是 Docker 公司推出的用来管理 docker 集群的平台，几乎全部用 GO 语言来完成的开发的，代码开源：&lt;a href="https://github.com/docker/swarm">https://github.com/docker/swarm&lt;/a>&lt;/p>
 &lt;p>Docker Swarm 和 Docker Compose 一样，都是 Docker 官方容器编排项目，但不同的是，Docker Compose 是一个在单个服务器或主机上创建多个容器的工具，而 Docker Swarm 则可以在多个服务器或主机上创建容器集群服务，对于微服务的部署，显然 Docker Swarm 会更加适合。从 Docker 1.12.0 版本开始，Docker Swarm 已经包含在 Docker 引擎中（docker swarm），并且已经内置了服务发现工具，就不需要像之前一样，再配置 Etcd 或者 Consul 来进行服务发现配置了。
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20Swarm/3624095101.png">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20Swarm/3624095101.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>上图可以看出，Swarm 是典型的 &lt;code>master-slave&lt;/code> 结构，通过发现服务来选举 manager。manager 是中心管理节点，各个 node 上运行 agent 接受 manager 的统一管理，集群会自动通过 &lt;code>Raft 协议&lt;/code>分布式选举出 manager 节点，无需额外的发现服务支持，避免了单点的瓶颈问题，同时也内置了 DNS 的负载均衡和对外部负载均衡机制的集成支持。&lt;/p>
 &lt;h2 id="二docker-swarm-工作原理">二、Docker Swarm 工作原理&lt;/h2>&lt;h3 id="21docker-engine-client">2.1、Docker Engine client&lt;/h3>&lt;p>通过 &lt;code>docker service create&lt;/code> 命令去创建一个服务。&lt;/p>
 &lt;h3 id="22swarm-manager">2.2、swarm manager&lt;/h3>&lt;ul>
@@ -9171,7 +9545,10 @@ sudo cp /tmp/docker-machine/usr/local/bin/docker-machine
 &lt;li>&lt;code>worker&lt;/code> 连接到调度程序以检查分配的任务。&lt;/li>
 &lt;li>&lt;code>executor&lt;/code> 执行分配给工作节点的任务。&lt;/li>
 &lt;/ul>
-&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20Swarm/3694658679.png">&lt;/p>
+&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20Swarm/3694658679.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h2 id="三swarm-重要概念">三、Swarm 重要概念&lt;/h2>&lt;ul>
 &lt;li>&lt;code>Swarm&lt;/code> 集群的管理和编排是使用嵌入 docker 引擎的 SwarmKit，可以在 docker 初始化时启动 swarm 模式或者加入已存在的 swarm。&lt;/li>
 &lt;li>&lt;code>Node&lt;/code> 每一个 docker engin 都是一个 node（节点），分为 manager 和 worker。Manager 节点还执行维护所需群集状态所需的编排和集群管理功能。Work 节点接收并执行从管理器节点分派的任务。&lt;/li>
@@ -9595,7 +9972,11 @@ external: true # 告诉 Docker，这个网络已经存在了，别自己瞎建
 &lt;li>4、每一次下载和上传都产生操作记录，生成日志，保存至 database 中。&lt;/li>
 &lt;li>5、database 记录保存镜像的元信息及用户与组的身份信息，通过验证授权才能允许相关操作。&lt;/li>
 &lt;/ul>
-&lt;p>&lt;img alt="harbor-01.png" src="https://hidlestone.github.io/images/infrastructure/docker/Harbor/1798215401.png">&lt;/p>
+&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Harbor/1798215401.png" alt="harbor-01.png" loading="lazy" />
+&lt;figcaption>harbor-01.png&lt;/figcaption>
+&lt;/figure>
+&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>Proxy&lt;/code>: 是一个 nginx 的前端代理，Harbor 的 Registry、UI、Token 服务等组件，都处在 nginx 反向代理后边。 该代理将来自浏览器、docker clients 的请求转发到后端不同的服务上。&lt;/li>
 &lt;li>&lt;code>Registry&lt;/code>: 负责储存 Docker 镜像，并处理 Docker push/pull 命令。由于要对用户进行访问控制，即不同用户对 Docker 镜像 有不同的读写权限，Registry 会指向一个 Token 服务，强制用户的每次 Docker pull/push 请求都要携带一个合法的 Token， Registry 会通过公钥对 Token 进行解密验证。 Core services: Harbor 的核心功能，
@@ -9631,7 +10012,10 @@ port: 80
 harbor_admin_password: Harbor12345 -- 指定密码
 &lt;/code>&lt;/pre>&lt;h3 id="24安装-harbor">2.4、安装 Harbor&lt;/h3>&lt;pre tabindex="0">&lt;code>./install.sh
 &lt;/code>&lt;/pre>&lt;h3 id="25登录-harbor-的-web-平台">2.5、登录 harbor 的 web 平台&lt;/h3>&lt;p>默认用户名：&lt;code>admin&lt;/code>，默认密码：&lt;code>Harbor12345&lt;/code>&lt;/p>
-&lt;h3 id="26登录成功界面">2.6、登录成功界面&lt;/h3>&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Harbor/681585756.png">&lt;/p>
+&lt;h3 id="26登录成功界面">2.6、登录成功界面&lt;/h3>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Harbor/681585756.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h3 id="27推送镜像至-harbor">2.7、推送镜像至 Harbor&lt;/h3>&lt;pre tabindex="0">&lt;code>docker login -u admin -p Harbor12345 http://127.0.0.1
 或者：
 docker login 192.168.10.130
@@ -9672,7 +10056,10 @@ ddb92363b45d fervent_lederberg 0.17% 287.5MiB / 3.842GiB 7.31% 3.6kB / 2.06kB 0B
 &lt;/code>&lt;/pre>&lt;p>通过 &lt;code>docker stats&lt;/code> 命令可以很方便的看到当前宿主机上所有容器的 CPU，内存以及网络流量等数据，一般小公司够用了。
 但是，&lt;code>docker stats&lt;/code> 统计结果只能是当前宿主机的全部容器，数据资料是实时的，没有地方存储、没有健康指标过线预警等功能。&lt;/p>
 &lt;h2 id="二cig-简介">二、CIG 简介&lt;/h2>&lt;p>容器监控 3 剑客&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%B9%E5%99%A8%E7%9B%91%E6%8E%A7%20CIG/3576258278.jpg">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%b9%e5%99%a8%e7%9b%91%e6%8e%a7%20CIG/3576258278.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 &lt;code>CAdvisor&lt;/code> 监控收集 + &lt;code>InfluxDB&lt;/code> 存储数据 + &lt;code>Granfana&lt;/code> 展示图表。&lt;/p>
 &lt;h3 id="21cadvisor">2.1、CAdvisor&lt;/h3>&lt;p>&lt;code>CAdvisor&lt;/code> 是一个容器资源监控工具，包括容器的内存，CPU，网络 IO，磁盘 IO 等监控，同时提供了一个 WEB 页面用于查看容器的实时运行状态。CAdvisor 默认存储 2 分钟的数据，而且只是针对单物理机。不过，CAdvisor 提供了很多数据集成接口，支持 InfluxDB，Redis，Kafka，Elasticsearch 等集成，可以加上对应配置将监控数据发往这些数据库存储起来。&lt;/p>
 &lt;p>&lt;code>CAdvisor&lt;/code> 功能主要有两点：&lt;/p>
@@ -9760,30 +10147,72 @@ environment:
 &lt;/details>
 &lt;/p>
 &lt;h4 id="3启动-docker-compose-文件">3、启动 &lt;code>docker-compose&lt;/code> 文件&lt;/h4>&lt;pre tabindex="0">&lt;code>docker-compose up
-&lt;/code>&lt;/pre>&lt;h4 id="4查看三个服务容器是否启动">4、查看三个服务容器是否启动&lt;/h4>&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%B9%E5%99%A8%E7%9B%91%E6%8E%A7%20CIG/1342935357.jpg">&lt;/p>
+&lt;/code>&lt;/pre>&lt;h4 id="4查看三个服务容器是否启动">4、查看三个服务容器是否启动&lt;/h4>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%b9%e5%99%a8%e7%9b%91%e6%8e%a7%20CIG/1342935357.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h4 id="5测试">5、测试&lt;/h4>&lt;ul>
 &lt;li>浏览 &lt;code>cAdvisor&lt;/code> 收集服务，&lt;code>http://ip:8080/&lt;/code>。 &lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%B9%E5%99%A8%E7%9B%91%E6%8E%A7%20CIG/1633355165.jpg">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%b9%e5%99%a8%e7%9b%91%e6%8e%a7%20CIG/1633355165.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 第一次访问慢，请稍等。cadvisor 也有基础的图形展现功能，这里主要用它来作数据采集。&lt;/li>
 &lt;li>浏览 &lt;code>influxdb&lt;/code> 存储服务，&lt;code>http://ip:8083/&lt;/code>。&lt;/li>
 &lt;li>浏览 &lt;code>grafana&lt;/code> 展现服务，&lt;code>http://ip:3000&lt;/code>。默认帐户密码 &lt;code>admin/admin&lt;/code>。 &lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%B9%E5%99%A8%E7%9B%91%E6%8E%A7%20CIG/4014913148.jpg">&lt;/li>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%b9%e5%99%a8%e7%9b%91%e6%8e%a7%20CIG/4014913148.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/li>
 &lt;/ul>
 &lt;h4 id="6配置步骤">6、配置步骤&lt;/h4>&lt;p>配置数据源&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%B9%E5%99%A8%E7%9B%91%E6%8E%A7%20CIG/3706966930.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%b9%e5%99%a8%e7%9b%91%e6%8e%a7%20CIG/3706966930.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>选择 influxdb 数据源&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%B9%E5%99%A8%E7%9B%91%E6%8E%A7%20CIG/2952994184.jpg">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%b9%e5%99%a8%e7%9b%91%e6%8e%a7%20CIG/2952994184.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 配置细节&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%B9%E5%99%A8%E7%9B%91%E6%8E%A7%20CIG/3788072247.jpg">&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%B9%E5%99%A8%E7%9B%91%E6%8E%A7%20CIG/1378638154.jpg"> &lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%B9%E5%99%A8%E7%9B%91%E6%8E%A7%20CIG/2766007677.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%b9%e5%99%a8%e7%9b%91%e6%8e%a7%20CIG/3788072247.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%b9%e5%99%a8%e7%9b%91%e6%8e%a7%20CIG/1378638154.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%b9%e5%99%a8%e7%9b%91%e6%8e%a7%20CIG/2766007677.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>配置面板 panel &lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%B9%E5%99%A8%E7%9B%91%E6%8E%A7%20CIG/594156760.jpg"> &lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%B9%E5%99%A8%E7%9B%91%E6%8E%A7%20CIG/3316145426.jpg"> &lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%B9%E5%99%A8%E7%9B%91%E6%8E%A7%20CIG/3500714460.jpg"> &lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%B9%E5%99%A8%E7%9B%91%E6%8E%A7%20CIG/330778532.jpg"> &lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%B9%E5%99%A8%E7%9B%91%E6%8E%A7%20CIG/1421693262.jpg"> &lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%B9%E5%99%A8%E7%9B%91%E6%8E%A7%20CIG/786679880.jpg"> &lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%b9%e5%99%a8%e7%9b%91%e6%8e%a7%20CIG/594156760.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%b9%e5%99%a8%e7%9b%91%e6%8e%a7%20CIG/3316145426.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%b9%e5%99%a8%e7%9b%91%e6%8e%a7%20CIG/3500714460.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%b9%e5%99%a8%e7%9b%91%e6%8e%a7%20CIG/330778532.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%b9%e5%99%a8%e7%9b%91%e6%8e%a7%20CIG/1421693262.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%b9%e5%99%a8%e7%9b%91%e6%8e%a7%20CIG/786679880.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 到这里 &lt;code>cAdvisor + InfluxDB + Grafana&lt;/code> 容器监控系统就部署完成了。&lt;/p></description></item><item><title>Docker | Portainer 轻量级可视化工具</title><link>https://hidlestone.github.io/blog/infrastructure/docker/10-docker-%E8%BD%BB%E9%87%8F%E7%BA%A7%E5%8F%AF%E8%A7%86%E5%8C%96%E5%B7%A5%E5%85%B7-portainer/</link><pubDate>Sun, 27 Feb 2022 23:10:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/docker/10-docker-%E8%BD%BB%E9%87%8F%E7%BA%A7%E5%8F%AF%E8%A7%86%E5%8C%96%E5%B7%A5%E5%85%B7-portainer/</guid><description>&lt;h2 id="一简介">一、简介&lt;/h2>&lt;p>Portainer 是一款轻量级的应用，它提供了图形化界面，用于方便地管理 Docker 环境，包括单机环境和集群环境。&lt;/p>
 &lt;h2 id="二安装">二、安装&lt;/h2>&lt;p>&lt;a href="https://www.portainer.io/">portainer.io&lt;/a>
 &lt;a href="https://docs.portainer.io/v/ce-2.9/start/install/server/docker/linux">Portainer Documentation&lt;/a>&lt;/p>
@@ -9796,11 +10225,20 @@ environment:
 这个选项创建一个名为 portainer_data 的 Docker 卷，并将其挂载到容器的 /data 目录。这个卷用于持久化 Portainer 的数据，以便在容器重启或重新创建时保留数据。&lt;/p>
 &lt;p>第一次登录需创建 admin，访问地址：&lt;code>xxx.xxx.xxx.xxx:9000&lt;/code>。&lt;br>
 用户名，直接用默认 admin，密码记得 8 位，随便写。&lt;/p>
-&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E8%BD%BB%E9%87%8F%E7%BA%A7%E5%8F%AF%E8%A7%86%E5%8C%96%E5%B7%A5%E5%85%B7%20Portainer/619802300.jpg">&lt;br>
+&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e8%bd%bb%e9%87%8f%e7%ba%a7%e5%8f%af%e8%a7%86%e5%8c%96%e5%b7%a5%e5%85%b7%20Portainer/619802300.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 设置 admin 用户和密码后首次登陆。
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E8%BD%BB%E9%87%8F%E7%BA%A7%E5%8F%AF%E8%A7%86%E5%8C%96%E5%B7%A5%E5%85%B7%20Portainer/2964959930.jpg">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e8%bd%bb%e9%87%8f%e7%ba%a7%e5%8f%af%e8%a7%86%e5%8c%96%e5%b7%a5%e5%85%b7%20Portainer/2964959930.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 选择 local 选项卡后本地 docker 详细信息展示。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E8%BD%BB%E9%87%8F%E7%BA%A7%E5%8F%AF%E8%A7%86%E5%8C%96%E5%B7%A5%E5%85%B7%20Portainer/3068450295.jpg">&lt;/p></description></item><item><title>Docker | Compose 容器编排</title><link>https://hidlestone.github.io/blog/infrastructure/docker/09-docker-compose-%E5%AE%B9%E5%99%A8%E7%BC%96%E6%8E%92/</link><pubDate>Sun, 27 Feb 2022 23:09:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/docker/09-docker-compose-%E5%AE%B9%E5%99%A8%E7%BC%96%E6%8E%92/</guid><description>&lt;h2 id="一简介">一、简介&lt;/h2>&lt;p>&lt;code>Compose&lt;/code> 是 Docker 公司推出的一个工具软件，可以管理多个 Docker 容器组成一个应用。需要定义一个 YAML 格式的配置文件 &lt;code>docker-compose.yml&lt;/code>，写好多个容器之间的调用关系。然后，只要一个命令，就能同时启动 / 关闭这些容器。
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e8%bd%bb%e9%87%8f%e7%ba%a7%e5%8f%af%e8%a7%86%e5%8c%96%e5%b7%a5%e5%85%b7%20Portainer/3068450295.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p></description></item><item><title>Docker | Compose 容器编排</title><link>https://hidlestone.github.io/blog/infrastructure/docker/09-docker-compose-%E5%AE%B9%E5%99%A8%E7%BC%96%E6%8E%92/</link><pubDate>Sun, 27 Feb 2022 23:09:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/docker/09-docker-compose-%E5%AE%B9%E5%99%A8%E7%BC%96%E6%8E%92/</guid><description>&lt;h2 id="一简介">一、简介&lt;/h2>&lt;p>&lt;code>Compose&lt;/code> 是 Docker 公司推出的一个工具软件，可以管理多个 Docker 容器组成一个应用。需要定义一个 YAML 格式的配置文件 &lt;code>docker-compose.yml&lt;/code>，写好多个容器之间的调用关系。然后，只要一个命令，就能同时启动 / 关闭这些容器。
 &lt;code>Docker-Compose&lt;/code> 是 Docker 官方的开源项目，负责实现对 Docker 容器集群的快速编排。&lt;/p>
 &lt;h2 id="二作用">二、作用&lt;/h2>&lt;p>docker 建议我们每一个容器中只运行一个服务，因为 docker 容器本身占用资源极少，所以最好是将每个服务单独的分割开来，但是这样我们又面临了一个问题？&lt;/p>
 &lt;p>如果我需要同时部署好多个服务，难道要每个服务单独写 Dockerfile 然后在构建镜像，构建容器。所以 docker 官方给我们提供了 &lt;code>docker-compose&lt;/code> 多服务部署的工具。&lt;/p>
@@ -9900,7 +10338,10 @@ PRIMARY KEY (`id`)
 &lt;/code>&lt;/pre>&lt;p>微服务工程：&lt;/p>
 &lt;pre tabindex="0">&lt;code>docker run -d -p 6001:6001 docker_boot:1.6
 &lt;/code>&lt;/pre>&lt;p>上面三个容器实例依次顺序启动成功：
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker-Compose%20%E5%AE%B9%E5%99%A8%E7%BC%96%E6%8E%92/1729976799.jpg">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker-Compose%20%e5%ae%b9%e5%99%a8%e7%bc%96%e6%8e%92/1729976799.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 swagger 测试：&lt;br>
 &lt;code>http://localhost: 你的微服务端口 /swagger-ui.html#/&lt;/code>&lt;/p>
 &lt;p>上面成功了，有哪些问题？
@@ -9964,24 +10405,45 @@ test_net:
 &lt;pre tabindex="0">&lt;code>docker compose up
 或者执行
 docker compose up -d
-&lt;/code>&lt;/pre>&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker-Compose%20%E5%AE%B9%E5%99%A8%E7%BC%96%E6%8E%92/2538182860.jpg">&lt;br>
+&lt;/code>&lt;/pre>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker-Compose%20%e5%ae%b9%e5%99%a8%e7%bc%96%e6%8e%92/2538182860.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 关停：
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker-Compose%20%E5%AE%B9%E5%99%A8%E7%BC%96%E6%8E%92/3516383447.jpg">&lt;/p></description></item><item><title>Docker | 网络</title><link>https://hidlestone.github.io/blog/infrastructure/docker/08-docker-%E7%BD%91%E7%BB%9C/</link><pubDate>Sun, 27 Feb 2022 23:08:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/docker/08-docker-%E7%BD%91%E7%BB%9C/</guid><description>&lt;h2 id="一简介">一、简介&lt;/h2>&lt;p>docker 不启动，默认网络情况。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/1824859053.jpg">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker-Compose%20%e5%ae%b9%e5%99%a8%e7%bc%96%e6%8e%92/3516383447.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p></description></item><item><title>Docker | 网络</title><link>https://hidlestone.github.io/blog/infrastructure/docker/08-docker-%E7%BD%91%E7%BB%9C/</link><pubDate>Sun, 27 Feb 2022 23:08:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/docker/08-docker-%E7%BD%91%E7%BB%9C/</guid><description>&lt;h2 id="一简介">一、简介&lt;/h2>&lt;p>docker 不启动，默认网络情况。&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/1824859053.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 即：&lt;code>ens33&lt;/code>、&lt;code>lo&lt;/code>、&lt;code>virbr0&lt;/code>&lt;/p>
 &lt;p>在 CentOS7 的安装过程中如果有选择相关虚拟化的的服务安装系统后，启动网卡时会发现有一个以网桥连接的私网地址的 &lt;code>virbr0&lt;/code> 网卡 (virbr0 网卡：它还有一个固定的默认 IP 地址 &lt;code>192.168.122.1&lt;/code>)，是做虚拟机网桥的使用的，其作用是为连接其上的虚机网卡提供 NAT 访问外网的功能。
 Linux 安装，勾选安装系统的时候附带了 libvirt 服务才会生成的一个东西，如果不需要可以直接将 libvirtd 服务卸载，&lt;code>yum remove libvirt-libs.x86_64&lt;/code>。&lt;/p>
 &lt;p>docker 启动后，网络情况。&lt;br>
 会产生一个名为 &lt;code>docker0&lt;/code> 的虚拟网桥&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/921770136.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/921770136.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>查看 docker 网络模式命令。&lt;br>
 默认创建 3 大网络模式&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/2101321611.jpg">&lt;/p>
-&lt;h2 id="二常用基本命令">二、常用基本命令&lt;/h2>&lt;h3 id="21all-命令">2.1、All 命令&lt;/h3>&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/3758314190.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/2101321611.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
+&lt;h2 id="二常用基本命令">二、常用基本命令&lt;/h2>&lt;h3 id="21all-命令">2.1、All 命令&lt;/h3>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/3758314190.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h3 id="22查看网络">2.2、查看网络&lt;/h3>&lt;pre tabindex="0">&lt;code>docker network ls
 &lt;/code>&lt;/pre>&lt;h3 id="23查看网络源数据">2.3、查看网络源数据&lt;/h3>&lt;pre tabindex="0">&lt;code>docker network inspect XXX 网络名字
 &lt;/code>&lt;/pre>&lt;h3 id="24删除网络">2.4、删除网络&lt;/h3>&lt;pre tabindex="0">&lt;code>docker network rm XXX 网络名字
-&lt;/code>&lt;/pre>&lt;h3 id="25案例">2.5、案例&lt;/h3>&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/1505119769.jpg">&lt;/p>
+&lt;/code>&lt;/pre>&lt;h3 id="25案例">2.5、案例&lt;/h3>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/1505119769.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h2 id="三作用">三、作用&lt;/h2>&lt;p>容器间的互联和通信以及端口映射。&lt;br>
 容器 IP 变动时候可以通过服务名直接网络通信而不受到影响。&lt;/p>
 &lt;h2 id="四网络模式">四、网络模式&lt;/h2>&lt;h3 id="41总体介绍">4.1、总体介绍&lt;/h3>&lt;p>网络模式：&lt;/p>
@@ -10018,11 +10480,20 @@ Linux 安装，勾选安装系统的时候附带了 libvirt 服务才会生成�
 &lt;li>&lt;code>container 模式&lt;/code>：使用 &lt;code>--network container:NAME&lt;/code> 或者容器 ID 指定。&lt;/li>
 &lt;/ul>
 &lt;h3 id="42容器实例内默认网络-ip-生产规则">4.2、容器实例内默认网络 IP 生产规则&lt;/h3>&lt;p>1、先启动两个 ubuntu 容器实例。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/1910686891.jpg"> &lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/1910686891.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 2、&lt;code>docker inspect 容器 ID or 容器名字&lt;/code>。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/3818718692.jpg">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/3818718692.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 3、关闭 u2 实例，新建 u3，查看 ip 变化 &lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/3022158824.jpg">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/3022158824.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 结论：&lt;br>
 &lt;code>docker 容器内部的 ip 是有可能会发生改变的&lt;/code>。&lt;/p>
 &lt;h3 id="43网络模式示例">4.3、网络模式示例&lt;/h3>&lt;h4 id="431bridge">4.3.1、&lt;code>bridge&lt;/code>&lt;/h4>&lt;p>Docker 服务默认会创建一个 &lt;code>docker0&lt;/code> 网桥（其上有一个 docker0 内部接口），该桥接网络的名称为 docker0，它在内核层连通了其他的物理或虚拟网卡，这就将所有容器和本地主机都放到同一个物理网络。Docker 默认指定了 docker0 接口的 IP 地址和子网掩码，让主机和容器之间可以通过网桥相互通信。
@@ -10046,12 +10517,18 @@ docker0: flags=4163&amp;lt;UP,BROADCAST,RUNNING,MULTICAST&amp;gt; mtu 1500
 &lt;/li>
 &lt;/ul>
 &lt;p>通过上述，将宿主机上的所有容器都连接到这个内部网络上，两个容器在同一个网络下，会从这个网关下各自拿到分配的 ip，此时两个容器的网络是互通&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/1264678073.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/1264678073.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>启动两个服务：&lt;/p>
 &lt;pre tabindex="0">&lt;code>docker run -d -p 8081:8080 --name tomcat81 billygoo/tomcat8-jdk8
 docker run -d -p 8082:8080 --name tomcat82 billygoo/tomcat8-jdk8
 &lt;/code>&lt;/pre>&lt;p>两两匹配验证
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/3229838077.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/3229838077.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h4 id="432host">4.3.2、&lt;code>host&lt;/code>&lt;/h4>&lt;p>直接使用宿主机的 IP 地址与外界进行通信，不再需要额外进行 NAT 转换。&lt;/p>
 &lt;p>说明：&lt;br>
 容器将不会获得一个独立的 &lt;code>Network Namespace&lt;/code>，而是和宿主机共用一个 &lt;code>Network Namespace&lt;/code>。容器将不会虚拟出自己的网卡而是使用宿主机的 IP 和端口。&lt;/p>
@@ -10066,7 +10543,10 @@ docker 启动时指定 &lt;code>--network=host&lt;/code> 或 &lt;code>-net=host&
 正确：&lt;/p>
 &lt;pre tabindex="0">&lt;code>docker run -d --network host --name tomcat83 billygoo/tomcat8-jdk8
 &lt;/code>&lt;/pre>&lt;p>无之前的配对显示了，看容器实例内部 &lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/1599773350.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/1599773350.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>没有设置 &lt;code>-p&lt;/code> 的端口映射了，如何访问启动的 tomcat83？&lt;/p>
 &lt;pre tabindex="0">&lt;code>http://宿主机IP:8080/
 &lt;/code>&lt;/pre>&lt;p>此时容器的 IP 借用主机的，所以容器共享宿主机网络 IP，这样的好处是外部主机与容器可以直接通信。&lt;/p>
@@ -10076,17 +10556,29 @@ docker 启动时指定 &lt;code>--network=host&lt;/code> 或 &lt;code>-net=host&
 &lt;p>案例：&lt;/p>
 &lt;pre tabindex="0">&lt;code>docker run -d -p 8084:8080 --network none --name tomcat84 billygoo/tomcat8-jdk8
 &lt;/code>&lt;/pre>&lt;p>进入容器内部查看：
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/2547431209.jpg">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/2547431209.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 在容器外部查看：
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/4211143643.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/4211143643.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h4 id="434container">4.3.4、&lt;code>container&lt;/code>&lt;/h4>&lt;p>container ⽹络模式。&lt;br>
 新建的容器和已经存在的一个容器共享一个网络 ip 配置而不是和宿主机共享。新创建的容器不会创建自己的网卡，配置自己的 IP，而是和一个指定的容器共享 IP、端口范围等。同样，两个容器除了网络方面，其他的如文件系统、进程列表等还是隔离的。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/483100137.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/483100137.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>案例 1：&lt;/p>
 &lt;pre tabindex="0">&lt;code>docker run -d -p 8085:8080 --name tomcat85 billygoo/tomcat8-jdk8
 docker run -d -p 8086:8080 --network container:tomcat85 --name tomcat86 billygoo/tomcat8-jdk8
 &lt;/code>&lt;/pre>&lt;p>运行结果：&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/3605554082.jpg">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/3605554082.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 相当于 tomcat86 和 tomcat85 公用同一个 ip 同一个端口，导致端口冲突本案例用 tomcat 演示不合适。&lt;/p>
 &lt;p>案例 2：&lt;br>
 Alpine 操作系统是一个面向安全的轻型 Linux 发行版&lt;br>
@@ -10094,22 +10586,37 @@ Alpine Linux 是一款独立的、非商业的通用 Linux 发行版，专为追
 &lt;pre tabindex="0">&lt;code>docker run -it --name alpine1 alpine /bin/sh
 docker run -it --network container:alpine1 --name alpine2 alpine /bin/sh
 &lt;/code>&lt;/pre>&lt;p>运行结果，验证共用搭桥：&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/3776100457.jpg"> &lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/3776100457.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 假如此时关闭 alpine1，再看看 alpine2。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/4162568164.jpg">
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/4162568164.jpg" alt="" loading="lazy" />
+&lt;/figure>
 alpine2 容器会继续运行，但它的网络功能会瞬间“瘫痪”。&lt;/p>
 &lt;h4 id="435自定义网络">4.3.5、自定义网络&lt;/h4>&lt;p>过时的 link：&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/3112361330.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/3112361330.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>案例：&lt;/p>
 &lt;pre tabindex="0">&lt;code>docker run -d -p 8081:8080 --name tomcat81 billygoo/tomcat8-jdk8
 docker run -d -p 8082:8080 --name tomcat82 billygoo/tomcat8-jdk8
 &lt;/code>&lt;/pre>&lt;p>上述成功启动并用 &lt;code>docker exec&lt;/code> 进入各自容器实例内部。&lt;/p>
 &lt;p>问题：&lt;br>
 按照 IP 地址 ping 是 OK 的。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/1732828548.jpg">
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/4072580468.jpg">
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/1732828548.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/4072580468.jpg" alt="" loading="lazy" />
+&lt;/figure>
 按照服务名 ping 结果？&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/2769550834.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/2769550834.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>自定义桥接网络，自定义网络默认使用的是桥接网络 bridge。&lt;br>
 新建自定义网络：&lt;/p>
 &lt;pre tabindex="0">&lt;code>docker network create test_network
@@ -10117,8 +10624,14 @@ docker run -d -p 8082:8080 --name tomcat82 billygoo/tomcat8-jdk8
 &lt;pre tabindex="0">&lt;code>docker run -d -p 8081:8080 --network test_network --name tomcat81 billygoo/tomcat8-jdk8
 docker run -d -p 8082:8080 --network test_network --name tomcat82 billygoo/tomcat8-jdk8
 &lt;/code>&lt;/pre>&lt;p>互相 ping 测试&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/1720291311.jpg">&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/2749157932.jpg">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/1720291311.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/2749157932.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 问题结论：&lt;br>
 &lt;code>自定义网络本身就维护好了主机名和 ip 的对应关系（ip 和域名都能通）&lt;/code>。&lt;/p>
 &lt;h5 id="docker-内部-dns-解析机制">Docker 内部 DNS 解析机制&lt;/h5>&lt;p>默认的 bridge 网络为了兼容性，没有内置 DNS 服务；而自定义网络强制开启了 Docker 内置的 DNS 维护功能。&lt;/p>
@@ -10186,9 +10699,18 @@ docker run -d -p 8082:8080 --network test_network --name tomcat82 billygoo/tomca
 &lt;li>7、Libcontainer 是一项独立的容器管理包，Network driver 以及 Exec driver 都是通过 Libcontainer 来实现具体对容器进行的操作。&lt;/li>
 &lt;/ul>
 &lt;p>整体架构：&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/2670355715.jpg">&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%BD%91%E7%BB%9C/2670355716.png">&lt;/p></description></item><item><title>Docker | DockerFile 解析</title><link>https://hidlestone.github.io/blog/infrastructure/docker/07-dockerfile-%E8%A7%A3%E6%9E%90/</link><pubDate>Sun, 27 Feb 2022 23:07:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/docker/07-dockerfile-%E8%A7%A3%E6%9E%90/</guid><description>&lt;h2 id="一简介">一、简介&lt;/h2>&lt;p>&lt;code>Dockerfile&lt;/code>是用来构建 Docker 镜像的文本文件，是由一条条构建镜像所需的指令和参数构成的脚本。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/DockerFile%20%E8%A7%A3%E6%9E%90/3550616957.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/2670355715.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%bd%91%e7%bb%9c/2670355716.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p></description></item><item><title>Docker | DockerFile 解析</title><link>https://hidlestone.github.io/blog/infrastructure/docker/07-dockerfile-%E8%A7%A3%E6%9E%90/</link><pubDate>Sun, 27 Feb 2022 23:07:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/docker/07-dockerfile-%E8%A7%A3%E6%9E%90/</guid><description>&lt;h2 id="一简介">一、简介&lt;/h2>&lt;p>&lt;code>Dockerfile&lt;/code>是用来构建 Docker 镜像的文本文件，是由一条条构建镜像所需的指令和参数构成的脚本。&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/DockerFile%20%e8%a7%a3%e6%9e%90/3550616957.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>官网：&lt;a href="https://docs.docker.com/engine/reference/builder/">https://docs.docker.com/engine/reference/builder/&lt;/a>&lt;br>
 构建三步骤：&lt;/p>
 &lt;ul>
@@ -10216,7 +10738,10 @@ docker run -d -p 8082:8080 --network test_network --name tomcat82 billygoo/tomca
 &lt;code>Docker 镜像&lt;/code> 是软件的交付品。&lt;br>
 &lt;code>Docker 容器&lt;/code> 则可以认为是软件镜像的运行态，也即依照镜像运行的容器实例。&lt;br>
 Dockerfile面向开发，Docker 镜像成为交付标准，Docker 容器则涉及部署与运维，三者缺一不可，合力充当 Docker体系的基石。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/DockerFile%20%E8%A7%A3%E6%9E%90/412574392.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/DockerFile%20%e8%a7%a3%e6%9e%90/412574392.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;ul>
 &lt;li>1、&lt;strong>Dockerfile&lt;/strong>，需要定义一个 Dockerfile，Dockerfile 定义了进程需要的一切东西。Dockerfile 涉及的内容包括执行代码或者是文件、环境变量、依赖包、运行时环境、动态链接库、操作系统的发行版、服务进程和内核进程(当应用进程需要和系统服务和内核进程打交道，这时需要考虑如何设计 namespace 的权限控制)等等;&lt;/li>
 &lt;li>2、&lt;strong>Docker 镜像&lt;/strong>，在用 Dockerfile 定义一个文件之后，&lt;code>docker build&lt;/code> 时会产生一个 Docker 镜像，当运行 Docker 镜像时会真正开始提供服务;&lt;/li>
@@ -10337,7 +10862,10 @@ Docker命令 docker run nginx:test docker run nginx:test -c /etc/nginx/new.conf
 &lt;h2 id="四dockerfile-示例">四、Dockerfile 示例&lt;/h2>&lt;h3 id="41要求">4.1、要求&lt;/h3>&lt;p>Centos7 镜像具备 &lt;code>vim + ifconfig + jdk8&lt;/code>&lt;/p>
 &lt;p>JDK 的下载镜像地址&lt;br>
 官网：&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/DockerFile%20%E8%A7%A3%E6%9E%90/1653083738.jpg">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/DockerFile%20%e8%a7%a3%e6%9e%90/1653083738.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 下载地址：&lt;/p>
 &lt;pre tabindex="0">&lt;code>https://www.oracle.com/java/technologies/downloads/#java8
 https://mirrors.yangxingzhen.com/jdk/
@@ -10671,7 +11199,10 @@ docker run -v my-volume:/container/data my-image
 &lt;ul>
 &lt;li>绑定挂载 (Bind Mounts)：你在命令里写死 &lt;code>docker run -v /Users/root/data:/app/data&lt;/code>。换台 Linux 服务器，路径可能变成了 /root/data，脚本就失效了。&lt;/li>
 &lt;li>Docker 卷 (Volumes)：你只需要写 &lt;code>docker run -v my_data:/app/data&lt;/code>。无论在 Windows、Mac 还是 Linux 上，Docker 都会自动找到自己管理的存储区并创建 my_data。命令本身在任何地方都能直接跑。&lt;/li>
-&lt;/ul></description></item><item><title>阿里云镜像服务&amp;本地私有库 Registry</title><link>https://hidlestone.github.io/blog/infrastructure/docker/05-%E9%98%BF%E9%87%8C%E4%BA%91%E9%95%9C%E5%83%8F%E6%9C%8D%E5%8A%A1%E6%9C%AC%E5%9C%B0%E7%A7%81%E6%9C%89%E5%BA%93-registry/</link><pubDate>Sun, 27 Feb 2022 23:05:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/docker/05-%E9%98%BF%E9%87%8C%E4%BA%91%E9%95%9C%E5%83%8F%E6%9C%8D%E5%8A%A1%E6%9C%AC%E5%9C%B0%E7%A7%81%E6%9C%89%E5%BA%93-registry/</guid><description>&lt;h2 id="一本地镜像发布到阿里云流程">一、本地镜像发布到阿里云流程&lt;/h2>&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/%E9%98%BF%E9%87%8C%E4%BA%91%E9%95%9C%E5%83%8F%E6%9C%8D%E5%8A%A1&amp;%E6%9C%AC%E5%9C%B0%E7%A7%81%E6%9C%89%E5%BA%93%20Registry/2756577802.jpg">&lt;/p>
+&lt;/ul></description></item><item><title>阿里云镜像服务&amp;本地私有库 Registry</title><link>https://hidlestone.github.io/blog/infrastructure/docker/05-%E9%98%BF%E9%87%8C%E4%BA%91%E9%95%9C%E5%83%8F%E6%9C%8D%E5%8A%A1%E6%9C%AC%E5%9C%B0%E7%A7%81%E6%9C%89%E5%BA%93-registry/</link><pubDate>Sun, 27 Feb 2022 23:05:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/docker/05-%E9%98%BF%E9%87%8C%E4%BA%91%E9%95%9C%E5%83%8F%E6%9C%8D%E5%8A%A1%E6%9C%AC%E5%9C%B0%E7%A7%81%E6%9C%89%E5%BA%93-registry/</guid><description>&lt;h2 id="一本地镜像发布到阿里云流程">一、本地镜像发布到阿里云流程&lt;/h2>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/%e9%98%bf%e9%87%8c%e4%ba%91%e9%95%9c%e5%83%8f%e6%9c%8d%e5%8a%a1&amp;amp;%e6%9c%ac%e5%9c%b0%e7%a7%81%e6%9c%89%e5%ba%93%20Registry/2756577802.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h2 id="二镜像的生成方法">二、镜像的生成方法&lt;/h2>&lt;p>基于当前容器创建一个新的镜像：&lt;/p>
 &lt;pre tabindex="0">&lt;code>docker commit [OPTIONS] 容器ID [REPOSITORY[:TAG]]
 &lt;/code>&lt;/pre>&lt;p>OPTIONS 说明：&lt;br>
@@ -10683,7 +11214,10 @@ docker run -v my-volume:/container/data my-image
 3）命名空间&lt;br>
 4）仓库名称&lt;br>
 5）进入管理界面获得脚本&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/%E9%98%BF%E9%87%8C%E4%BA%91%E9%95%9C%E5%83%8F%E6%9C%8D%E5%8A%A1&amp;%E6%9C%AC%E5%9C%B0%E7%A7%81%E6%9C%89%E5%BA%93%20Registry/3463384843.jpg">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/%e9%98%bf%e9%87%8c%e4%ba%91%e9%95%9c%e5%83%8f%e6%9c%8d%e5%8a%a1&amp;amp;%e6%9c%ac%e5%9c%b0%e7%a7%81%e6%9c%89%e5%ba%93%20Registry/3463384843.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 （1）登录阿里云&lt;code>Docker Registry&lt;/code>&lt;/p>
 &lt;pre tabindex="0">&lt;code>docker login --username=zhuangpf registry.cn-hangzhou.aliyuncs.com
 &lt;/code>&lt;/pre>&lt;p>用于登录的用户名为阿里云账号全名，密码为开通服务时设置的密码。&lt;br>
@@ -10775,8 +11309,14 @@ a359528d6d8c: Pushed
 &lt;ul>
 &lt;li>&lt;code>bootfs(boot file system)&lt;/code>：主要包含 bootloader 和 kernel, bootloader 主要是引导加载 kernel, Linux 刚启动时会加载 bootfs 文件系统，在 Docker 镜像的最底层是引导文件系统 bootfs。这一层与我们典型的 Linux/Unix 系统是一样的，包含 boot 加载器和内核。当 boot 加载完成之后整个内核就都在内存中了，此时内存的使用权已由 bootfs 转交给内核，此时系统也会卸载 bootfs。&lt;/li>
 &lt;li>&lt;code>rootfs (root file system)&lt;/code> ，在 bootfs 之上。包含的就是典型 Linux 系统中的 &lt;code>/dev, /proc, /bin, /etc&lt;/code> 等标准目录和文件。rootfs 就是各种不同的操作系统发行版，比如 Ubuntu，Centos 等等。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E9%95%9C%E5%83%8F/3388607302.jpg">&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E9%95%9C%E5%83%8F/2279718470.jpg">&lt;/li>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e9%95%9c%e5%83%8f/3388607302.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e9%95%9c%e5%83%8f/2279718470.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/li>
 &lt;/ul>
 &lt;p>对于一个精简的 OS，rootfs 可以很小，只需要包括最基本的命令、工具和程序库就可以了，因为底层直接用 Host 的 kernel，自己只需要提供 rootfs 就行了。由此可见对于不同的 linux 发行版, bootfs 基本是一致的, rootfs 会有差别, 因此不同的发行版可以公用 bootfs。&lt;/p>
 &lt;h3 id="15为什么-docker-镜像要采用这种分层结构">1.5、为什么 Docker 镜像要采用这种分层结构&lt;/h3>&lt;p>镜像分层最大的一个好处就是共享资源，方便复制迁移，就是为了复用。&lt;br>
@@ -10784,7 +11324,10 @@ a359528d6d8c: Pushed
 &lt;h2 id="二重点理解">二、重点理解&lt;/h2>&lt;p>Docker 镜像层都是只读的，容器层是可写的，当容器启动时，一个新的可写层被加载到镜像的顶部。这一层通常被称作“容器层”，“容器层”之下的都叫“镜像层”。
 当容器启动时，一个新的可写层被加载到镜像的顶部。这一层通常被称作“容器层”，“容器层”之下的都叫“镜像层”。
 所有对容器的改动，无论添加、删除、还是修改文件都只会发生在容器层中。只有容器层是可写的，容器层下面的所有镜像层都是只读的。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E9%95%9C%E5%83%8F/2594669161.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e9%95%9c%e5%83%8f/2594669161.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h2 id="三docker-镜像-commit-操作">三、Docker 镜像 commit 操作&lt;/h2>&lt;p>&lt;code>docker commit&lt;/code> 提交容器副本使之成为一个新的镜像。&lt;/p>
 &lt;pre tabindex="0">&lt;code>docker commit -m=&amp;#34;提交的描述信息&amp;#34; -a=&amp;#34;作者&amp;#34; 容器ID 要创建的目标镜像名:[标签名]
 &lt;/code>&lt;/pre>&lt;p>演示 ubuntu 安装 vim：&lt;br>
@@ -10804,7 +11347,10 @@ zhuangpf/myubuntu 1.0 fc1d6e70130d About a minute ago 181MB
 ubuntu latest ba6acccedd29 14 months ago 72.8MB
 &lt;/code>&lt;/pre>&lt;p>Docker 中的镜像分层，支持通过扩展现有镜像，创建新的镜像。类似 Java 继承于一个 Base 基础类，自己再按需扩展。&lt;br>
 新镜像是从 base 镜像一层一层叠加生成的。每安装一个软件，就在现有镜像的基础上增加一层。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E9%95%9C%E5%83%8F/1046187269.jpg">&lt;/p></description></item><item><title>Docker | 常用命令</title><link>https://hidlestone.github.io/blog/infrastructure/docker/03-docker-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link><pubDate>Sun, 27 Feb 2022 23:03:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/docker/03-docker-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</guid><description>&lt;h2 id="一帮助启动类命令">一、帮助启动类命令&lt;/h2>&lt;ul>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e9%95%9c%e5%83%8f/1046187269.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p></description></item><item><title>Docker | 常用命令</title><link>https://hidlestone.github.io/blog/infrastructure/docker/03-docker-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link><pubDate>Sun, 27 Feb 2022 23:03:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/docker/03-docker-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</guid><description>&lt;h2 id="一帮助启动类命令">一、帮助启动类命令&lt;/h2>&lt;ul>
 &lt;li>启动 docker：&lt;code>systemctl start docker&lt;/code>&lt;/li>
 &lt;li>停止 docker：&lt;code>systemctl stop docker&lt;/code>&lt;/li>
 &lt;li>重启 docker：&lt;code>systemctl restart docker&lt;/code>&lt;/li>
@@ -10897,7 +11443,10 @@ Build Cache 0 0 0B 0B
 &lt;p>&lt;code>成因&lt;/code>：通常是因为重新构建了同名同标签的镜像（如 docker build），导致旧镜像的名字被新镜像“夺走”，旧镜像就变成了无名字、无标签的状态。&lt;br>
 &lt;code>清理&lt;/code>：这类镜像通常不再需要，且占用磁盘空间。你可以使用以下命令一键清理：&lt;code>docker image prune&lt;/code>&lt;/p>
 &lt;h2 id="三容器命令">三、容器命令&lt;/h2>&lt;p>有镜像才能创建容器， 这是根本前提 (下载一个 CentOS 或者 ubuntu 镜像演示)。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/598616315.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%b8%b8%e7%94%a8%e5%91%bd%e4%bb%a4/598616315.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;pre tabindex="0">&lt;code>docker pull centos
 docker pull ubuntu
 &lt;/code>&lt;/pre>&lt;h3 id="31新建--启动容器">3.1、新建 + 启动容器&lt;/h3>&lt;p>&lt;code>docker run [OPTIONS] IMAGE [COMMAND] [ARG...]&lt;/code>&lt;/p>
@@ -10995,7 +11544,9 @@ cat 文件名.tar | docker import - 镜像用户/镜像名:版本号
 &lt;li>&lt;strong>命令格式：&lt;/strong> &lt;code>cat 文件名.tar | docker import - 镜像用户/镜像名:版本号&lt;/code>&lt;/li>
 &lt;li>&lt;strong>特点：&lt;/strong> 它会创建一个全新的镜像层。因为它是从文件系统重新构建的，所以它比原始镜像更加“精简”，但无法回溯之前的构建历史。&lt;/li>
 &lt;/ul>
-&lt;h2 id="四总结">四、总结&lt;/h2>&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/3636699627.jpg">
+&lt;h2 id="四总结">四、总结&lt;/h2>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%b8%b8%e7%94%a8%e5%91%bd%e4%bb%a4/3636699627.jpg" alt="" loading="lazy" />
+&lt;/figure>
 &lt;p>
 &lt;details class="toggle">
 &lt;summary markdown="span">常用命令&lt;/summary>
@@ -11068,7 +11619,10 @@ uname -r
 &lt;/ul>
 &lt;p>仓库分为公开仓库 &lt;code>Public&lt;/code> 和私有仓库 &lt;code>Private&lt;/code> 两种形式。&lt;br>
 最大的公开仓库是 &lt;code>Docker Hub (https://hub.docker.com/)&lt;/code>，存放了数量庞大的镜像供用户下载。国内的公开仓库包括阿里云 、网易云等。&lt;/p>
-&lt;h2 id="三docker-平台架构图解-架构版">三、Docker 平台架构图解 (架构版)&lt;/h2>&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%89%E8%A3%85/4246491765.png">&lt;br>
+&lt;h2 id="三docker-平台架构图解-架构版">三、Docker 平台架构图解 (架构版)&lt;/h2>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%89%e8%a3%85/4246491765.png" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 Docker 是一个 C/S 模式的架构，后端是一个松耦合架构，众多模块各司其职。&lt;/p>
 &lt;p>Docker 运行的基本流程为：&lt;/p>
 &lt;ul>
@@ -11080,7 +11634,10 @@ Docker 是一个 C/S 模式的架构，后端是一个松耦合架构，众多�
 &lt;li>6、当需要限制 Docker 容器运行资源或执行用户指令等操作时，则通过 &lt;strong>Exec driver&lt;/strong> 来完成。&lt;/li>
 &lt;li>7、&lt;strong>Libcontainer&lt;/strong> 是一项独立的容器管理包，Network driver 以及 Exec driver 都是通过 Libcontainer 来实现具体对容器进行的操作。&lt;/li>
 &lt;/ul>
-&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%89%E8%A3%85/22591369.jpg">&lt;/p>
+&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%89%e8%a3%85/22591369.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h2 id="四安装步骤">四、安装步骤&lt;/h2>&lt;p>&lt;a href="https://docs.docker.com/engine/install/centos/">https://docs.docker.com/engine/install/centos/&lt;/a>&lt;br>
 1、确定你是 CentOS7 及以上版本&lt;/p>
 &lt;pre tabindex="0">&lt;code>cat /etc/redhat-release
@@ -11098,7 +11655,10 @@ docker-engine
 yum -y install gcc-c++
 &lt;/code>&lt;/pre>&lt;p>4、安装需要的软件包&lt;br>
 官网要求：&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%89%E8%A3%85/186588626.jpg">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%89%e8%a3%85/186588626.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 执行命令：&lt;/p>
 &lt;pre tabindex="0">&lt;code>yum install -y yum-utils
 &lt;/code>&lt;/pre>&lt;p>5、设置 stable 镜像仓库
@@ -11147,7 +11707,10 @@ docker-init:
 Version: 0.19.0
 GitCommit: de40ad0
 &lt;/code>&lt;/pre>&lt;p>10、卸载&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%89%E8%A3%85/2447014747.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%89%e8%a3%85/2447014747.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;pre tabindex="0">&lt;code>systemctl stop docker
 yum remove docker-ce docker-ce-cli containerd.io
 rm -rf /var/lib/docker
@@ -11168,9 +11731,15 @@ rm -rf /var/lib/containerd
 systemctl restart docker
 &lt;/code>&lt;/pre>&lt;h2 id="五helloworld">五、helloworld&lt;/h2>&lt;p>启动 Docker 后台容器 (测试运行 hello-world)。&lt;/p>
 &lt;pre tabindex="0">&lt;code>docker run hello-world
-&lt;/code>&lt;/pre>&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%89%E8%A3%85/3838997287.jpg">&lt;br>
+&lt;/code>&lt;/pre>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%89%e8%a3%85/3838997287.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 输出这段提示以后，hello world 就会停止运行，容器自动终止。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%89%E8%A3%85/1842755082.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%89%e8%a3%85/1842755082.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h2 id="六底层原理">六、底层原理&lt;/h2>&lt;p>为什么 Docker 会比 VM 虚拟机快。&lt;/p>
 &lt;ul>
 &lt;li>docker 有着比虚拟机更少的抽象层。&lt;br>
@@ -11178,7 +11747,10 @@ systemctl restart docker
 &lt;li>docker 利用的是宿主机的内核，而不需要加载操作系统 OS 内核。&lt;br>
 当新建一个容器时，docker 不需要和虚拟机一样重新加载一个操作系统内核。进而避免引寻、加载操作系统内核返回等比较费时费资源的过程，当新建一个虚拟机时，虚拟机软件需要加载 OS，返回新建过程是分钟级别的。而 docker 由于直接利用宿主机的操作系统，则省略了返回过程，因此新建一个 docker 容器只需要几秒钟。&lt;/li>
 &lt;/ul>
-&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E5%AE%89%E8%A3%85/1572097481.jpg">&lt;/p>
+&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e5%ae%89%e8%a3%85/1572097481.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;table>
 &lt;thead>
 &lt;tr>
@@ -11221,17 +11793,32 @@ systemctl restart docker
 &lt;/tbody>
 &lt;/table></description></item><item><title>Docker | 简介</title><link>https://hidlestone.github.io/blog/infrastructure/docker/01-docker-%E7%AE%80%E4%BB%8B/</link><pubDate>Sun, 27 Feb 2022 23:00:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/docker/01-docker-%E7%AE%80%E4%BB%8B/</guid><description>&lt;h2 id="一关于">一、关于&lt;/h2>&lt;p>Docker 之所以发展如此迅速，也是因为它对此给出了一个标准化的解决方案&amp;ndash;系统平滑移植，容器虚拟化技术。&lt;br>
 环境配置相当麻烦，换一台机器，就要重来一次，费力费时。很多人想到，能不能从根本上解决问题，软件可以带环境安装？也就是说，安装的时候，把原始环境一模一样地复制过来。开发人员利用 Docker 可以消除协作编码时“在我的机器上可正常工作”的问题。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%AE%80%E4%BB%8B/1155373116.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%ae%80%e4%bb%8b/1155373116.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>Docker 是基于 Go 语言实现的云开源项目。&lt;br>
 Docker 的主要目标是&lt;code>Build，Ship and Run Any App, Anywhere&lt;/code>，也就是通过对应用组件的&lt;code>封装、分发、部署、运行等生命周期的管理&lt;/code>，使用户的 APP（可以是一个WEB应用或数据库应用等等）及其运行环境能够做到&lt;code>一次镜像，处处运行&lt;/code>。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%AE%80%E4%BB%8B/425610884.jpg">&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%ae%80%e4%bb%8b/425610884.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
 Linux 容器技术的出现就解决了这样一个问题，而 Docker 就是在它的基础上发展过来的。将应用打成镜像，通过镜像成为运行在 Docker容器上面的实例，而 Docker 容器在任何操作系统上都是一致的，这就实现了跨平台、跨服务器。只需要一次配置好环境，换到别的机子上就可以一键部署好，大大简化了操作。
 解决了运行环境和配置问题的软件容器， 方便做持续集成并有助于整体发布的容器虚拟化技术。&lt;/p>
-&lt;h2 id="二容器与虚拟机比较">二、容器与虚拟机比较&lt;/h2>&lt;h3 id="容器发展简史">容器发展简史&lt;/h3>&lt;p>&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%AE%80%E4%BB%8B/1735375672.jpg">&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%AE%80%E4%BB%8B/3610569023.jpg">&lt;/p>
+&lt;h2 id="二容器与虚拟机比较">二、容器与虚拟机比较&lt;/h2>&lt;h3 id="容器发展简史">容器发展简史&lt;/h3>&lt;p>&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%ae%80%e4%bb%8b/1735375672.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;br>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%ae%80%e4%bb%8b/3610569023.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h3 id="21传统虚拟机技术">2.1、传统虚拟机技术&lt;/h3>&lt;p>虚拟机&lt;code>virtual machine&lt;/code>就是带环境安装的一种解决方案。&lt;br>
 它可以在一种操作系统里面运行另一种操作系统，比如在 Windows10 系统里面运行 Linux 系统 CentOS7。应用程序对此毫无感知，因为虚拟机看上去跟真实系统一模一样，而对于底层系统来说，虚拟机就是一个普通文件，不需要了就删掉，对其他部分毫无影响。这类虚拟机完美的运行了另一套系统，能够使应用程序，操作系统和硬件三者之间的逻辑不变。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%AE%80%E4%BB%8B/2651452399.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%ae%80%e4%bb%8b/2651452399.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;p>虚拟机的缺点：&lt;/p>
 &lt;ul>
 &lt;li>资源占用多&lt;/li>
@@ -11242,7 +11829,10 @@ Linux 容器技术的出现就解决了这样一个问题，而 Docker 就是在
 Linux 容器(Linux Containers，缩写为 LXC)&lt;br>
 Linux 容器是与系统其他部分隔离开的一系列进程，从另一个镜像运行，并由该镜像提供支持进程所需的全部文件。容器提供的镜像包含了应用的所有依赖项，因而在从开发到测试再到生产的整个过程中，它都具有可移植性和一致性。&lt;br>
 Linux 容器不是模拟一个完整的操作系统而是对进程进行隔离。有了容器，就可以将软件运行所需的所有资源打包到一个隔离的容器中。容器与虚拟机不同，不需要捆绑一整套操作系统，只需要软件工作所需的库资源和设置。系统因此而变得高效轻量并保证部署在任何环境中的软件都能始终如一地运行。&lt;br>
-&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%E7%AE%80%E4%BB%8B/1472803634.jpg">&lt;/p>
+&lt;figure>
+&lt;img src="https://hidlestone.github.io/images/infrastructure/docker/Docker%20%e7%ae%80%e4%bb%8b/1472803634.jpg" alt="" loading="lazy" />
+&lt;/figure>
+&lt;/p>
 &lt;h3 id="23对比">2.3、对比&lt;/h3>&lt;p>比较了 Docker 和传统虚拟化方式的不同之处：&lt;/p>
 &lt;ul>
 &lt;li>传统虚拟机技术是虚拟出一套硬件后，在其上运行一个完整操作系统，在该系统上再运行所需应用进程；&lt;/li>
