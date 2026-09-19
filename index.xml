@@ -4606,7 +4606,7 @@ Switched to context &amp;#34;dashboard-admin@kubernetes&amp;#34;.
 &lt;/code>&lt;/pre>&lt;p>浏览器选择 Kubeconfig 方式登录。&lt;/p>
 &lt;p>Reference&lt;br>
 &lt;a href="https://blog.csdn.net/mushuangpanny/article/details/126944780">https://blog.csdn.net/mushuangpanny/article/details/126944780&lt;/a>
-&lt;a href="https://blog.csdn.net/qq_32202885/article/details/126231040">https://blog.csdn.net/qq_32202885/article/details/126231040&lt;/a>&lt;/p></description></item><item><title>kubernetes | Helm</title><link>https://hidlestone.github.io/blog/infrastructure/kubernetes/17-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-helm-%E7%AE%80%E4%BB%8B/</link><pubDate>Thu, 17 Mar 2022 22:17:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/kubernetes/17-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-helm-%E7%AE%80%E4%BB%8B/</guid><description>&lt;h2 id="一helm-引入">一、Helm 引入&lt;/h2>&lt;p>K8S 上的应用对象，都是由特定的资源描述组成，包括 deployment、service 等。都保存各自文件中或者集中写到一个配置文件。然后 &lt;code>kubectl apply –f&lt;/code> 部署。&lt;br>
+&lt;a href="https://blog.csdn.net/qq_32202885/article/details/126231040">https://blog.csdn.net/qq_32202885/article/details/126231040&lt;/a>&lt;/p></description></item><item><title>kubernetes | Helm 简介</title><link>https://hidlestone.github.io/blog/infrastructure/kubernetes/17-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-helm-%E7%AE%80%E4%BB%8B/</link><pubDate>Thu, 17 Mar 2022 22:17:00 +0000</pubDate><author>qiaoxiazhimin@gmail.com (PeifengZhuang)</author><guid>https://hidlestone.github.io/blog/infrastructure/kubernetes/17-kubernetes-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-helm-%E7%AE%80%E4%BB%8B/</guid><description>&lt;h2 id="一helm-引入">一、Helm 引入&lt;/h2>&lt;p>K8S 上的应用对象，都是由特定的资源描述组成，包括 deployment、service 等。都保存各自文件中或者集中写到一个配置文件。然后 &lt;code>kubectl apply –f&lt;/code> 部署。&lt;br>
 &lt;p>
 &lt;details class="toggle">
 &lt;summary markdown="span">点击查看完整的 &lt;code>deploy.yml&lt;/code>&lt;/summary>
@@ -4700,9 +4700,9 @@ Helm 有 3 个重要概念：&lt;/p>
 &lt;/figure>
 &lt;/li>
 &lt;/ul>
-&lt;h3 id="23helm-客户端安装">2.3、Helm 客户端安装&lt;/h3>&lt;p>1、下载 Helm 安装包&lt;/p>
-&lt;pre tabindex="0">&lt;code>Helm 客户端下载地址：https://github.com/helm/helm/releases
-[root@kubernetes-master-001 ~]# cd /data/software/
+&lt;h3 id="23helm-客户端安装">2.3、Helm 客户端安装&lt;/h3>&lt;p>1、下载 Helm 安装包&lt;br>
+Helm 客户端下载地址：&lt;code>https://github.com/helm/helm/releases&lt;/code>&lt;/p>
+&lt;pre tabindex="0">&lt;code>[root@kubernetes-master-001 ~]# cd /data/software/
 [root@kubernetes-master-001 /data/software]# wget https://get.helm.sh/helm-v3.7.1-linux-amd64.tar.gz
 &lt;/code>&lt;/pre>&lt;p>2、解压安装包&lt;/p>
 &lt;pre tabindex="0">&lt;code>[root@kubernetes-master-001 /data/software]# tar xf helm-v3.7.1-linux-amd64.tar.gz -C /opt/
@@ -4815,7 +4815,8 @@ dSt9QIYNGF
 &lt;img src="https://hidlestone.github.io/images/infrastructure/kubernetes/kubernetes%20%e6%a0%b8%e5%bf%83%e6%8a%80%e6%9c%af-Helm/3509004851.png" alt="" loading="lazy" />
 &lt;/figure>
 &lt;/p>
-&lt;pre tabindex="0">&lt;code>$ helm pull azure/mysql --untar &amp;amp;&amp;amp; cat mysql/values.yml
+&lt;pre tabindex="0">&lt;code>1、查看 values.yml
+$ helm pull azure/mysql --untar &amp;amp;&amp;amp; cat mysql/values.yml
 persistence:
 enabled: true
 ## database data Persistent Volume Storage Class
@@ -4829,6 +4830,7 @@ enabled: true
 accessMode: ReadWriteOnce
 size: 8Gi
 annotations: {}
+2、修改 values.yml
 $ helm install db2 --set persistence.storageClass=&amp;#34;managed-nfs-storage&amp;#34; azure/mysql #指定存储类部署
 $ vim values.yml
 persistence:
@@ -4840,6 +4842,7 @@ annotations: {}
 mysqlUser: ops
 mysqlPassword: &amp;#34;Qwer1234@&amp;#34;
 mysqlDatabase: &amp;#34;opsDB&amp;#34;
+3、部署服务
 $ helm install db3 azure/mysql -f values.yml # 根据 values 指定参数创建
 $ kubectl exec -it mysql-client -- bash #测试创建信息
 root@mysql-client:/# mysql -h db3-mysql -pE1ihmKspOL
@@ -4863,7 +4866,7 @@ mysql&amp;gt; show databases;
 | sys |
 +--------------------+
 5 rows in set (0.01 sec)
-&lt;/code>&lt;/pre>&lt;p>创建一个 helm chart&lt;/p>
+&lt;/code>&lt;/pre>&lt;p>创建一个 &lt;code>helm chart&lt;/code>&lt;/p>
 &lt;pre tabindex="0">&lt;code>$ cd ~/lesson/helm/
 $ helm create mychart
 $ tree mychart/
